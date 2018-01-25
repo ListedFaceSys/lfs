@@ -1,4 +1,4 @@
-package com.cscs.listedfacesys;
+package com.cscs;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
