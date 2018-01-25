@@ -1,12 +1,12 @@
-package com.cscs.listedfacesys;
+package com.cscs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ListedfacesysApplication {
+public class ListedFaceSysApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ListedfacesysApplication.class, args);
+		SpringApplication.run(ListedFaceSysApplication.class, args);
 	}
 }

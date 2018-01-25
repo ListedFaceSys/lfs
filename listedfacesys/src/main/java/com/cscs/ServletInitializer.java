@@ -1,4 +1,4 @@
-package com.cscs.listedfacesys;
+package com.cscs;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -7,6 +7,6 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(ListedfacesysApplication.class);
+        return builder.sources(ListedFaceSysApplication.class);
     }
 }
