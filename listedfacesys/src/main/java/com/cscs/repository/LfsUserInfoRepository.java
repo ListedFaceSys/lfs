@@ -27,6 +27,6 @@ public interface LfsUserInfoRepository extends JpaRepository<LfsUser, Long> {
      * @return 0：成功；1：失败
      */
     @Modifying
-    @Query(value = "update UserBasicinfoEntity as u set u.password=:password where u.userName=:userName")
+    @Query(value = "update LfsUser as u set u.password=:password where u.userName=:userName")
     Integer updatePassword(@Param("userName") String userName, @Param("password") String password);
 }
