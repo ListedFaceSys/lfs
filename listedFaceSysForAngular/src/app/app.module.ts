@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import {IsLastDirective} from "./common/utill/directive/isLast";
+import {IsLastDirective} from "./common/utill/isLast";
 import {LoginComponent} from "./public/login/login.component";
 import {ErrorComponent} from "./public/error/error.component";
-import {AppRoutingModule} from "./manage-routing.module";
+import {AppRoutingModule} from "./app-routing.module";
 import {FormsModule} from "@angular/forms";
 import {MenuComponent} from "./public/menu/menu.component";
 import {HeaderComponent} from "./public/header/header.component";
