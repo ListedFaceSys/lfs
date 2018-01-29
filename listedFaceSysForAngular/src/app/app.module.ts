@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import {CommonApi} from "./service/api/commonApi";
-import {SendDataService} from "./service/transmit/senddata";
 import {IsLastDirective} from "./common/utill/directive/isLast";
 import {LoginComponent} from "./public/login/login.component";
 import {ErrorComponent} from "./public/error/error.component";
@@ -21,7 +19,7 @@ import {ErrorComponent} from "./public/error/error.component";
   imports: [
     BrowserModule
   ],
-  providers: [CommonApi,SendDataService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
