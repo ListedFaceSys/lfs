@@ -12,6 +12,8 @@ public class LfsUser {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LFSUSER")
+    @SequenceGenerator(sequenceName = "SEQ_LFSUSER", name="SEQ_LFSUSER")
     public long getId() {
         return id;
     }
