@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+
+import { BaseComponent } from './base/base.component';
+
+const routes: Routes = [
+  { path: 'companyShow', component: BaseComponent }
+];
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: []
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class CompanyShowRoutingModule { }

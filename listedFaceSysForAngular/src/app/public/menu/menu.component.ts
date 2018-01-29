@@ -14,6 +14,9 @@ export class MenuComponent implements OnInit {
   ngOnInit(){
   }
 
+  showCompany(){
+    this.router.navigate(['companyShow']);
+  }
 }
 
 
