@@ -1,25 +1,16 @@
 package com.cscs.listedfacesys.dto;
 
-public class UserBasicInfoData {
-    private long userId;
-    private String userNm;
+public class LfsUserInfoData {
+    private String userName;
     private String phone;
     private String password;
 
-    public long getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserNm() {
-        return userNm;
-    }
-
-    public void setUserNm(String userNm) {
-        this.userNm = userNm;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPhone() {

@@ -5,26 +5,26 @@ import com.cscs.listedfacesys.dto.base.BaseOutData;
 /**
  * Create by wth on 2018/1/27
  */
-public class UserBasicInfoOutData extends BaseOutData {
-    private long userId;
-    private String userNm;
+public class LfsUserInfoOutData extends BaseOutData {
+    private long id;
+    private String userName;
     private String phone;
     private String password;
 
-    public long getUserId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getUserNm() {
-        return userNm;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserNm(String userNm) {
-        this.userNm = userNm;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPhone() {
