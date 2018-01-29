@@ -1,48 +1,12 @@
-<div id="loginHeight" style="background:url('assets/image/login_bg.jpg'); background-size: cover;background-repeat: no-repeat; width:100%">
-  <div style="width:100%;height:100%;overflow: hidden;position:relative">
-    <div   class="login-box" >
-      <div class="login-logo" >
-        <a href="javascript:;" style="opacity: 0.8">监事会信息平台</a>
-      </div>
-      <div class="login-box-body" style=" border-radius: 16px;background:rgba(0,0,0,0.1);">
-        <p class="login-box-msg" style=" color: white; font-size: 20px;font-weight: 600;opacity: 0.8">用 户 登 录</p>
-        <form action=""  #myForm="ngForm"  (ngSubmit)="createUser(myForm.value)" class="" id="login_form">
-          <div class="form-group has-feedback">
-            <input style=" background-color:rgba(0,0,0,0.1);color: black" ngModel class="form-control required" type="text" placeholder="用户名" name="username" autofocus="autofocus" maxlength="20"/>
-            <span style="color: #585655;" class="glyphicon glyphicon-user form-control-feedback"></span>
-          </div>
-          <div class="form-group has-feedback">
-            <input style=" background-color:rgba(0,0,0,0.1);color: #302e2e"  ngModel  class="form-control required" type="password" placeholder="密码" name="password" maxlength="8"/>
-            <span style="color: #585655;"  class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-          <div class="row">
-            <!-- /.col -->
-            <div class="col-xs-8" style="color: red;">
-              {{message}}
-            </div>
-            <div class="col-xs-4 ">
-              <button type="submit" class="btn btn-primary btn-block btn-flat" style="    background-color: rgb(126, 205, 244);border-color:rgb(126, 205, 244);">登录</button>
-            </div>
-            <!-- /.col -->
-          </div>
-        </form>
-
-        <!--<a href="javascript:;">I forgot my password</a><br>-->
-        <!--<a href="javascript:;" class="text-center"></a>-->
-
-      </div>
-    </div>
-    <div style="position: absolute;bottom:5%;left:0px;width:100%">
-      <div style="background:url('assets/image/footLogo.png'); background-size: cover;background-repeat: no-repeat;width:190px;height: 31px;margin: auto"></div>
-    </div>
+<div class="page-container">
+  <h1 style="text-align: center">深圳证监局上市公司脸谱系统</h1>
+  <div class="form-login" >
+    <input type="text" class="username" placeholder="用户名" [(ngModel)]="userInfo.name" >
+    <input type="password" class="password" placeholder="密码" [(ngModel)]="userInfo.pwd">
+    <button type="submit" (click)="submitUp(userInfo)" >登录</button>
+  </div>
+  <div class="connect">
+    <p style="color: red" *ngIf="message!=''">{{message}}</p>
+    <p><a href="">忘记密码</a></p>
   </div>
 </div>
-
-
-
-
-
-
-
-
-

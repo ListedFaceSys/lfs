@@ -1,0 +1,10 @@
+.siderbarActive{
+/*  background: #1a2226;
+  border-top: 1px solid #222d32;
+  border-left: 3px solid #3c8dbc;*/
+}
+.sidebar-menu>li>a>i{
+  font-size: 20px;
+  margin-left: 20px;
+  margin-right: 10px;
+}

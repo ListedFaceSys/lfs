@@ -8,17 +8,19 @@ import {UserInfo} from "../../common/utill/class/entity/entity";
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit{
-  userInfo:UserInfo; //用户信息
+  userInfo:UserInfo = new UserInfo(); //用户信息
   message:string; //消息返回
   constructor(public router:Router){
-    this.userInfo = new UserInfo();//创建用户
+    // this.userInfo = new UserInfo();//创建用户
   }
 
   ngOnInit(): void {
 
   }
 
-  createUser(info:UserInfo){
+
+  //提交登录
+  submitUp(info?:UserInfo){
     if(info.name == ''|| info.name==undefined){
       this.message = '登录名不能为空！';
       return;
@@ -27,10 +29,10 @@ export class LoginComponent implements OnInit{
       this.message = '密码不能为空！';
       return;
     }
+    this.message = '';
 
+    this.router.navigate(['menu']);
   }
-
-
 }
 
 
