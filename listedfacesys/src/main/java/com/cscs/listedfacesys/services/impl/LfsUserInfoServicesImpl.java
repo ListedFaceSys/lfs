@@ -1,8 +1,8 @@
 package com.cscs.listedfacesys.services.impl;
 
-import com.cscs.listedfacesys.entity.UserBasicinfoEntity;
-import com.cscs.listedfacesys.services.IUserBasicInfoServices;
-import com.cscs.repository.UserBasicInfoRepository;
+import com.cscs.listedfacesys.entity.LfsUser;
+import com.cscs.listedfacesys.services.LfsUserInfoServices;
+import com.cscs.repository.LfsUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,22 +13,22 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Service
-public class UserBasicInfoServicesImpl implements IUserBasicInfoServices {
+public class LfsUserInfoServicesImpl implements LfsUserInfoServices {
 
     @Autowired
-    private UserBasicInfoRepository userBasicInfoRepository;
+    private LfsUserInfoRepository lfsUserInfoRepository;
 
     @PersistenceContext
     EntityManager em;
 
     @Override
-    public UserBasicinfoEntity save(UserBasicinfoEntity userBasicInfo) throws Exception {
-        return userBasicInfoRepository.save(userBasicInfo);
+    public LfsUser save(LfsUser lfsUserInfo) throws Exception {
+        return lfsUserInfoRepository.save(lfsUserInfo);
     }
 
     @Override
-    public UserBasicinfoEntity findByUserNm(String userNm) {
-        return userBasicInfoRepository.findByUserNm(userNm);
+    public LfsUser findByUserName(String userName) {
+        return lfsUserInfoRepository.findByUserName(userName);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UserBasicInfoServicesImpl implements IUserBasicInfoServices {
     public Integer updatePassword(String userNm, String password) {
         int num = 1;
 
-        int result = userBasicInfoRepository.updatePassword(userNm, password);
+        int result = lfsUserInfoRepository.updatePassword(userNm, password);
 
         if (result > 0) {
             num = 0;
@@ -46,8 +46,8 @@ public class UserBasicInfoServicesImpl implements IUserBasicInfoServices {
     }
 
     @Override
-    public List<UserBasicinfoEntity> findAllUser() {
-        String sql = "SELECT u.USER_NM, u.PHONE FROM USER_BASICINFO u";
+    public List<LfsUser> findAllUser() {
+        String sql = "SELECT u.USER_NAME, u.PHONE FROM LFS_USER u";
 
         Query query = em.createNativeQuery(sql);
 

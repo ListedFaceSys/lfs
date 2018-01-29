@@ -1,10 +1,10 @@
 package com.cscs.listedfacesys.controller;
 
-import com.cscs.listedfacesys.dto.UserBasicInfoData;
-import com.cscs.listedfacesys.dto.UserBasicInfoOutData;
+import com.cscs.listedfacesys.dto.LfsUserInfoData;
+import com.cscs.listedfacesys.dto.LfsUserInfoOutData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.entity.UserBasicinfoEntity;
-import com.cscs.listedfacesys.services.IUserBasicInfoServices;
+import com.cscs.listedfacesys.entity.LfsUser;
+import com.cscs.listedfacesys.services.LfsUserInfoServices;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
@@ -24,11 +24,11 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/user")
-public class UserBasicInfoController {
+public class LfsUserInfoController {
     protected final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
-    IUserBasicInfoServices userBasicInfoServices;
+    LfsUserInfoServices lfsUserInfoServices;
 
     /**
      * 注册新用户
@@ -36,11 +36,11 @@ public class UserBasicInfoController {
      * @return
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public UserBasicInfoOutData save(@RequestBody UserBasicInfoData inData) {
-        UserBasicinfoEntity infoData = new UserBasicinfoEntity();
-        UserBasicInfoOutData outData = new UserBasicInfoOutData();
+    public LfsUserInfoOutData save(@RequestBody LfsUserInfoData inData) {
+        LfsUser infoData = new LfsUser();
+        LfsUserInfoOutData outData = new LfsUserInfoOutData();
         try {
-            UserBasicinfoEntity userBasicinfo = userBasicInfoServices.findByUserNm(inData.getUserNm());
+            LfsUser userBasicinfo = lfsUserInfoServices.findByUserName(inData.getUserName());
             if (userBasicinfo != null) {
                 outData.setCode("1");
                 outData.setMessage("该用户已注册！");
@@ -48,7 +48,7 @@ public class UserBasicInfoController {
             }
 
             BeanUtils.copyProperties(inData, infoData);
-            infoData = userBasicInfoServices.save(infoData);
+            infoData = lfsUserInfoServices.save(infoData);
 
             BeanUtils.copyProperties(infoData, outData);
             outData.setCode("0");
@@ -67,10 +67,10 @@ public class UserBasicInfoController {
      * @return
      */
     @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
-    public BaseOutData updatePassword(@RequestBody UserBasicInfoData inData) throws Exception {
+    public BaseOutData updatePassword(@RequestBody LfsUserInfoData inData) throws Exception {
         BaseOutData outData = new BaseOutData();
 
-        int num = userBasicInfoServices.updatePassword(inData.getUserNm(), inData.getPassword());
+        int num = lfsUserInfoServices.updatePassword(inData.getUserName(), inData.getPassword());
 
         outData.setCode(String.valueOf(num));
         return outData;
@@ -84,8 +84,8 @@ public class UserBasicInfoController {
     public BaseOutData getAllUser() {
         BaseOutData outData = new BaseOutData();
 
-        Map<String, List<UserBasicinfoEntity>> userList = new HashMap<String, List<UserBasicinfoEntity>>();
-        List<UserBasicinfoEntity> users = userBasicInfoServices.findAllUser();
+        Map<String, List<LfsUser>> userList = new HashMap<String, List<LfsUser>>();
+        List<LfsUser> users = lfsUserInfoServices.findAllUser();
         if (users != null) {
             userList.put("userList", users);
             outData.setCode("0");
