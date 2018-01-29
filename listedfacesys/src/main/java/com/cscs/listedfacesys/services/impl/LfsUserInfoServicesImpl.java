@@ -47,7 +47,7 @@ public class LfsUserInfoServicesImpl implements LfsUserInfoServices {
 
     @Override
     public List<LfsUser> findAllUser() {
-        String sql = "SELECT u.USER_NM, u.PHONE FROM USER_BASICINFO u";
+        String sql = "SELECT u.USER_NAME, u.PHONE FROM LFS_USER u";
 
         Query query = em.createNativeQuery(sql);
 
