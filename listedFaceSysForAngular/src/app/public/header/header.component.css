@@ -1,2 +1,3 @@
-#box .hid{display:none;}
-#box .show{display:block;}
+.header-cum{
+  position: inherit;
+}
