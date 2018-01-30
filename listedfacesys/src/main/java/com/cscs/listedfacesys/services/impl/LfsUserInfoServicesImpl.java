@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,10 +48,27 @@ public class LfsUserInfoServicesImpl implements LfsUserInfoServices {
 
     @Override
     public List<LfsUser> findAllUser() {
-        String sql = "SELECT u.USER_NAME, u.PHONE FROM LFS_USER u";
-
+        String sql = "SELECT u.USER_NAME , u.PHONE  FROM LFS_USER u";
+        List<LfsUser> out = new ArrayList<LfsUser>();
         Query query = em.createNativeQuery(sql);
-
-        return query.getResultList();
+        List rows = query.getResultList();
+        if(rows!=null){
+            for (Object row : rows) {
+                Object[] cells = (Object[]) row;
+                if(cells!=null){
+                    LfsUser temp = new LfsUser();
+                    if(cells[0]!=null){
+                        temp.setUserName(cells[0]+""); //返回用户名
+                    }
+                    if(cells[1]!=null){
+                        temp.setPhone(cells[1]+"");  //返回电话号码
+                    }
+                    out.add(temp);
+                }
+               /* System.out.println("userName = " + cells[0]);
+                System.out.println("phone = " + cells[1]);*/
+            }
+        }
+        return out;
     }
 }
