@@ -1,12 +1,12 @@
-<div class="container-fluid" style="    margin-top: 54px;">
+<div class="container-fluid" style="">
   <div class="row">
     <div class="col-md-2">
       <div class="panel-group table-responsive" role="tablist">
         <div class="panel panel-primary leftMenu">
           <!-- 利用data-target指定要折叠的分组列表 -->
           <div class="panel-heading" id="collapseListGroupHeading1" data-toggle="collapse" data-target="#collapseListGroup1" role="tab" >
-            <h4 class="panel-title">
-              分组1
+            <h4 class="panel-title" (click)="showCompany()">
+              上市公司风险展台
               <span class="glyphicon glyphicon-chevron-up right"></span>
             </h4>
           </div>
@@ -68,7 +68,7 @@
     </div>
     <div class="col-md-10">
       内容
-
+      <!--<router-outlet name="popup"></router-outlet>-->
 
     </div>
   </div>

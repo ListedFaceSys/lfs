@@ -35,7 +35,7 @@ public class LfsUserInfoController {
      * @param inData
      * @return
      */
-    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public LfsUserInfoOutData save(@RequestBody LfsUserInfoData inData) {
         LfsUser infoData = new LfsUser();
         LfsUserInfoOutData outData = new LfsUserInfoOutData();
@@ -66,7 +66,7 @@ public class LfsUserInfoController {
      * @param inData
      * @return
      */
-    @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     public BaseOutData updatePassword(@RequestBody LfsUserInfoData inData) throws Exception {
         BaseOutData outData = new BaseOutData();
 
@@ -80,7 +80,7 @@ public class LfsUserInfoController {
      * 用户列表
      * @return
      */
-    @RequestMapping(value = "getAllUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
     public BaseOutData getAllUser() {
         BaseOutData outData = new BaseOutData();
 

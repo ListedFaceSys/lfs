@@ -1,30 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { PublicModule } from "./public/public.module";
 import { CompanyShowModule } from './company-show/company-show.module';
 
-import { ErrorComponent } from './public/error/error.component';
-import { LoginComponent } from './public/login/login.component';
-import { HeaderComponent } from './public/header/header.component';
-import { MenuComponent } from './public/menu/menu.component';
 import { IsLastDirective } from './common/utill/isLast';
+
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   imports: [
     BrowserModule,
-    FormsModule,      //数据的双向绑定 [(ngModel)]
-    AppRoutingModule,
-    CompanyShowModule
+    BrowserAnimationsModule,
+    PublicModule,
+    CompanyShowModule,
+    AppRoutingModule
   ],
   declarations: [
     AppComponent,
-    ErrorComponent,   //报错模块
-    LoginComponent,   //登录模块
-    HeaderComponent,  //头, BaseComponent部模块
-    MenuComponent,    //菜单模块
     IsLastDirective   //指令
   ],
   providers: [],

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit,ViewChild} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -14,6 +14,9 @@ export class MenuComponent implements OnInit {
   ngOnInit(){
   }
 
+  showCompany(){
+    this.router.navigate(['companyShow']);
+  }
 }
 
 
