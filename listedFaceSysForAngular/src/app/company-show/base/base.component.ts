@@ -23,9 +23,7 @@ export class BaseComponent implements OnInit {
   getUsers(): void {
     this.userApiService.getUsers()
       .subscribe(data => {
-          console.log(data);
           this.resData = data;
-          console.log(this.resData);
           this.users = this.resData.data['userList'];
       });
   }
