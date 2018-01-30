@@ -14,22 +14,27 @@ const routes: Routes = [
     path: 'menu',
     component: MenuComponent,
     children:[
-      { path: '',
+      {
+        path: '',
         component: CompanyShowComponent,  //上市公司风险展台
       },
-      { path: 'companyShow',
+      {
+        path: 'companyShow',
         component: CompanyShowComponent,
       },
-      { path: 'companyView',
-        component: CompanyViewComponent,    //上市公司风险总览
+      {
+        path: 'companyView',
+        component: CompanyViewComponent,  //上市公司风险总览
       },
-      { path: 'areaView',
+      {
+        path: 'areaView',
         component: AreaViewComponent,     //区域风险总览
       },
-      { path: 'ntbView',
-        component: NtbShowComponent,    //新三板展台
-      },
-      ]
+      {
+        path: 'ntbView',
+        component: NtbShowComponent,      //新三板展台
+      }
+    ]
   }
 ];
 
