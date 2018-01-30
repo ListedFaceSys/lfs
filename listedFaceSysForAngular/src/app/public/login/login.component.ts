@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { UserInfo } from "../../common/module/entity";
+import { UserInfo } from "../../common/model/entity";
 
 @Component({
   selector: 'app-login',
