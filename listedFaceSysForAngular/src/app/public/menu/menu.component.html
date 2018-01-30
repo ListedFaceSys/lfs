@@ -1,7 +1,7 @@
-<div class="container-fluid" style="">
+<div class="container" style="">
   <div class="row">
-    <div class="col-md-2">
-      <div class="panel-group table-responsive" role="tablist">
+    <div class="col-md-1">
+      <!--<div class="panel-group table-responsive" role="tablist">
         <div class="panel panel-primary leftMenu">
           <div id="collapseListGroup1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
             <ul class="list-group">
@@ -27,8 +27,8 @@
               </li>
             </ul>
           </div>
-        </div><!--panel end-->
-       <!-- <div class="panel panel-primary leftMenu">
+        </div>&lt;!&ndash;panel end&ndash;&gt;
+       &lt;!&ndash; <div class="panel panel-primary leftMenu">
           &lt;!&ndash;<div class="panel-heading" id="collapseListGroupHeading2" data-toggle="collapse" data-target="#collapseListGroup2" role="tab" >
             <h4 class="panel-title">
               分组2
@@ -59,7 +59,29 @@
               </li>
             </ul>
           </div>
-        </div>-->
+        </div>&ndash;&gt;
+      </div>-->
+      <div class="col-md-13 cum-menu">
+        <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./areaView']">
+          <span  [routerLink]="['./areaView']">
+            区域风险总览
+          </span>
+        </div>
+        <div class="cum-menu-item" routerLinkActive="active" >
+          <span  [routerLink]="['./companyView']">
+          上市公司风险总览
+          </span>
+        </div>
+        <div class="cum-menu-item" routerLinkActive="active" >
+          <span  [routerLink]="['./companyShow']">
+          上市公司风险展台
+          </span>
+        </div>
+        <div class="cum-menu-item" routerLinkActive="active" >
+          <span  [routerLink]="['./ntbView']">
+          新三版展台
+          </span>
+        </div>
       </div>
     </div>
     <div class="col-md-10 test-div">
