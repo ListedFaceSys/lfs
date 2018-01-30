@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import {CompanyShowComponent} from "./company-show.component";
+import { BaseComponent } from './base/base.component';
 
 const routes: Routes = [
-  {
-    path: 'companyShow',
-    component: CompanyShowComponent,
-    // outlet: 'popup'
-  }
+  { path: 'companyShow', component: BaseComponent }
 ];
 
 @NgModule({

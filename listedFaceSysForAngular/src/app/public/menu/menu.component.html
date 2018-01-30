@@ -3,42 +3,40 @@
     <div class="col-md-2">
       <div class="panel-group table-responsive" role="tablist">
         <div class="panel panel-primary leftMenu">
-          <!-- 利用data-target指定要折叠的分组列表 -->
-          <div class="panel-heading" id="collapseListGroupHeading1" data-toggle="collapse" data-target="#collapseListGroup1" role="tab" >
-            <h4 class="panel-title" (click)="showCompany()">
-              上市公司风险展台
-              <span class="glyphicon glyphicon-chevron-up right"></span>
-            </h4>
-          </div>
           <!-- .panel-collapse和.collapse标明折叠元素 .in表示要显示出来 -->
           <div id="collapseListGroup1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
             <ul class="list-group">
-              <li class="list-group-item">
+              <li class="list-group-item" routerLinkActive="active">
                 <!-- 利用data-target指定URL -->
-                <button class="menu-item-left" data-target="test2.html">
-                  <span class="glyphicon glyphicon-triangle-right"></span>分组项1-1
-                </button>
+                <span class="menu-item-left" [routerLink]="['./companyShow']">
+                  <span class="glyphicon glyphicon-triangle-right"></span>上市公司风险展台
+                </span>
               </li>
-              <li class="list-group-item">
-                <button class="menu-item-left">
-                  <span class="glyphicon glyphicon-triangle-right"></span>分组项1-2
-                </button>
+              <li class="list-group-item" routerLinkActive="active">
+                <span class="menu-item-left" [routerLink]="['./companyView']">
+                  <span class="glyphicon glyphicon-triangle-right"></span>上市公司风险总览
+                </span>
               </li>
-              <li class="list-group-item">
-                <button class="menu-item-left">
-                  <span class="glyphicon glyphicon-triangle-right"></span>分组项1-3
-                </button>
+              <li class="list-group-item" routerLinkActive="active">
+                <span class="menu-item-left" [routerLink]="['./areaView']">
+                  <span class="glyphicon glyphicon-triangle-right"></span>区域风险总览
+                </span>
+              </li>
+              <li class="list-group-item" routerLinkActive="active">
+                <span class="menu-item-left" [routerLink]="['./ntbView']">
+                  <span class="glyphicon glyphicon-triangle-right"></span>新三版展台
+                </span>
               </li>
             </ul>
           </div>
         </div><!--panel end-->
-        <div class="panel panel-primary leftMenu">
-          <div class="panel-heading" id="collapseListGroupHeading2" data-toggle="collapse" data-target="#collapseListGroup2" role="tab" >
+       <!-- <div class="panel panel-primary leftMenu">
+          &lt;!&ndash;<div class="panel-heading" id="collapseListGroupHeading2" data-toggle="collapse" data-target="#collapseListGroup2" role="tab" >
             <h4 class="panel-title">
               分组2
               <span class="glyphicon glyphicon-chevron-down right"></span>
             </h4>
-          </div>
+          </div>&ndash;&gt;
           <div id="collapseListGroup2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading2">
             <ul class="list-group">
               <li class="list-group-item">
@@ -63,13 +61,12 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <div class="col-md-10">
       内容
-      <!--<router-outlet name="popup"></router-outlet>-->
-
+      <router-outlet ></router-outlet>
     </div>
   </div>
 </div>
