@@ -1,91 +1,28 @@
-<div class="container" style="">
+<div class="container">
   <div class="row">
-    <div class="col-md-1">
-      <!--<div class="panel-group table-responsive" role="tablist">
-        <div class="panel panel-primary leftMenu">
-          <div id="collapseListGroup1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
-            <ul class="list-group">
-              <li class="list-group-item" routerLinkActive="active">
-                <span class="menu-item-left" [routerLink]="['./areaView']">
-                  <span class="glyphicon glyphicon-triangle-right"></span>区域风险总览
-                </span>
-              </li>
-              <li class="list-group-item" routerLinkActive="active">
-                <span class="menu-item-left" [routerLink]="['./companyView']">
-                  <span class="glyphicon glyphicon-triangle-right"></span>上市公司风险总览
-                </span>
-              </li>
-              <li class="list-group-item" routerLinkActive="active">
-                <span class="menu-item-left" [routerLink]="['./companyShow']">
-                  <span class="glyphicon glyphicon-triangle-right"></span>上市公司风险展台
-                </span>
-              </li>
-              <li class="list-group-item" routerLinkActive="active">
-                <span class="menu-item-left" [routerLink]="['./ntbView']">
-                  <span class="glyphicon glyphicon-triangle-right"></span>新三版展台
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>&lt;!&ndash;panel end&ndash;&gt;
-       &lt;!&ndash; <div class="panel panel-primary leftMenu">
-          &lt;!&ndash;<div class="panel-heading" id="collapseListGroupHeading2" data-toggle="collapse" data-target="#collapseListGroup2" role="tab" >
-            <h4 class="panel-title">
-              分组2
-              <span class="glyphicon glyphicon-chevron-down right"></span>
-            </h4>
-          </div>&ndash;&gt;
-          <div id="collapseListGroup2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading2">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <button class="menu-item-left">
-                  <span class="glyphicon glyphicon-triangle-right"></span>分组项2-1
-                </button>
-              </li>
-              <li class="list-group-item">
-                <button class="menu-item-left">
-                  <span class="glyphicon glyphicon-triangle-right"></span>分组项2-2
-                </button>
-              </li>
-              <li class="list-group-item">
-                <button class="menu-item-left">
-                  <span class="glyphicon glyphicon-triangle-right"></span>分组项2-3
-                </button>
-              </li>
-              <li class="list-group-item">
-                <button class="menu-item-left">
-                  <span class="glyphicon glyphicon-triangle-right"></span>分组项2-4
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>&ndash;&gt;
-      </div>-->
-      <div class="col-md-13 cum-menu">
-        <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./areaView']">
+    <div class="col-lg-1 cum-menu">
+      <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./areaView']">
           <span >
             区域风险总览
           </span>
-        </div>
-        <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyView']">
+      </div>
+      <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyView']">
           <span >
           上市公司风险总览
           </span>
-        </div>
-        <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyShow']">
+      </div>
+      <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyShow']">
           <span >
           上市公司风险展台
           </span>
-        </div>
-        <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./ntbView']">
+      </div>
+      <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./ntbView']">
           <span  >
           新三版展台
           </span>
-        </div>
       </div>
     </div>
-    <div class="col-md-10 test-div">
-      内容
+    <div class="col-lg-11">
       <router-outlet ></router-outlet>
     </div>
   </div>
