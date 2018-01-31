@@ -33,10 +33,12 @@
 
 /*.leftMenu .menu-item-left:hover{background:#C4E3F3;border:1px solid #1E90FF;}*/
 .cum-menu {
+  outline:0;
 }
 
 
 .cum-menu .cum-menu-item{
+  outline:0;
   padding-top: 20px;
   min-height: 120px;
   margin-bottom: 11px;
