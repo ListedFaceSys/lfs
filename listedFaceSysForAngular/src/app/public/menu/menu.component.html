@@ -1,28 +1,28 @@
+<div class="cum-menu">
+  <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./areaView']">
+    <span>
+      区域风险总览
+    </span>
+  </div>
+  <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyView']">
+    <span>
+      上市公司风险总览
+    </span>
+  </div>
+  <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyShow']">
+    <span>
+      上市公司风险展台
+    </span>
+  </div>
+  <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./ntbView']">
+    <span>
+      新三版展台
+    </span>
+  </div>
+</div>
 <div class="container">
   <div class="row">
-    <div class="col-lg-1 cum-menu">
-      <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./areaView']">
-          <span >
-            区域风险总览
-          </span>
-      </div>
-      <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyView']">
-          <span >
-          上市公司风险总览
-          </span>
-      </div>
-      <div class="cum-menu-item" routerLinkActive="active"  [routerLink]="['./companyShow']">
-          <span >
-          上市公司风险展台
-          </span>
-      </div>
-      <div class="cum-menu-item" routerLinkActive="active" [routerLink]="['./ntbView']">
-          <span  >
-          新三版展台
-          </span>
-      </div>
-    </div>
-    <div class="col-lg-11">
+    <div class="col-lg-12">
       <router-outlet ></router-outlet>
     </div>
   </div>
