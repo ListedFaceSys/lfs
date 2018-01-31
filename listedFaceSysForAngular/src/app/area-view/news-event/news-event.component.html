@@ -3,8 +3,9 @@
   <div class="clearfix" style="border-top: 1px solid #eee">
     <div class="relative" style="float: left; width: 512px">
       <div style="position: absolute;z-index: 2;">
-        <select class="form-control news-event-select">
-          <option *ngFor="let option1 of selectOption" [value]="option1.key">{{option1.value}}</option>
+        <select class="form-control news-event-select"
+                name="subjectCategoryId" (change)=" getSelectChange($event.target.value)">
+          <option *ngFor="let option1 of selectOptions" [value]="option1.key">{{option1.value}}</option>
         </select>
       </div>
       <div echarts class="geog-chart" [options]="options" style="height: 200px"></div>

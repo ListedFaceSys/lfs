@@ -9,7 +9,7 @@ import {NgxEchartsService} from "ngx-echarts";
 })
 export class NewsEventComponent implements OnInit {
   options = {};
-  selectOption:{}[] = [];
+  selectOptions:{}[] = [];
 
   constructor(
     private http: HttpClient,
@@ -80,12 +80,14 @@ export class NewsEventComponent implements OnInit {
 
   //初始化数据
   initNewsData(){
-    this.http.get('assets/mapJson/香港.json')
+    this.http.get('assets/dataJson/selectBase.json')
       .subscribe(geoJson => {
-        this.selectOption.push({key:1,value:"最近一周"});
-        this.selectOption.push({key:2,value:"最近一月"});
-        this.selectOption.push({key:3,value:"最近一年"});
+        this.selectOptions= geoJson["data"].newsEventSelects;
       })
   }
 
+
+  getSelectChange(value){
+    console.log(value)
+  }
 }

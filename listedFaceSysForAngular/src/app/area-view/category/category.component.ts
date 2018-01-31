@@ -9,12 +9,16 @@ import {NgxEchartsService} from "ngx-echarts";
 })
 export class CategoryComponent implements OnInit {
   options = {};
+  radioOptions:{}[] = [];//单选项
+  radioChecked:number=1;//选中值
 
   constructor(
     private http: HttpClient,
     private es: NgxEchartsService) { }
 
   ngOnInit() {
+    this.initCategoryData();
+
     this.http.get('assets/mapJson/香港.json')
       .subscribe(geoJson => {
         // this.es.registerMap('HK', geoJson);
@@ -124,5 +128,15 @@ export class CategoryComponent implements OnInit {
       });
   }
 
+  //初始化数据
+  initCategoryData(){
+    this.http.get('assets/dataJson/selectBase.json')
+      .subscribe(geoJson => {
+        this.radioOptions= geoJson["data"].categoryRadios;
+      })
+  }
 
+  getRadioChecked(){
+
+  }
 }

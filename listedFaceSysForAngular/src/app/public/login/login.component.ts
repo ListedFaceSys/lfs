@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit{
     }
     this.message = '';
 
-    this.router.navigate(['menu']);
+    // this.router.navigate(["allbox/allsearch",1])
+    this.router.navigate(['menu',1]);
   }
 }
 
