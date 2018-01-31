@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { AccordionModule } from "ngx-bootstrap";
 
 import { AreaViewComponent } from './area-view.component';
 import { GeographyComponent } from './geography/geography.component';
@@ -12,7 +13,8 @@ import { NewsTrackComponent } from './news-track/news-track.component';
 @NgModule({
   imports: [
     CommonModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    AccordionModule.forRoot()
   ],
   declarations: [
     AreaViewComponent,
