@@ -1,0 +1,43 @@
+.credit-brco {
+  /* height: 85px; */
+  line-height: 30px;
+  overflow: hidden;
+  padding: 2.3px 0 13.3px 0;
+  border-top: 1px dashed #CFCFCF;
+}
+.credit-brcos {
+  position: relative;
+}
+.width-70 {
+  width: 70%;
+  float: left;
+}
+.width-30 {
+  width: 30%;
+  float: left;
+}
+
+.ellipses {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.vertical-top {
+  vertical-align: top;
+}
+
+.float-left {
+  float: left!important;
+}
+
+.fontStyle-16-1 {
+  font-size: 16px!important;
+  color: #333!important;
+}
+
+.ellipses {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
