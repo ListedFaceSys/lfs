@@ -3,8 +3,11 @@ import { CommonModule } from '@angular/common';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { AreaViewComponent } from './area-view.component';
-import { GeographyComponent } from '../area-view/geography/geography.component';
-import { CategoryComponent } from '../area-view/category/category.component';
+import { GeographyComponent } from './geography/geography.component';
+import { CategoryComponent } from './category/category.component';
+import { EarlyWarningComponent } from './early-warning/early-warning.component';
+import { NewsEventComponent } from './news-event/news-event.component';
+import { NewsTrackComponent } from './news-track/news-track.component';
 
 @NgModule({
   imports: [
@@ -13,8 +16,11 @@ import { CategoryComponent } from '../area-view/category/category.component';
   ],
   declarations: [
     AreaViewComponent,
-    GeographyComponent,
-    CategoryComponent
+    GeographyComponent,     //上市公司地理分布一览
+    CategoryComponent,      //上市公司类别分布一览
+    EarlyWarningComponent,  //监测预警风险Top5
+    NewsEventComponent,     //热点新闻-新闻事件时间趋势图
+    NewsTrackComponent      //负面新闻跟踪
   ]
 })
 export class AreaViewModule { }
