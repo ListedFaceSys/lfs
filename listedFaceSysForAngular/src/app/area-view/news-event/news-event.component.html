@@ -1,3 +1,46 @@
 <p>
-  news-event works!
+  新闻事件时间趋势图
 </p>
+<div class="col-lg-12 " >
+  <div>
+    <div class="col-lg-10 " style="    border-top: 1px solid #cccccc;margin-left: -16px;">
+      <div  style="position: absolute;z-index: 2;">
+        <select class="form-control news-event-select" >
+          <option *ngFor="let option1 of selectOption" [value]="option1.key">{{option1.value}}</option>
+        </select>
+      </div>
+      <div >
+        <div echarts class="geog-chart" [options]="options" style="height: 200px"></div>
+      </div>
+    </div>
+    <div class="col-lg-2 " style="">
+      <div class="news-event-cum-box">
+        <div class="news-event-cum-box-item">
+        <span class= "news-event-cum-box-title">
+            最近一周汇总
+        </span>
+        </div>
+        <div class="news-event-cum-box-item">
+          <span class="news-event-cum-box-item-label">全网新闻总数</span>
+          <span class="news-event-cum-box-item-value ng-binding" style="color: #FCD218; border-color: #FCD218">
+          48
+      </span>
+        </div>
+        <div class="news-event-cum-box-item">
+          <span class="news-event-cum-box-item-label">负面新闻总数</span>
+          <span class="news-event-cum-box-item-value ng-binding" style="color: #F85F43;border-color: #F85F43;">
+          48
+      </span>
+        </div>
+        <div class="news-event-cum-box-item">
+          <span class="news-event-cum-box-item-label">负面新闻占比</span>
+          <span class="news-event-cum-box-item-value ng-binding" style="color: #6681C5;border-color: #6681C5;">
+          48
+      </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
