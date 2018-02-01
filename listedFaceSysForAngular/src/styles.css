@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+ul {
+  padding-left: 0;
+}
 ul>li {
   list-style-type: none;
+}
+a:hover, a:focus {
+  text-decoration-line: none;
 }

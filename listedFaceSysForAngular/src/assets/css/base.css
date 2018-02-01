@@ -1,0 +1,15 @@
+/* 字体居中 */
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}
+.align-left {
+  text-align: left;
+}
+
+/* 外边距 */
+.mgn-bottom {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,38 @@
+{
+  "code":1,
+  "data":{
+    "newsEventSelects":[
+      {
+        "key":1,
+        "value":"最近一周"
+      },
+      {
+        "key":2,
+        "value":"最近一月"
+      },
+      {
+        "key":3,
+        "value":"最近一年"
+      }
+    ],
+    "categoryRadios":[
+      {
+        "key":1,
+        "value":"选项1"
+      },
+      {
+        "key":2,
+        "value":"选项2"
+      },
+      {
+        "key":3,
+        "value":"选项3"
+      },
+      {
+        "key":4,
+        "value":"选项4"
+      }
+    ]
+  },
+  "message": "成功"
+}
