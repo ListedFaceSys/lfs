@@ -60,7 +60,7 @@ export class GeographyComponent implements OnInit {
                 emphasis: { label: { show: true } }
               },
               data: [
-                { name: '中西区', value: 20057.34 },
+                { name: '中西区', value: 18 },
                 { name: '湾仔', value: 15477.48 },
                 { name: '东区', value: 31686.1 },
                 { name: '南区', value: 6992.6 },
