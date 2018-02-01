@@ -1,5 +1,12 @@
 package com.cscs.listedfacesys.controller;
 
+import com.cscs.listedfacesys.dto.TendencyChartInData;
+import com.cscs.listedfacesys.dto.base.BaseOutData;
+import com.cscs.listedfacesys.services.WarningTopService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import com.cscs.listedfacesys.dto.NewsTableOutData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsTableService;
@@ -25,22 +32,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/regionRisk")
 public class RegionRiskController {
+    final Log logger = LogFactory.getLog(this.getClass());
+
     @Autowired
     NewsTableService newsTableService;
-
-    //违约事件跟踪
-    @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
-    public BaseOutData getViolation(@PathVariable int page) {
-        BaseOutData out = new BaseOutData();
-        try {
-            out =  newsTableService.getLastingBondViolationNews(page, 10);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return out;
-    }
-
-    final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
     private WarningTopService warningTopService;
@@ -60,4 +55,17 @@ public class RegionRiskController {
 
         return outData;
     }
+
+    //违约事件跟踪
+    @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
+    public BaseOutData getViolation(@PathVariable int page) {
+        BaseOutData out = new BaseOutData();
+        try {
+            out =  newsTableService.getLastingBondViolationNews(page, 10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return out;
+    }
+
 }
