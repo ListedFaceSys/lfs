@@ -11,6 +11,8 @@ import { HeaderComponent } from './header/header.component';
 
 import { PublicRoutingModule } from './public-routing.module';
 
+import { LoginService } from '../common/service/login.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +26,9 @@ import { PublicRoutingModule } from './public-routing.module';
     RegistComponent,  // 注册
     MenuComponent,    // 菜单
     HeaderComponent   // 头部
+  ],
+  providers: [
+    LoginService
   ],
   exports: [
     HeaderComponent,
