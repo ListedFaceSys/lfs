@@ -9,7 +9,10 @@ import { CompanyRiskComponent } from '../company-risk/company-risk.component';
 import { AtlasMapComponent } from '../atlas-map/atlas-map.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
   {
     path: 'lfs',
     component: MenuComponent,
