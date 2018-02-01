@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Create by wzy on 2018/2/1
- * 图表类信息查询
+ * 上市公司风险展台
  */
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/chart")
-public class ChartInfoController {
-    
+@RequestMapping(value = "/companyRisk")
+public class CompanyRiskController {
+
 }

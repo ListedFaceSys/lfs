@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Create by wzy on 2018/2/1
- * TOP10类信息查询
+ * 区域风险总览
  */
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/newsTop")
-public class NewsTopInfoController {
+@RequestMapping(value = "/regionRisk")
+public class RegionRiskController {
 
 }
