@@ -4,7 +4,7 @@
     <div class="relative" style="float: left; width: 512px">
       <div style="position: absolute;z-index: 2;">
         <select class="form-control news-event-select"
-                name="subjectCategoryId" (change)=" getSelectChange($event.target.value)">
+                name="subjectCategoryId" (change)="selectChecked=$event.target.value; getSelectChange($event.target.value)">
           <option *ngFor="let option1 of selectOptions" [value]="option1.key">{{option1.value}}</option>
         </select>
       </div>
@@ -12,26 +12,26 @@
     </div>
     <div class="" style="float: left; /*width: 86px*/">
       <div class="">
-            <span class=" ng-binding">
-                最近一周汇总
+            <span class=" ng-binding" >
+                {{getTimeNewsData.dataName}}
             </span>
       </div>
       <div class="">
         <span class="">全网新闻总数</span>
         <span class=" ng-binding" style="color: #FCD218; border-color: #FCD218">
-            48
+            {{getTimeNewsData.allNetworkNum}}
         </span>
       </div>
       <div class="">
         <span class="">负面新闻总数</span>
         <span class=" ng-binding" style="color: #F85F43; border-color: #F85F43">
-            16
+            {{getTimeNewsData.negativeNum}}
         </span>
       </div>
       <div class="">
         <span class="">负面新闻占比</span>
         <span class=" ng-binding" style="color: #6681C5; border-color: #6681C5">
-            33.33%
+            {{getTimeNewsData.negativeProportion}}
         </span>
       </div>
     </div>

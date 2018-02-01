@@ -9,7 +9,23 @@ import {NgxEchartsService} from "ngx-echarts";
 })
 export class NewsEventComponent implements OnInit {
   options = {};
-  selectOptions:{}[] = [];
+  selectOptions:{}[] = []; //下拉选项集
+  selectChecked:number=1;//选中值
+  getTimeNewsData:{dataName:string, allNetworkNum:number,negativeNum:number,negativeProportion:string }={
+    dataName:"最近一周汇总",
+    allNetworkNum:124,
+    negativeNum:53,
+    negativeProportion:"32%"
+  };
+
+  //eChart图数据值
+  newsEventChartData:{ xAxisData:any[],seriesData:{ allNetwork:any[], negative:any[] } } = {
+    xAxisData:[], //时间周期
+    seriesData:{
+      allNetwork:[], //全网新闻数据
+      negative:[]  //负面新闻数据
+    }
+  };
 
   constructor(
     private http: HttpClient,
@@ -17,9 +33,24 @@ export class NewsEventComponent implements OnInit {
 
   ngOnInit() {
     this.initNewsData();
-    this.http.get('assets/mapJson/香港.json')
+    this.getChartsData();
+  }
+
+  //初始化数据
+  initNewsData(){
+    this.http.get('assets/dataJson/selectBase.json')
       .subscribe(geoJson => {
-        // this.es.registerMap('HK', geoJson);
+        this.selectOptions= geoJson["data"].newsEventSelects;
+      })
+  }
+
+
+  //获取图形数据值
+  getChartsData(){
+    this.http.get('assets/dataJson/newsEventChartData.json')
+      .subscribe(geoJson => {
+        this.newsEventChartData.xAxisData = geoJson["data"].xAxisData;
+        this.newsEventChartData.seriesData = geoJson["data"].seriesData;
         this.options = {
           title : {
             show:false,
@@ -39,7 +70,7 @@ export class NewsEventComponent implements OnInit {
             {
               type : 'category',
               boundaryGap : false,
-              data : [ "08-01", "08-02", "08-03", "08-04", "08-05", "08-06", "08-07"]//['周一','周二','周三','周四','周五','周六','周日']
+              data :  this.newsEventChartData.xAxisData//[ "08-01", "08-02", "08-03", "08-04", "08-05", "08-06", "08-07"]//['周一','周二','周三','周四','周五','周六','周日']
             }
           ],
           yAxis : [
@@ -54,12 +85,12 @@ export class NewsEventComponent implements OnInit {
             {
               name:'全网新闻总数',
               type:'line',
-              data:[0,2, 3, 5, 6, 4, 8, 9, 4, 3, 1, 6, 7],
+              data: this.newsEventChartData.seriesData.allNetwork//[0,2, 3, 5, 6, 4, 8, 9, 4, 3, 1, 6, 7],
             },
             {
               name:'负面新闻总数',
               type:'line',
-              data:[0,0, 0, 11, 3, 0, 8, 7, 4, 2, 1, 1],
+              data:this.newsEventChartData.seriesData.negative //[0,0, 0, 11, 3, 0, 8, 7, 4, 2, 1, 1],
               /*markPoint : {
                   data : [
                       {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
@@ -73,21 +104,19 @@ export class NewsEventComponent implements OnInit {
             }
           ]
         };
-
-
       });
   }
 
-  //初始化数据
-  initNewsData(){
+  //切换选中时间
+  getSelectChange(value){
+    console.log(value);
+    let inBody = {
+      selectKey:value
+    };
     this.http.get('assets/dataJson/selectBase.json')
       .subscribe(geoJson => {
-        this.selectOptions= geoJson["data"].newsEventSelects;
+        // this.selectOptions= geoJson["data"].newsEventSelects;
       })
   }
 
-
-  getSelectChange(value){
-    console.log(value)
-  }
 }
