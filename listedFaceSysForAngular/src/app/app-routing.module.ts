@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ErrorComponent } from './public/error/error.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: ErrorComponent }
 ];
 
