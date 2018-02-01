@@ -5,7 +5,7 @@ import com.cscs.listedfacesys.dto.base.BaseOutData;
 /**
  * Create by wth on 2018/1/27
  */
-public class LfsUserInfoOutData extends BaseOutData {
+public class LfsUserOutData extends BaseOutData {
     private long id;
     private String userName;
     private String phone;

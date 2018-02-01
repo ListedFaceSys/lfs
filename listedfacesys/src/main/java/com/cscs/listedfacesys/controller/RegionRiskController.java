@@ -7,22 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.cscs.listedfacesys.dto.NewsTableOutData;
-import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsTableService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import com.cscs.listedfacesys.dto.TendencyChartInData;
-import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.WarningTopService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * Create by wzy on 2018/2/1
@@ -36,9 +21,8 @@ public class RegionRiskController {
 
     @Autowired
     NewsTableService newsTableService;
-
     @Autowired
-    private WarningTopService warningTopService;
+    WarningTopService warningTopService;
 
     //查询预警趋势TOP10公司信息
     @RequestMapping(value = "/monitorWarning", method = RequestMethod.POST)

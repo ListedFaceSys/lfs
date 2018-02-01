@@ -1,7 +1,7 @@
 package com.cscs.listedfacesys.services.impl;
 
 import com.cscs.listedfacesys.entity.LfsUser;
-import com.cscs.listedfacesys.services.LfsUserInfoServices;
+import com.cscs.listedfacesys.services.LfsUserInfoService;
 import com.cscs.repository.LfsUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LfsUserInfoServicesImpl implements LfsUserInfoServices {
+public class LfsUserInfoServiceImpl implements LfsUserInfoService {
 
     @Autowired
     private LfsUserInfoRepository lfsUserInfoRepository;
