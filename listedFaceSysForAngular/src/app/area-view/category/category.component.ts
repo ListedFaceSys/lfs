@@ -27,7 +27,19 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     this.initCategoryData();
+    this.getChartsData();
+  }
 
+  //初始化数据
+  initCategoryData(){
+    this.http.get('assets/dataJson/selectBase.json')
+      .subscribe(geoJson => {
+        this.radioOptions= geoJson["data"].categoryRadios;
+      })
+  }
+
+  //获取图形数据值
+  getChartsData(){
     this.http.get('assets/dataJson/categoryChartData.json')
       .subscribe(geoJson => {
         this.categoryChartData.xAxisData = geoJson["data"].xAxisData;
@@ -57,10 +69,10 @@ export class CategoryComponent implements OnInit {
           color: [
             '#07cdbd', '#ff5700', '#06cd06', '#ff9600', '#00a3d8', '#dce319'
           ],
-         /* legend: {
-            show:false,
-            data:['AQI','PM2.5']
-          },*/
+          /* legend: {
+             show:false,
+             data:['AQI','PM2.5']
+           },*/
           grid: {
             left: '3%',
             right: '4%',
@@ -138,14 +150,6 @@ export class CategoryComponent implements OnInit {
         };
 
       });
-  }
-
-  //初始化数据
-  initCategoryData(){
-    this.http.get('assets/dataJson/selectBase.json')
-      .subscribe(geoJson => {
-        this.radioOptions= geoJson["data"].categoryRadios;
-      })
   }
 
   //获取radio选中值
