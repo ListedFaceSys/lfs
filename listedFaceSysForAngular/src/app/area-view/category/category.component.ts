@@ -12,6 +12,15 @@ export class CategoryComponent implements OnInit {
   radioOptions:{}[] = [];//单选项
   radioChecked:number=1;//选中值
 
+  //eChart图数据值
+  categoryChartData:{ xAxisData:any[],seriesData:{ line:any[], bar:any[] } } = {
+    xAxisData:[],
+    seriesData:{
+      line:[],
+      bar:[]
+    }
+  };
+
   constructor(
     private http: HttpClient,
     private es: NgxEchartsService) { }
@@ -19,14 +28,16 @@ export class CategoryComponent implements OnInit {
   ngOnInit() {
     this.initCategoryData();
 
-    this.http.get('assets/mapJson/香港.json')
+    this.http.get('assets/dataJson/categoryChartData.json')
       .subscribe(geoJson => {
-        // this.es.registerMap('HK', geoJson);
+        this.categoryChartData.xAxisData = geoJson["data"].xAxisData;
+        this.categoryChartData.seriesData = geoJson["data"].seriesData;
         this.options = {
           title: {
-            text: '抚州统计'
+            show:false,
           },
           toolbox:{
+            show:false,
             right:20,
             feature:{
               saveAsImage: {},
@@ -46,9 +57,10 @@ export class CategoryComponent implements OnInit {
           color: [
             '#07cdbd', '#ff5700', '#06cd06', '#ff9600', '#00a3d8', '#dce319'
           ],
-          legend: {
+         /* legend: {
+            show:false,
             data:['AQI','PM2.5']
-          },
+          },*/
           grid: {
             left: '3%',
             right: '4%',
@@ -64,17 +76,17 @@ export class CategoryComponent implements OnInit {
                   fontSize:'14',
                 },
                 interval:0,
-                rotate:-45,
+                rotate:-90,
               },
-              data : ['临川区','东乡区','南城县','黎川县','南丰县','崇仁县','乐安县','宜黄县','金溪县','资溪县','广昌县']
+              data : this.categoryChartData.xAxisData//['临川区','东乡区','南城县','黎川县','南丰县','崇仁县','乐安县','宜黄县','金溪县','资溪县','广昌县']
             }
           ],
           yAxis : [
             {
               type : 'value',
-              name: '单位:μg/m3(CO为mg/m3)',
+              // name: '单位:μg/m3(CO为mg/m3)',
               axisTick: {
-                show: false,
+                show: true,  //分段短横线
                 // color:'#fff',
               },
               axisLine: {
@@ -85,13 +97,13 @@ export class CategoryComponent implements OnInit {
                 //color:'#fff',
               },
               splitLine: {
-                show: true,
+                show: false,
                 // color:'#fff',
               }
             },
             {
               type : 'value',
-              name: '温度',
+              // name: '温度',
               min: 0,
               max: 60,
               // interval: 5,
@@ -99,14 +111,14 @@ export class CategoryComponent implements OnInit {
                 formatter: '{value} °C'
               },
               axisTick: {
-                show: false,
+                show: true,
                 // color:'#fff',
               },
               axisLine: {
                 show: true,
               },
               splitLine: {
-                show: true,
+                show: false,
                 // color:'#fff',
               }
             }
@@ -115,12 +127,12 @@ export class CategoryComponent implements OnInit {
             {
               name:'AQI',
               type:'line',
-              data:[40, 50, 45, 56, 45, 55,123,156, 129,142,148]
+              data:this.categoryChartData.seriesData.line//[40, 50, 45, 56, 45, 55,123,156, 129,142,148]
             },
             {
               name:'PM2.5',
               type:'bar',
-              data:[30, 45, 73, 34, 58, 70, 60, 54, 63,50, 70]
+              data:this.categoryChartData.seriesData.bar //[30, 45, 73, 34, 58, 70, 60, 54, 63,50, 70]
             }
           ]
         };
@@ -136,6 +148,7 @@ export class CategoryComponent implements OnInit {
       })
   }
 
+  //获取radio选中值
   getRadioChecked(){
 
   }
