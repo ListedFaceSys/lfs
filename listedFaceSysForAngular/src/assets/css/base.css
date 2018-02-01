@@ -13,3 +13,28 @@
 .mgn-bottom {
   margin-bottom: 20px;
 }
+
+/* 头部背景 */
+.b-header {
+
+}
+/* 登录注册背景 */
+.b-login {
+
+}
+/* 按钮栏背景 */
+.b-menuCol {
+
+}
+/* 按钮背景 */
+.b-menu {
+
+}
+/* 按钮选中 */
+.b-menuActive {
+
+}
+/* 边框背景 */
+.b-border {
+  border: 1px solid #cfd8dc;
+}
