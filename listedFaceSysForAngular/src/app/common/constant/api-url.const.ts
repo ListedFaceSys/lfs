@@ -10,7 +10,9 @@ export const ApiUrl = {
 
   user_save: 'user/save',
   user_updatePassword: 'user/updatePassword',
-  user_getAllUser: 'user/getAllUser'
+  user_getAllUser: 'user/getAllUser',
+
+  areaView_warningTop5: 'assets/dataJson/earlyWarning.json'
 };
 
 export const HttpOptions = {

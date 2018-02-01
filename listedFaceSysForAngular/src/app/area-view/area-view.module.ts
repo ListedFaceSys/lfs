@@ -11,6 +11,7 @@ import { NewsEventComponent } from './news-event/news-event.component';
 import { NewsTrackComponent } from './news-track/news-track.component';
 
 import { LoginService } from '../common/service/login.service';
+import { AreaViewApiService } from '../common/api/area-view-api.service';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { LoginService } from '../common/service/login.service';
     NewsTrackComponent      //负面新闻跟踪
   ],
   providers: [
-    LoginService
+    LoginService,
+    AreaViewApiService
   ]
 })
 export class AreaViewModule { }
