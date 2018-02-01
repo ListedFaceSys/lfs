@@ -16,7 +16,8 @@ export class GeographyComponent implements OnInit {
     private es: NgxEchartsService) { }
 
   ngOnInit() {
-    this.http.get('assets/mapJson/香港.json')
+    console.log("Map")
+    this.http.get('assets/mapdata/geometryCouties/440300.json')
       .subscribe(geoJson => {
         this.es.registerMap('HK', geoJson);
         this.options = {
