@@ -10,6 +10,8 @@ import { EarlyWarningComponent } from './early-warning/early-warning.component';
 import { NewsEventComponent } from './news-event/news-event.component';
 import { NewsTrackComponent } from './news-track/news-track.component';
 
+import { LoginService } from '../common/service/login.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +25,9 @@ import { NewsTrackComponent } from './news-track/news-track.component';
     EarlyWarningComponent,  //监测预警风险Top5
     NewsEventComponent,     //热点新闻-新闻事件时间趋势图
     NewsTrackComponent      //负面新闻跟踪
+  ],
+  providers: [
+    LoginService
   ]
 })
 export class AreaViewModule { }

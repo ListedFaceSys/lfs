@@ -2,20 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { UserInfo } from "../../common/model/entity";
 
+import { LoginService } from '../../common/service/login.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit{
-  userInfo:UserInfo = new UserInfo(); //用户信息
-  message:string; //消息返回
-  constructor(public router:Router){
-    // this.userInfo = new UserInfo();//创建用户
+  userInfo: UserInfo = new UserInfo(); //用户信息
+  message: string;  //消息返回
+
+  constructor(
+    private router: Router,
+    private loginService: LoginService) {
   }
 
   ngOnInit(): void {
-
+    this.loginService.sendLogin(false);
   }
 
 
