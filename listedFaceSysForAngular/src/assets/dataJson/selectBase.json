@@ -18,19 +18,19 @@
     "categoryRadios":[
       {
         "key":1,
-        "value":"选项1"
+        "value":"按证监会行业"
       },
       {
         "key":2,
-        "value":"选项2"
+        "value":"按上市/挂牌时间"
       },
       {
         "key":3,
-        "value":"选项3"
+        "value":"按证监会行业"
       },
       {
         "key":4,
-        "value":"选项4"
+        "value":"按监管专管员"
       }
     ]
   },

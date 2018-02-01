@@ -22,10 +22,15 @@ export class BaseComponent implements OnInit {
 
   getUsers(): void {
     this.userApiService.getUsers()
-      .subscribe(data => {
+      .subscribe(
+        data => {
           this.resData = data;
           this.users = this.resData.data['userList'];
-      });
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   add(userName: string): void {
