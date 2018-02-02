@@ -1,16 +1,16 @@
 <div style="/*float: right; width: 762px;*/ background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10)">
   <div style="margin-left: 12px; line-height: 44px; font-size: 14px; color: #6681C5">新闻事件时间趋势图</div>
   <div class="clearfix" style="border-top: 1px solid #eee">
-    <div class="relative" style="float: left; width: 90%">
-      <!--<div style="position: absolute;z-index: 2;">-->
-        <!--<select class="form-control news-event-select"-->
-                <!--name="subjectCategoryId" (change)="selectChecked=$event.target.value; getSelectChange($event.target.value)">-->
-          <!--<option *ngFor="let option1 of selectOptions" [value]="option1.key">{{option1.value}}</option>-->
-        <!--</select>-->
-      <!--</div>-->
-      <div #newsEcharts echarts class="geog-chart" [options]="options" (chartClick)="getClickTimeLine($event)" style="height: 400px"></div>
+    <div class="relative" style="float: left; width: 512px">
+      <div style="position: absolute;z-index: 2;">
+        <select class="form-control news-event-select"
+                name="subjectCategoryId" (change)="selectChecked=$event.target.value; getSelectChange($event.target.value)">
+          <option *ngFor="let option1 of selectOptions" [value]="option1.key">{{option1.value}}</option>
+        </select>
+      </div>
+      <div echarts class="geog-chart" [options]="options" style="height: 200px"></div>
     </div>
-    <div class="" style="float: left;width: 10%">
+    <div class="" style="float: left; /*width: 86px*/">
       <div class="">
             <span class=" ng-binding" >
                 {{getTimeNewsData.dataName}}

@@ -1,13 +1,19 @@
-<!--<div class="page-container">
-  <h1 style="text-align: center">深圳证监局上市公司脸谱系统</h1>
-  <div class="form-login" >
-    <input type="text" class="username" placeholder="用户名" [(ngModel)]="userInfo.name" >
-    <input type="password" class="password" placeholder="密码" [(ngModel)]="userInfo.pwd">
-    <button type="submit" (click)="submitUp(userInfo)" >登录</button>
+<form class="f-sign_in" (ngSubmit)="login()" #loginForm="ngForm">
+  <div class="form-group">
+    <label for="name">用户名</label>
+    <input type="text" class="form-control" id="name"
+           [(ngModel)]="userInfo.name" name="name"
+           placeholder="请输入用户名/手机号">
   </div>
-  <div class="connect">
-    <p style="color: red" *ngIf="message!=''">{{message}}</p>
-    <p><a href="">忘记密码</a></p>
+
+  <div class="form-group">
+    <label for="password">密码</label>
+    <input type="text" class="form-control" id="password"
+           [(ngModel)]="userInfo.password" name="password"
+           placeholder="请输入密码">
   </div>
-</div>-->
+
+  <button type="submit" class="btn">登录</button>
+
+</form>
 

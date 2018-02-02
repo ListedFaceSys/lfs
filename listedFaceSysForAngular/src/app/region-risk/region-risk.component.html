@@ -1,28 +1,38 @@
 <!-- 上市公司分布图 -->
 <div class="row" >
-  <div class="col-lg-7">
+  <div class="col-lg-12">
     <!-- 地理分布 -->
     <app-geography></app-geography>
   </div>
-  <div class="col-lg-5">
-    <!-- 类别分布 -->
-    <app-category></app-category>
+</div>
+<div class="row">
+  <div class="col-lg-12 m-headLine">
+    深圳辖区上市公司-检测预警趋势图
+  </div>
+  <div class="col-lg-12">
+    <!-- 检测预警一览 -->
+    <app-early-warning></app-early-warning>
   </div>
 </div>
 
-<!-- 上市公司-监测预警风险 -->
-<app-early-warning></app-early-warning>
 
 <div class="row">
   <div class="col-lg-12 m-headLine">
     深圳辖区上市公司-热点新闻
   </div>
-  <div class="col-lg-7">
+  <div class="col-lg-12">
     <!-- 新闻事件时间一览 -->
     <app-news-event></app-news-event>
   </div>
-  <div class="col-lg-5">
-    <!-- 新闻跟踪 -->
+</div>
+
+
+<div class="row">
+  <div class="col-lg-12 m-headLine">
+    深圳辖区上市公司-负面新闻跟踪
+  </div>
+  <div class="col-lg-12 ">
     <app-news-track></app-news-track>
   </div>
+
 </div>
