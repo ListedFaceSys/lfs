@@ -26,7 +26,10 @@
   transform: translate(-50%, -50%);
   width: 90px;
 }
-.m-menu ul .active{
+.m-menu ul .active {
   color: #333;
   background-color: #e7e7e7;
+}
+.m-menu ul li:focus, li:visited, li:hover {
+  outline: 0;
 }
