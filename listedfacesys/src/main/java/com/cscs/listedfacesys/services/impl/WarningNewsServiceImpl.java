@@ -1,6 +1,6 @@
 package com.cscs.listedfacesys.services.impl;
 
-import com.cscs.listedfacesys.services.WarningTopService;
+import com.cscs.listedfacesys.services.WarningNewsService;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -11,7 +11,7 @@ import java.util.List;
  * Create by wzy 2018/02/01
  */
 @Service
-public class WarningTopServiceImpl implements WarningTopService {
+public class WarningNewsServiceImpl implements WarningNewsService {
 
     @PersistenceContext
     EntityManager em;

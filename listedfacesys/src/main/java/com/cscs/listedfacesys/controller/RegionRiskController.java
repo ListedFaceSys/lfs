@@ -2,7 +2,7 @@ package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.WarningTopService;
+import com.cscs.listedfacesys.services.WarningNewsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class RegionRiskController {
     @Autowired
     NewsTableService newsTableService;
     @Autowired
-    WarningTopService warningTopService;
+    WarningNewsService warningNewsService;
 
     //查询预警趋势TOP10公司信息
     @RequestMapping(value = "/monitorWarning", method = RequestMethod.POST)
