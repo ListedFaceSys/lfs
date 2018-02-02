@@ -20,3 +20,48 @@
 .u-login {
   margin-left: -16.66666667%;
 }
+.u-swiper {
+  position: relative;
+  height: 100%;
+  width: calc(100% + 240px);
+  left: -240px;
+}
+.u-swiper>li:first-child {
+  float: left;
+  width: 240px;
+  height: 100%;
+}
+.u-swiper>li:last-child {
+  float: left;
+  width: calc(100% - 240px);
+  height: 100%;
+}
+.u-swiper>li:last-child>img {
+  width: 100%;
+  height: 100%;
+}
+.uSwipeLeft {
+  left: 0;
+  animation: uTransLeft 0.5s;
+  -moz-animation: uTransLeft 0.5s;    /* Firefox */
+  -webkit-animation: uTransLeft 0.5s; /* Safari and Chrome */
+  -o-animation: uTransLeft 0.5s;      /* Opera */
+}
+@keyframes uTransLeft {
+  0%   {left: -240px;}
+  100% {left: 0;}
+}
+.uSwipeRight {
+  left: -240px;
+  animation: uTransRight 0.5s;
+  -moz-animation: uTransRight 0.5s;    /* Firefox */
+  -webkit-animation: uTransRight 0.5s; /* Safari and Chrome */
+  -o-animation: uTransRight 0.5s;      /* Opera */
+}
+@keyframes uTransRight {
+  0%   {left: 0;}
+  100% {left: -240px;}
+}
+.uSwipe {
+  left: 0;
+}
