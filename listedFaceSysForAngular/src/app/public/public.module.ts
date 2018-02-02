@@ -7,7 +7,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { RegistComponent } from './regist/regist.component';
+import { RegisterComponent } from './register/register.component';
 import { MenuComponent } from './menu/menu.component';
 import { HeaderComponent } from './header/header.component';
 
@@ -26,7 +26,7 @@ import { LoginService } from '../common/service/login.service';
     ErrorComponent,   // 报错
     HomeComponent,    // 首页
     LoginComponent,   // 登录
-    RegistComponent,  // 注册
+    RegisterComponent,// 注册
     MenuComponent,    // 菜单
     HeaderComponent   // 头部
   ],

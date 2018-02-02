@@ -7,7 +7,7 @@ import { LoginService } from '../../common/service/login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['../public.component.css']
 })
 export class LoginComponent implements OnInit{
   userInfo: UserInfo = new UserInfo(); //用户信息

@@ -78,10 +78,8 @@
 }
 .f-sign a {
   color: #fff;
+  cursor: pointer;
 }
 .f-sign a:first-child {
   font-weight: 700;
-}
-.f-in {
-  margin-top: 50px;
 }

@@ -1,5 +1,5 @@
 <div class="u-enter" *ngIf="uSLFlag">
-  <ul (click)="showLogin()">
+  <ul (click)="showSign()">
     <li>登录</li>
     <li>注册</li>
   </ul>
@@ -9,13 +9,10 @@
     <li class="f-sign">
       <div class="container-fluid">
         <div class="row">
-          <a class="col-lg-4">登录</a>
-          <a class="col-lg-8">注册</a>
+          <a (click)="slogin()" [ngStyle]="{'font-weight': loginLink}" class="col-lg-4">登录</a>
+          <a (click)="sRegister()" [ngStyle]="{'font-weight': registerLink}" class="col-lg-8">注册</a>
         </div>
-        <div class="f-in">
-          <app-login *ngIf="signFlag"></app-login>
-          <app-regist *ngIf="!signFlag"></app-regist>
-        </div>
+        <router-outlet></router-outlet>
       </div>
     </li>
     <li class="u-swipeContent" [ngClass]="uSwipeContent">
