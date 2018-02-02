@@ -4,18 +4,11 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <app-header></app-header>
-    <div class="u-enter">
-      <ul>
-        <li>登录</li>
-        <li>注册</li>
-      </ul>
-    </div>
-    <div class="virtual-body">
-      <router-outlet></router-outlet>
-    </div>
-  `,
-  styleUrls: ['./app.component.css']
+    <router-outlet></router-outlet>
+  `
 })
 export class AppComponent {
   constructor() { };
+
+
 }
