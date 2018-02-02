@@ -6,10 +6,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  uSwipe: object;
+  uSwipeFlag: boolean;
 
-  constructor() { }
+  constructor() {
+    this.uSwipeFlag = true;
+  }
 
   ngOnInit() {
   }
 
+  showLogin() {
+    if (this.uSwipeFlag) {
+      this.uSwipeFlag = false;
+      this.uSwipe = {
+        'uSwipeLeft': true,
+        'uSwipeRight': false
+      };
+    } else {
+      this.uSwipeFlag = true;
+      this.uSwipe = {
+        'uSwipeLeft': false,
+        'uSwipeRight': true
+      };
+    }
+  }
 }
