@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Create by wzy 2018/02/01
  */
-public class WarningInfoOutData extends BaseOutData {
+public class WarningOutData extends BaseOutData {
 
     private List<WarningInfoData> warningInfoDataList;
 
