@@ -4,11 +4,11 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { AccordionModule } from "ngx-bootstrap";
 
 import { AreaViewComponent } from './area-view.component';
-import { GeographyComponent } from './geography/geography.component';
-import { CategoryComponent } from './category/category.component';
-import { EarlyWarningComponent } from './early-warning/early-warning.component';
-import { NewsEventComponent } from './news-event/news-event.component';
-import { NewsTrackComponent } from './news-track/news-track.component';
+import { GeographyComponent } from '../region-risk/geography/geography.component';
+import { CategoryComponent } from '../region-risk/category/category.component';
+import { EarlyWarningComponent } from '../region-risk/early-warning/early-warning.component';
+import { NewsEventComponent } from '../region-risk/news-event/news-event.component';
+import { NewsTrackComponent } from '../region-risk/news-track/news-track.component';
 
 import { LoginService } from '../common/service/login.service';
 import { AreaViewApiService } from '../common/api/area-view-api.service';

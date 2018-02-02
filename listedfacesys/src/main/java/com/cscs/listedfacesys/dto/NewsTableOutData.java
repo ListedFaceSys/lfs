@@ -14,6 +14,7 @@ public class NewsTableOutData {
     private String newsCode;
     private String importance;
     private String selectDate;//设置初始查询月份
+    private String mediaNm;//新闻数据来源
 
     public String getDate() {
         return date;
@@ -101,6 +102,14 @@ public class NewsTableOutData {
 
     public void setSelectDate(String selectDate) {
         this.selectDate = selectDate;
+    }
+
+    public String getMediaNm() {
+        return mediaNm;
+    }
+
+    public void setMediaNm(String mediaNm) {
+        this.mediaNm = mediaNm;
     }
 
     @Override
