@@ -20,23 +20,22 @@
 .u-login {
   margin-left: -16.66666667%;
 }
-.u-swiper {
+.u-swipe {
   position: relative;
   height: 100%;
   width: calc(100% + 240px);
   left: -240px;
 }
-.u-swiper>li:first-child {
+.u-swipe>li:first-child {
   float: left;
   width: 240px;
   height: 100%;
 }
-.u-swiper>li:last-child {
+.u-swipe>li:last-child {
   float: left;
-  width: calc(100% - 240px);
   height: 100%;
 }
-.u-swiper>li:last-child>img {
+.u-swipe>li:last-child>img {
   width: 100%;
   height: 100%;
 }
@@ -62,6 +61,27 @@
   0%   {left: 0;}
   100% {left: -240px;}
 }
+.uSConLeft {
+  width: calc(100% - 480px) !important;
+  transition:width 0.5s;
+  -webkit-transition:width 0.5s;
+}
 .uSwipe {
   left: 0;
+}
+.u-swipeContent {
+  width: calc(100% - 240px);
+}
+.f-sign {
+  padding-top: 45px;
+  background-color: #999;
+}
+.f-sign a {
+  color: #fff;
+}
+.f-sign a:first-child {
+  font-weight: 700;
+}
+.f-in {
+  margin-top: 50px;
 }

@@ -11,7 +11,6 @@ import { LoginService } from '../../common/service/login.service';
 })
 export class LoginComponent implements OnInit{
   userInfo: UserInfo = new UserInfo(); //用户信息
-  message: string;  //消息返回
 
   constructor(
     private router: Router,
@@ -23,19 +22,9 @@ export class LoginComponent implements OnInit{
   }
 
 
-  //提交登录
-  submitUp(info?:UserInfo){
-    if(info.name == ''|| info.name==undefined){
-      this.message = '登录名不能为空！';
-      return;
-    }
-    if(info.pwd == ''|| info.pwd==undefined){
-      this.message = '密码不能为空！';
-      return;
-    }
-    this.message = '';
-
-    this.router.navigate(['menu']);
+  // 登录
+  login(info?: UserInfo) {
+    this.router.navigate(['lfs']);
   }
 }
 

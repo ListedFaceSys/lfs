@@ -6,29 +6,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  uSwipe: object;
-  uSwipeFlag: boolean;
+  uSwipe: object;         // 整个滑块
+  uSwipeContent: object;  // 右侧滑块
+  uSwipeFlag: boolean;    // 控制滑块滑动
+  uSLFlag: boolean;       // 是否显示左侧滑块
+  signFlag: boolean;      // 显示登录或注册
 
   constructor() {
-    this.uSwipeFlag = true;
+    this.uSwipeFlag = this.uSLFlag = this.signFlag = true;
   }
 
   ngOnInit() {
   }
 
+  // 是否显示登录注册画面
   showLogin() {
-    if (this.uSwipeFlag) {
-      this.uSwipeFlag = false;
-      this.uSwipe = {
-        'uSwipeLeft': true,
-        'uSwipeRight': false
-      };
-    } else {
-      this.uSwipeFlag = true;
-      this.uSwipe = {
-        'uSwipeLeft': false,
-        'uSwipeRight': true
-      };
+    this.uSLFlag = this.uSwipeFlag ? false : true;
+    this.changeCss(this.uSLFlag);
+  }
+
+  // 登录注册动画效果
+  changeCss(flag: boolean) {
+    this.uSwipeFlag = !flag;
+    this.uSwipe = {
+      'uSwipeLeft': !flag,
+      'uSwipeRight': flag
+    };
+    this.uSwipeContent = {
+      'uSConLeft': !flag,
     }
   }
 }
