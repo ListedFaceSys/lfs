@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit{
 
   // 登录
   login(info?: UserInfo) {
-    this.router.navigate(['lfs']);
+    this.router.navigate(['lfs/region']);
   }
 }
 

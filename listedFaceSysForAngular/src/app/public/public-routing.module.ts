@@ -35,23 +35,23 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: RegionRiskComponent,
+        component: RegionRiskComponent
       },
       {
         path: 'region',
-        component: RegionRiskComponent,   // 区域风险总览
+        component: RegionRiskComponent   // 区域风险总览
       },
       {
         path: 'group',
-        component: GroupRiskComponent,   // 分组风险总览
+        component: GroupRiskComponent   // 分组风险总览
       },
       {
         path: 'company',
-        component: CompanyRiskComponent,  // 上市公司风险展台
+        component: CompanyRiskComponent  // 上市公司风险展台
       },
       {
         path: 'atlas',
-        component: AtlasMapComponent,     // 关联图谱
+        component: AtlasMapComponent     // 关联图谱
       }
     ]
   }

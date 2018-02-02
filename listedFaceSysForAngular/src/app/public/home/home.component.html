@@ -9,8 +9,8 @@
     <li class="f-sign">
       <div class="container-fluid">
         <div class="row">
-          <a (click)="slogin()" [ngStyle]="{'font-weight': loginLink}" class="col-lg-4">登录</a>
-          <a (click)="sRegister()" [ngStyle]="{'font-weight': registerLink}" class="col-lg-8">注册</a>
+          <a class="col-lg-4" [routerLink]="['login']" routerLinkActive="active">登录</a>
+          <a class="col-lg-8" [routerLink]="['register']" routerLinkActive="active">注册</a>
         </div>
         <router-outlet></router-outlet>
       </div>
