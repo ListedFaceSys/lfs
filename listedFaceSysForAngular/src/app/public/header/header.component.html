@@ -9,7 +9,7 @@
         <li><a href="#">中国证券监督管理委员会</a></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul *ngIf="loginFlag" class="nav navbar-nav navbar-right">
         <form class="navbar-form navbar-left">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Search">

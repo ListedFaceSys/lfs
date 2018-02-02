@@ -1,45 +1,14 @@
-.panel-group {
-  max-height: 770px;
-  overflow: auto;
+.m-menu {
+  margin-top: 50px;
+  height: 100%;
+  overflow-y: auto;
 }
-
-.leftMenu {
-  margin: 10px;
-  margin-top: 5px;
-}
-
-.leftMenu .panel-heading {
-  font-size: 14px;
-  padding-left: 20px;
-  height: 36px;
-  line-height: 36px;
-  position: relative;
-  cursor: pointer;
-}
-
-/*转成手形图标*/
-.leftMenu .panel-heading span {
+.m-menu ul {
   position: absolute;
-  right: 10px;
-  top: 12px;
+  outline: 0;
 }
-
-.leftMenu .menu-item-left {
-  padding: 2px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
-}
-
-/*.leftMenu .menu-item-left:hover{background:#C4E3F3;border:1px solid #1E90FF;}*/
-.cum-menu {
-  position: absolute;
-  outline:0;
-}
-
-
-.cum-menu .cum-menu-item{
-  outline:0;
+.m-menu li {
+  outline: 0;
   width: 70px;
   padding-top: 20px;
   min-height: 120px;
@@ -51,15 +20,7 @@
   border: 1px solid #383838;
   background-color: #cccccc;
 }
-
-.cum-menu .active{
+.m-menu ul .active{
   color: #ffffff;
   background-color: #3043cc;
-}
-
-
-.cum-menu-body{
-  margin-top: 55px;
-  overflow-y: auto;
-  height: 100%;
 }

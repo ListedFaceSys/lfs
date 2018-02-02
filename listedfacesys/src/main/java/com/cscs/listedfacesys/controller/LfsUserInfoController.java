@@ -1,10 +1,10 @@
 package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.LfsUserInfoData;
-import com.cscs.listedfacesys.dto.LfsUserInfoOutData;
+import com.cscs.listedfacesys.dto.LfsUserOutData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.entity.LfsUser;
-import com.cscs.listedfacesys.services.LfsUserInfoServices;
+import com.cscs.listedfacesys.services.LfsUserInfoService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +26,7 @@ public class LfsUserInfoController {
     protected final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
-    LfsUserInfoServices lfsUserInfoServices;
+    LfsUserInfoService lfsUserInfoService;
 
     /**
      * 注册新用户
@@ -34,11 +34,11 @@ public class LfsUserInfoController {
      * @return
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public LfsUserInfoOutData save(@RequestBody LfsUserInfoData inData) {
+    public LfsUserOutData save(@RequestBody LfsUserInfoData inData) {
         LfsUser infoData = new LfsUser();
-        LfsUserInfoOutData outData = new LfsUserInfoOutData();
+        LfsUserOutData outData = new LfsUserOutData();
         try {
-            LfsUser userBasicinfo = lfsUserInfoServices.findByUserName(inData.getUserName());
+            LfsUser userBasicinfo = lfsUserInfoService.findByUserName(inData.getUserName());
             if (userBasicinfo != null) {
                 outData.setCode("1");
                 outData.setMessage("该用户已注册！");
@@ -46,7 +46,7 @@ public class LfsUserInfoController {
             }
 
             BeanUtils.copyProperties(inData, infoData);
-            infoData = lfsUserInfoServices.save(infoData);
+            infoData = lfsUserInfoService.save(infoData);
 
             BeanUtils.copyProperties(infoData, outData);
             outData.setCode("0");
@@ -68,7 +68,7 @@ public class LfsUserInfoController {
     public BaseOutData updatePassword(@RequestBody LfsUserInfoData inData) throws Exception {
         BaseOutData outData = new BaseOutData();
 
-        int num = lfsUserInfoServices.updatePassword(inData.getUserName(), inData.getPassword());
+        int num = lfsUserInfoService.updatePassword(inData.getUserName(), inData.getPassword());
 
         outData.setCode(String.valueOf(num));
         return outData;
@@ -83,7 +83,7 @@ public class LfsUserInfoController {
         BaseOutData outData = new BaseOutData();
 
         Map<String, List<LfsUser>> userList = new HashMap<String, List<LfsUser>>();
-        List<LfsUser> users = lfsUserInfoServices.findAllUser();
+        List<LfsUser> users = lfsUserInfoService.findAllUser();
         if (users != null) {
             userList.put("userList", users);
             outData.setCode("0");

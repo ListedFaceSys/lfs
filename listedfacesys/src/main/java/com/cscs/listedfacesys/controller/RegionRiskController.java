@@ -2,27 +2,12 @@ package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.WarningTopService;
+import com.cscs.listedfacesys.services.WarningNewsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.cscs.listedfacesys.dto.NewsTableOutData;
-import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.NewsTableService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import com.cscs.listedfacesys.dto.TendencyChartInData;
-import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.WarningTopService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.cscs.listedfacesys.services.NewsCountService;
 
 /**
  * Create by wzy on 2018/2/1
@@ -35,10 +20,9 @@ public class RegionRiskController {
     final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
-    NewsTableService newsTableService;
-
+    NewsCountService newsCountService;
     @Autowired
-    private WarningTopService warningTopService;
+    WarningNewsService warningNewsService;
 
     //查询预警趋势TOP10公司信息
     @RequestMapping(value = "/monitorWarning", method = RequestMethod.POST)
@@ -48,7 +32,7 @@ public class RegionRiskController {
         return outData;
     }
 
-    //新闻趋势图(组合)
+    //热点新闻趋势图(组合)
     @RequestMapping(value = "/newsChart", method = RequestMethod.POST)
     public BaseOutData getNewsChart(@RequestBody TendencyChartInData inData) {
         BaseOutData outData = new BaseOutData();
@@ -61,7 +45,7 @@ public class RegionRiskController {
     public BaseOutData getViolation(@PathVariable int page) {
         BaseOutData out = new BaseOutData();
         try {
-            out =  newsTableService.getLastingBondViolationNews(page, 10);
+            out =  warningNewsService.getLastingBondViolationNews(page, 10);
         } catch (Exception e) {
             e.printStackTrace();
         }

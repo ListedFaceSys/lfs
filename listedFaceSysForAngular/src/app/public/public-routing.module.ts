@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { MenuComponent } from './menu/menu.component';
 import { RegionRiskComponent } from '../region-risk/region-risk.component';
 import { GroupRiskComponent } from '../group-risk/group-risk.component';
@@ -11,31 +13,45 @@ import { AtlasMapComponent } from '../atlas-map/atlas-map.component';
 const routes: Routes = [
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    children: [
+      {
+        path: '',
+        component: LoginComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent
+      }
+    ]
   },
   {
     path: 'lfs',
     component: MenuComponent,
-    children:[
+    children: [
       {
         path: '',
-        component: RegionRiskComponent,
+        component: RegionRiskComponent
       },
       {
         path: 'region',
-        component: RegionRiskComponent,   // 区域风险总览
+        component: RegionRiskComponent   // 区域风险总览
       },
       {
         path: 'group',
-        component: GroupRiskComponent,   // 分组风险总览
+        component: GroupRiskComponent   // 分组风险总览
       },
       {
         path: 'company',
-        component: CompanyRiskComponent,  // 上市公司风险展台
+        component: CompanyRiskComponent  // 上市公司风险展台
       },
       {
         path: 'atlas',
-        component: AtlasMapComponent,     // 关联图谱
+        component: AtlasMapComponent     // 关联图谱
       }
     ]
   }

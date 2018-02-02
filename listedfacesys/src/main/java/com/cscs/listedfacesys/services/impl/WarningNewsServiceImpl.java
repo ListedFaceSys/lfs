@@ -2,22 +2,36 @@ package com.cscs.listedfacesys.services.impl;
 
 import com.cscs.listedfacesys.dto.NewsTableOutData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.NewsTableService;
+import com.cscs.listedfacesys.services.WarningNewsService;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by hj on 2018/02/01.
- * 新闻表格类实现类
+ * Create by wzy 2018/02/01
  */
 @Service
-public class NewTableServiceImpl implements NewsTableService{
+public class WarningNewsServiceImpl implements WarningNewsService {
 
-    //违约事件跟踪
+    @PersistenceContext
+    EntityManager em;
+
+    @Override
+    public List<Object> getWarningTop10() {
+        return null;
+    }
+
+    /**
+     * 负面新闻跟踪
+     * @param page
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
     public BaseOutData getLastingBondViolationNews(int page, int pageSize) throws Exception {
         BaseOutData out = new BaseOutData();
         int startRow = page * pageSize;
@@ -58,48 +72,49 @@ public class NewTableServiceImpl implements NewsTableService{
 //                outData.setImportance(StringUtil.toString(obj.get("importance")));
 //                list.add(outData);
 //            }
-            List<NewsTableOutData> list = new ArrayList<NewsTableOutData>(startRow+1);
-            for (int i = 1; i < startRow+1; i++) {
-                NewsTableOutData outData = new NewsTableOutData();
+        List<NewsTableOutData> list = new ArrayList<NewsTableOutData>(startRow+1);
+        for (int i = 1; i < startRow+1; i++) {
+            NewsTableOutData outData = new NewsTableOutData();
 
-                outData.setCompanyId("CompanyId"+i);
-                outData.setCompanyNm("江苏雷科防务科技股份有限公司"+i);
-                outData.setTitle("雷科防务停牌筹划购买资产事项"+i);
-                outData.setUrl("url"+i);
-                outData.setDate("2018-1-"+i+" 21:59:06");
-                outData.setContent("content"+i);
-                outData.setNewsCode("newscode"+i);
-                outData.setImportance("importance"+i);
-                outData.setCnnScore("cnnscore"+i);
-                outData.setSelectDate("201801");//设置初始查询月份
-                outData.setMediaNm("东方时报"+i);
-                list.add(outData);
-            }
-            Map<String, List<NewsTableOutData>> map = new HashMap<String, List<NewsTableOutData>>();
+            outData.setCompanyId("CompanyId"+i);
+            outData.setCompanyNm("江苏雷科防务科技股份有限公司"+i);
+            outData.setTitle("雷科防务停牌筹划购买资产事项"+i);
+            outData.setUrl("url"+i);
+            outData.setDate("2018-1-"+i+" 21:59:06");
+            outData.setContent("content"+i);
+            outData.setNewsCode("newscode"+i);
+            outData.setImportance("importance"+i);
+            outData.setCnnScore("cnnscore"+i);
+            outData.setSelectDate("201801");//设置初始查询月份
+            outData.setMediaNm("东方时报"+i);
+            list.add(outData);
+        }
+        Map<String, List<NewsTableOutData>> map = new HashMap<String, List<NewsTableOutData>>();
 
-            Collections.sort(list, new Comparator<NewsTableOutData>() {
-                @Override
-                public int compare(NewsTableOutData o1, NewsTableOutData o2) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Collections.sort(list, new Comparator<NewsTableOutData>() {
+            @Override
+            public int compare(NewsTableOutData o1, NewsTableOutData o2) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                    try {
-                        Date d1 = sdf.parse(o1.getDate());
-                        Date d2 = sdf.parse(o1.getDate());
-                        if(d1.before(d2)){
-                            return 1;
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                try {
+                    Date d1 = sdf.parse(o1.getDate());
+                    Date d2 = sdf.parse(o1.getDate());
+                    if(d1.before(d2)){
+                        return 1;
                     }
-                    return -1;
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            });
-            map.put("content", list);
+                return -1;
+            }
+        });
+        map.put("content", list);
 
-            out.setData(map);
+        out.setData(map);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
         return out;
     }
+
 }

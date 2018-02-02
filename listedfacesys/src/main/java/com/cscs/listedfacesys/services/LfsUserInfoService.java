@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Create by wth on 2018/1/27
  */
-public interface LfsUserInfoServices {
+public interface LfsUserInfoService {
 
     /**
      * 新建账号
