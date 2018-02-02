@@ -5,22 +5,28 @@
 }
 .m-menu ul {
   position: absolute;
-  outline: 0;
+  height: 100%;
+  box-shadow: 1px 5px 5px #e7e7e7;
+  background-color: #e7e7e7;
 }
 .m-menu li {
-  outline: 0;
-  width: 70px;
-  padding-top: 20px;
-  min-height: 120px;
-  margin-bottom: 11px;
-  border-radius: 13%;
+  position: relative;
+  width: 95px;
+  min-height: 60px;
+  padding: 10px 5px;
   text-align: center;
-  font-size: 17px;
-  color: #f5f5f5;
-  border: 1px solid #383838;
-  background-color: #cccccc;
+  border-bottom: 1px inset #fff;
+  font-size: 14px;
+  background-color: #999;
+}
+.m-menu li>div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px;
 }
 .m-menu ul .active{
-  color: #ffffff;
-  background-color: #3043cc;
+  color: #333;
+  background-color: #e7e7e7;
 }

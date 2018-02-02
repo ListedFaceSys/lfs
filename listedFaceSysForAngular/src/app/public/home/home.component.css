@@ -83,6 +83,3 @@
 .f-sign .active {
   font-weight: 700;
 }
-.f-sign :not(active) {
-  font-weight: 400;
-}
