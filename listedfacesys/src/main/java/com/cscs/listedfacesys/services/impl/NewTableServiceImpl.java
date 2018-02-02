@@ -72,6 +72,7 @@ public class NewTableServiceImpl implements NewsTableService{
                 outData.setImportance("importance"+i);
                 outData.setCnnScore("cnnscore"+i);
                 outData.setSelectDate("201801");//设置初始查询月份
+                outData.setMediaNm("东方时报"+i);
                 list.add(outData);
             }
             Map<String, List<NewsTableOutData>> map = new HashMap<String, List<NewsTableOutData>>();
