@@ -6,18 +6,25 @@ import java.util.List;
 
 /**
  * Create by wzy on 2018/2/1
- * 公司预警评估TOP10查询
+ * 新闻类详情查询
  */
 public interface WarningNewsService {
 
     /**
-     * 查询监测预警TOP10公司信息
+     * 查询监测预警TOP10公司ID
      * @return
      */
     public List<Object> getWarningTop10();
 
     /**
-     * 违约事件跟踪
+     * 查询监测预警TOP10公司相关新闻详情
+     * @param compyList
+     * @return
+     */
+    public List<Object> getWarningTop5Content(String compyList);
+
+    /**
+     * 负面新闻跟踪
      * @param page
      * @param pageSize
      * @return
