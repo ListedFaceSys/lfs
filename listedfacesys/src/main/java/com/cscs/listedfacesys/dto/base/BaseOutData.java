@@ -42,4 +42,14 @@ public class BaseOutData {
     public void setData(Map<String, ?> data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "BaseOutData{" +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", count=" + count +
+                ", data=" + data +
+                '}';
+    }
 }

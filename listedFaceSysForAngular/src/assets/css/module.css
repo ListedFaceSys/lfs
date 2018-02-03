@@ -4,7 +4,8 @@
     菜单menu，
     选项卡tab，
     标题区title，内容区content，
-    列表list，表格table，表单form
+    列表list，表格table，表单form，
+    线line
 */
 
 /* 标题 */
@@ -12,10 +13,45 @@
   line-height: 70px;
   font-size: 24px;
 }
+.m-headLine:before {
+  content: '';
+  position: relative;
+  display: inline-block;
+  top: 5px;
+  margin-right: 7px;
+  width: 3px;
+  height: 30px;
+  background: #999;
+}
 .m-title {
   line-height: 60px;
   font-size: 20px;
 }
 .m-subtitle {
 
+}
+
+.m-accordion .panel {
+  margin-bottom: -1px;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.m-accordion .panel+.panel {
+  margin-top: 0;
+}
+.m-accordion .panel-default>.panel-heading {
+  background-color: #fff;
+}
+.m-accordion .panel-title {
+  font-size: 14px;
+}
+
+/* 线 */
+.m-line {
+  margin-left: 15px;
+  width: calc(100% - 30px);
+  height: 1px;
+  background: #cfd8dc;
 }

@@ -9,32 +9,48 @@
   text-align: left;
 }
 
+/* 字体大小 */
+.font-12 {
+  font-size: 12px;
+}
+.font-16 {
+  font-size: 16px;
+}
+
+/* 字体粗体 */
+.fontW-700 {
+  font-weight: 700;
+}
+
+/* 字体颜色 */
+.color-999 {
+  color: #999;
+}
+
 /* 外边距 */
-.mgn-bottom {
+.mgn-bottom_20 {
   margin-bottom: 20px;
 }
-
-/* 头部背景 */
-.b-header {
-
+.mgn-bottom_70 {
+  margin-bottom: 70px;
 }
-/* 登录注册背景 */
-.b-login {
-
+.mgn-top_20 {
+  margin-top: 20px;
 }
-/* 按钮栏背景 */
-.b-menuCol {
 
-}
-/* 按钮背景 */
-.b-menu {
-
-}
-/* 按钮选中 */
-.b-menuActive {
-
-}
-/* 边框背景 */
+/* 边框 */
 .b-border {
   border: 1px solid #cfd8dc;
+}
+.b-border_topN {
+  border-top: 0;
+}
+.b-border_left {
+  border-left: 1px solid #cfd8dc;
+}
+.b-border_bottom {
+  border-bottom: 1px solid #cfd8dc;
+}
+.b-border_bottomN {
+  border-bottom: 0;
 }
