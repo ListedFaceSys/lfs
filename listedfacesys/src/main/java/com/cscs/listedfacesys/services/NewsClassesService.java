@@ -13,7 +13,6 @@ public interface NewsClassesService {
 
 
     /**
-     * 负面新闻跟踪
      * 负面时间跟踪
      * @param page
      * @param pageSize
@@ -28,5 +27,5 @@ public interface NewsClassesService {
      * @return
      * @throws Exception
      */
-    public List<Object> findchartGroup(NewsWarningInData inData) throws  Exception;
+    public List<Object> findchart(NewsWarningInData inData) throws  Exception;
 }
