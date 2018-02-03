@@ -1,6 +1,7 @@
 package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.TendencyChartInData;
+import com.cscs.listedfacesys.dto.WarningInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
@@ -24,9 +25,25 @@ public class RegionRiskController {
     @Autowired
     WarningAnnounceService warningAnnounceService;
 
+    //地图分布一览查询
+    @RequestMapping(value = "/companyMap/{userId}", method = RequestMethod.GET)
+    public BaseOutData getCompanyMap(@PathVariable Long userId) {
+        BaseOutData outData = new BaseOutData();
+
+        return outData;
+    }
+
+    //上市公司预警趋势图
+    @RequestMapping(value = "/warningChart", method = RequestMethod.POST)
+    public BaseOutData getWarningChart(@RequestBody WarningInData inData) {
+        BaseOutData outData = new BaseOutData();
+
+        return outData;
+    }
+
     //查询预警趋势TOP10公司信息
-    @RequestMapping(value = "/monitorWarning", method = RequestMethod.POST)
-    public BaseOutData getWarningTop10(@RequestBody Long userId) {
+    @RequestMapping(value = "/warningTop/{userId}", method = RequestMethod.GET)
+    public BaseOutData getWarningTop10(@PathVariable Long userId) {
         BaseOutData outData = new BaseOutData();
 
         return outData;
