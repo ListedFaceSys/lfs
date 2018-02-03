@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,7 +20,12 @@ public class UserAttentionServiceImpl implements UserAttentionService {
 
     @Override
     public Set<String> searchAllCompy(Long userId) {
-
-        return null;
+        String sql = "SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + userId + "\n";
+        List<Object> ids = em.createNativeQuery(sql).getResultList();
+        Set<String> result = new HashSet<String>();
+        for (Object o : ids) {
+            result.add(String.valueOf(o));
+        }
+        return result;
     }
 }
