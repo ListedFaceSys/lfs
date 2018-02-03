@@ -8,6 +8,26 @@ html, body {
 body {
   padding-bottom: 50px;
 }
+@media (min-width: 768px) {
+  .container {
+    width: 700px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 900px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1030px;
+  }
+}
+@media (min-width: 1400px) {
+  .container {
+    width: 1170px;
+  }
+}
 ul {
   padding-left: 0;
 }
@@ -19,7 +39,4 @@ a:hover, a:focus {
 }
 a[href] {
   cursor: pointer;
-}
-.container {
-  width: 1000px;
 }

@@ -2,6 +2,7 @@
   margin-top: 50px;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .m-menu ul {
   position: absolute;
