@@ -59,7 +59,7 @@ public class RegionRiskController {
         return outData;
     }
 
-    //违约事件跟踪
+    //负面新闻跟踪
     @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
     public BaseOutData getViolation(@PathVariable int page) {
         BaseOutData out = new BaseOutData();
