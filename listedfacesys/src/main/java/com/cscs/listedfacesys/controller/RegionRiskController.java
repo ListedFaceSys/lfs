@@ -2,8 +2,8 @@ package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.NewsCountService;
-import com.cscs.listedfacesys.services.WarningNewsService;
+import com.cscs.listedfacesys.services.NewsClassesService;
+import com.cscs.listedfacesys.services.WarningAnnounceService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ public class RegionRiskController {
     final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
-    NewsCountService newsCountService;
+    NewsClassesService newsCountService;
     @Autowired
-    WarningNewsService warningNewsService;
+    WarningAnnounceService warningAnnounceService;
 
     //查询预警趋势TOP10公司信息
     @RequestMapping(value = "/monitorWarning", method = RequestMethod.POST)
@@ -45,7 +45,7 @@ public class RegionRiskController {
     public BaseOutData getViolation(@PathVariable int page) {
         BaseOutData out = new BaseOutData();
         try {
-            out =  warningNewsService.getLastingBondViolationNews(page, 10);
+            out =  newsCountService.getLastingBondViolationNews(page, 10);
         } catch (Exception e) {
             e.printStackTrace();
         }

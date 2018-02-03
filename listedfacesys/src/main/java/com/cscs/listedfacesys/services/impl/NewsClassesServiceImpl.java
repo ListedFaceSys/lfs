@@ -1,59 +1,21 @@
 package com.cscs.listedfacesys.services.impl;
 
 import com.cscs.listedfacesys.dto.NewsTableOutData;
+import com.cscs.listedfacesys.dto.NewsWarningInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
-import com.cscs.listedfacesys.services.WarningNewsService;
+import com.cscs.listedfacesys.services.NewsClassesService;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Create by wzy 2018/02/01
+ * Created by hj on 2018/02/01.
+ * 新闻表格类实现类
  */
 @Service
-public class WarningNewsServiceImpl implements WarningNewsService {
-
-    @PersistenceContext
-    EntityManager em;
-
-    @Override
-    public List<Object> getWarningTop10() {
-        String sql = "SELECT CN,COMPANY_ID FROM (SELECT NVL(A.CN,0) + NVL(B.CN,0) CN,NVL(A.COMPANY_ID,B.COMPANY_ID) COMPANY_ID FROM (\n" +
-                "SELECT COUNT(DISTINCT WARNING_TITLE) CN,COMPANY_ID FROM VW_COMPY_WARNINGS\n" +
-                "WHERE TYPE_ID NOT IN(10,12,107) \n" +
-                "GROUP BY COMPANY_ID)A\n" +
-                "LEFT JOIN(SELECT COUNT(COMPANY_ID) CN,COMPANY_ID \n" +
-                "FROM COMPY_ANNOUNCE_ALARM A\n" +
-                "INNER JOIN LKP_ALARM_KEYWORD B ON A.ALARM_KEYWORD_CD = B.ALARM_KEYWORD_CD AND\n" +
-                "B.SECOND_TYPE IN ('治理风险','财务风险','经营风险','市场风险','法律法规风险')\n" +
-                "WHERE NOTICE_DT >= ADD_MONTHS(SYSDATE, -12)\n" +
-                "GROUP BY COMPANY_ID)B ON A.COMPANY_ID  = B.COMPANY_ID\n" +
-                "ORDER BY NVL(A.CN,0) + NVL(B.CN,0) DESC)WHERE ROWNUM < 11";
-        return em.createNativeQuery(sql).getResultList();
-    }
-
-    @Override
-    public List<Object> getWarningTop5Content(String compyList) {
-        String sql = "SELECT DISTINCT COMPANY_ID,COMPANY_NM,TITLE,TYPE_NAME,NOTICE_DT\n" +
-                "FROM(\n" +
-                "SELECT A.COMPANY_ID,A.COMPANY_NM,A.WARNING_TITLE TITLE,B.TYPE_NAME,A.NOTICE_DT\n" +
-                "FROM VW_COMPY_WARNINGS A\n" +
-                "INNER JOIN COMPY_EVENT_TYPE B ON A.TYPE_ID = B.ID\n" +
-                "WHERE TYPE_ID NOT IN(10,12,107) AND A.COMPANY_ID IN(" + compyList + ")\n" +
-                "UNION\n" +
-                "SELECT A.COMPANY_ID,B.COMPANY_NM,A.NOTICE_TITLE TITLE,C.FST_TYPE || '-' || C.SECOND_TYPE  TYPE_NAME,A.NOTICE_DT\n" +
-                "FROM COMPY_ANNOUNCE_ALARM A\n" +
-                "INNER JOIN COMPY_BASICINFO B ON A.COMPANY_ID = B.COMPANY_ID\n" +
-                "INNER JOIN LKP_ALARM_KEYWORD C ON A.ALARM_KEYWORD_CD = C.ALARM_KEYWORD_CD\n" +
-                "AND C.SECOND_TYPE IN ('治理风险','财务风险','经营风险','市场风险','法律法规风险')\n" +
-                "WHERE NOTICE_DT >= ADD_MONTHS(SYSDATE, -12) AND A.COMPANY_ID IN(" + compyList + ")\n" +
-                ")ORDER BY COMPANY_ID,TYPE_NAME,NOTICE_DT desc";
-        return em.createNativeQuery(sql).getResultList();
-    }
+public class NewsClassesServiceImpl implements NewsClassesService {
 
     @Override
     public BaseOutData getLastingBondViolationNews(int page, int pageSize) throws Exception {
@@ -141,4 +103,40 @@ public class WarningNewsServiceImpl implements WarningNewsService {
         return out;
     }
 
+    @Override
+    public List<Object> findchartGroup(NewsWarningInData inData) {
+       /* String sqlWhere = "";
+        String classify = "";
+        if (inData.getTime() == 1) {
+            sqlWhere = " WHERE POST_DT >= SYSDATE - 7 AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
+            classify = " TO_CHAR(POST_DT,'YYYY-MM-DD')POST_DT";
+        } else if (inData.getTime() == 2) {
+            sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -1) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
+            classify = " TO_CHAR(POST_DT,'YYYY-MM-DD')POST_DT";
+        } else if (inData.getTime() == 3) {
+            sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -3) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
+            classify = " TO_CHAR(POST_DT,'YYYY-IW')POST_DT";
+        } else if (inData.getTime() == 4) {
+            sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -12) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
+            classify = " TO_CHAR(POST_DT,'YYYY-MM')POST_DT";
+        } else {
+            sqlWhere = " WHERE POST_DT >= SYSDATE - 7 AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
+            classify = " TO_CHAR(POST_DT,'YYYY-MM-DD')POST_DT";
+        }
+        String sql = "SELECT CN1,CN2,A.POST_DT FROM(\n" +
+                "SELECT COUNT(1) CN1,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
+                "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
+                "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID\n" +
+                "" + sqlWhere + " )\n" +
+                "GROUP BY POST_DT)A\n" +
+                "LEFT JOIN (\n" +
+                "SELECT COUNT(1) CN2,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
+                "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
+                "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID \n" +
+                "" + sqlWhere + " AND B.SCORE < 0)\n" +
+                "GROUP BY POST_DT)B ON A.POST_DT = B.POST_DT \n" +
+                "ORDER BY POST_DT DESC\n";
+        return em.createNativeQuery(sql).getResultList();*/
+       return  null;
+    }
 }
