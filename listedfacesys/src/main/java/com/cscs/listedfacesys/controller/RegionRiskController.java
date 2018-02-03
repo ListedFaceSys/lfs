@@ -2,12 +2,12 @@ package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
+import com.cscs.listedfacesys.services.NewsCountService;
 import com.cscs.listedfacesys.services.WarningNewsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.cscs.listedfacesys.services.NewsCountService;
 
 /**
  * Create by wzy on 2018/2/1
