@@ -136,7 +136,7 @@ public class RegionRiskController {
             map.put("conent",outList);
             out.setData(map);
         } catch (Exception e) {
-            logger.info("热点新闻，获取数据异常！异常信息："+e.getMessage());
+            logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
             e.printStackTrace();
         }
 
