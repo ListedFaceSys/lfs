@@ -1,6 +1,6 @@
 package com.cscs.listedfacesys.services;
 
-import com.cscs.listedfacesys.dto.NewsWarningInData;
+import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 
 import java.util.List;
@@ -27,5 +27,5 @@ public interface NewsClassesService {
      * @return
      * @throws Exception
      */
-    public List<Object> findchart(NewsWarningInData inData) throws  Exception;
+    public List<Object> findchart(TendencyChartInData inData) throws  Exception;
 }

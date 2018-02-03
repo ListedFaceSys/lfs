@@ -17,10 +17,10 @@ public interface WarningAnnounceService {
     public List<Object> getWarningTop10();
 
     /**
-     * 查询监测预警TOP10公司相关新闻详情
+     * 查询监测预警TOP10公司相关公告详情
      * @param compyList
      * @return
      */
-    public List<Object> getWarningTop5Content(String compyList);
+    public List<Object> getWarningTop10Content(String compyList);
 
 }
