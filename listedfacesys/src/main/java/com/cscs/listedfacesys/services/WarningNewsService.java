@@ -17,7 +17,7 @@ public interface WarningNewsService {
     public List<Object> getWarningTop10();
 
     /**
-     * 违约事件跟踪
+     * 负面时间跟踪
      * @param page
      * @param pageSize
      * @return
