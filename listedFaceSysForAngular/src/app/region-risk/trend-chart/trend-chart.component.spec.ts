@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AreaViewComponent } from './area-view.component';
+import { TrendChartComponent } from './trend-chart.component';
 
-describe('AreaViewComponent', () => {
-  let component: AreaViewComponent;
-  let fixture: ComponentFixture<AreaViewComponent>;
+describe('TrendChartComponent', () => {
+  let component: TrendChartComponent;
+  let fixture: ComponentFixture<TrendChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AreaViewComponent ]
+      declarations: [ TrendChartComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AreaViewComponent);
+    fixture = TestBed.createComponent(TrendChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
