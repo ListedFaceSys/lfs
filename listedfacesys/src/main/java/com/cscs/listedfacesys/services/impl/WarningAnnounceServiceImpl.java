@@ -33,7 +33,7 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
     }
 
     @Override
-    public List<Object> getWarningTop5Content(String compyList) {
+    public List<Object> getWarningTop10Content(String compyList) {
         String sql = "SELECT DISTINCT COMPANY_ID,COMPANY_NM,TITLE,TYPE_NAME,NOTICE_DT\n" +
                 "FROM(\n" +
                 "SELECT A.COMPANY_ID,A.COMPANY_NM,A.WARNING_TITLE TITLE,B.TYPE_NAME,A.NOTICE_DT\n" +
