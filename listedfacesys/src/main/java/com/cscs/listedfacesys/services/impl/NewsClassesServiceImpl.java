@@ -1,7 +1,7 @@
 package com.cscs.listedfacesys.services.impl;
 
 import com.cscs.listedfacesys.dto.NewsTableOutData;
-import com.cscs.listedfacesys.dto.NewsWarningInData;
+import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import org.springframework.stereotype.Service;
@@ -104,7 +104,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
     }
 
     @Override
-    public List<Object> findchart(NewsWarningInData inData) {
+    public List<Object> findchart(TendencyChartInData inData) {
         //查询当前时间前七个月的数据
 //        String sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -7) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
 //        String classify = " TO_CHAR(POST_DT,'YYYY-MM-DD')POST_DT";

@@ -1,12 +1,13 @@
 package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.*;
-import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.dto.WarningInData;
 import com.cscs.listedfacesys.dto.WarningInfoData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
+import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
+import com.cscs.util.SimilarityUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,26 +87,6 @@ public class RegionRiskController {
     //热点新闻趋势图(组合)
     @RequestMapping(value = "/newsChart", method = RequestMethod.POST)
     public BaseOutData getNewsChart(@RequestBody TendencyChartInData inData) {
-        BaseOutData outData = new BaseOutData();
-
-        return outData;
-    }
-
-    //负面新闻跟踪
-    @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
-    public BaseOutData getViolation(@PathVariable int page) {
-        BaseOutData out = new BaseOutData();
-        try {
-            out =  newsClassService.getLastingBondViolationNews(page, 10);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return out;
-    }
-
-    //新闻热点
-    @RequestMapping(value = "/chartGroup", method = RequestMethod.POST)
-    public BaseOutData getChartGroup(@RequestBody NewsWarningInData inData) {
         int newsCount = 0;
         int negativeNewsCount = 0;
         BaseOutData out = new BaseOutData();
@@ -231,7 +212,17 @@ public class RegionRiskController {
 //        return out;
     }
 
-
+    //负面新闻跟踪
+    @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
+    public BaseOutData getViolation(@PathVariable int page) {
+        BaseOutData out = new BaseOutData();
+        try {
+            out =  newsClassService.getLastingBondViolationNews(page, 10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return out;
+    }
 
     //对公告信息列表进行处理及排序
     private List<WarningInfoData> getWarningInfoData(List<Object> contentList, Set<String> focusIds,Map compyMap,Map compyFromMap) {
