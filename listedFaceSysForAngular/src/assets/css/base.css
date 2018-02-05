@@ -54,3 +54,28 @@
 .b-border_bottomN {
   border-bottom: 0;
 }
+
+/* 显示5列 */
+.col-lg-lfs5 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+@media (min-width: 1200px) {
+  .col-lg-lfs5 {
+    float: left;
+  }
+  .col-lg-lfs5 {
+    width: 20%;
+  }
+  .col-lg-pull-lfs5 {
+    right: 20%;
+  }
+  .col-lg-push-lfs5 {
+    left: 20%;
+  }
+  .col-lg-offset-lfs5 {
+    margin-left: 20%;
+  }
+}
