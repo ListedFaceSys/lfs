@@ -1,3 +1,11 @@
+/* 偏移 */
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+
 /* 字体居中 */
 .align-center {
   text-align: center;
@@ -26,8 +34,23 @@
 .color-999 {
   color: #999;
 }
+.color-333 {
+  color: #333;
+}
 
 /* 外边距 */
+.mgn-left-25 {
+  margin-left: 25%;
+}
+.mgn-left_10 {
+  margin-left: 10px;
+}
+.mgn-left_15 {
+  margin-left: 15px;
+}
+.mgn-top_14 {
+  margin-top: 14px;
+}
 .mgn-bottom_20 {
   margin-bottom: 20px;
 }
@@ -36,6 +59,10 @@
 }
 .mgn-top_20 {
   margin-top: 20px;
+}
+/* 内边距 */
+.padding-right_20 {
+  padding-right: 20px;
 }
 
 /* 边框 */
@@ -53,6 +80,9 @@
 }
 .b-border_bottomN {
   border-bottom: 0;
+}
+.b-border-dashed {
+  border-bottom: 1px dashed #cfd8dc;
 }
 
 /* 显示5列 */
@@ -82,10 +112,18 @@
 
 /* 行间距 */
 .line-height24 {
-  line-height: 24;
+  line-height: 24px;
+}
+.line-height30 {
+  line-height: 30px;
 }
 
 /* 相对定位 */
 .position-relative {
   position: relative;
+}
+
+/* 字体下边线 */
+.text-decoration {
+  text-decoration: underline;
 }

@@ -27,16 +27,6 @@
   line-height: 60px;
   font-size: 20px;
 }
-.m-subtitle {
-
-}
-.m-title_date {
-  float: right;
-  padding-right: 15px;
-  line-height: 24px;
-  font-size: 12px;
-  color: #999;
-}
 
 .m-accordion .panel {
   margin-bottom: -1px;
@@ -54,6 +44,10 @@
 .m-accordion .panel-title {
   font-size: 14px;
 }
+.m-accordion .panel-default>.panel-heading+.panel-collapse>.panel-body {
+  padding-bottom: 0;
+  border-bottom: 1px dashed #cfd8dc;
+}
 
 /* 线 */
 .m-line {
@@ -63,9 +57,40 @@
   background: #cfd8dc;
 }
 
-/* 居中 */
-.m-center_content {
-  -webkit-transform: translate(25%);
-  -moz-transform: translate(25%);
-  transform: translate(25%);
+/* 三角形 */
+.m-arrow_up {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #2f2f2f;
+  font-size: 0;
+  line-height: 0;
+}
+.m-arrow_down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #2f2f2f;
+  font-size: 0;
+  line-height: 0;
+}
+.m-arrow_left {
+  width: 0;
+  height: 0;
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #2f2f2f;
+  font-size: 0;
+  line-height: 0;
+}
+.m-arrow_right {
+  width: 0;
+  height: 0;
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-left: 5px solid #2f2f2f;
+  font-size: 0;
+  line-height: 0;
 }
