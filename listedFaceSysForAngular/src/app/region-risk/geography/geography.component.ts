@@ -44,12 +44,12 @@ export class GeographyComponent implements OnInit {
                     if(params.data.SHASZMBCompany!=undefined && params.data.SHASZMBCompany!=null && params.data.SHASZMBCompany !='' && params.data.SHASZMBCompany !='') {
                       res += '<br/>' + '深沪主板公司'+ ' : ' + params.data.SHASZMBCompany + ' 家';
                     }else {
-                      res += '<br/>' + '创业板公司'+ ' : ' + 0 + ' 家';
+                      res += '<br/>' + '深沪主板公司'+ ' : ' + 0 + ' 家';
                     }
                     if(params.data.MASBCompany!=undefined &&params.data.MASBCompany!=null && params.data.MASBCompany !='' && params.data.MASBCompany !='') {
                       res += '<br/>' + '中小板公司'+ ' : ' + params.data.MASBCompany+ ' 家';
                     }else {
-                      res += '<br/>' + '创业板公司'+ ' : ' + 0+ ' 家';
+                      res += '<br/>' + '中小板公司'+ ' : ' + 0+ ' 家';
                     }
                     if(params.data.GCompany!=undefined &&params.data.GCompany!=null && params.data.GCompany !='' && params.data.GCompany !='') {
                       res += '<br/>' + '创业板公司'+ ' : ' + params.data.GCompany+ ' 家';
