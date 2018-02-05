@@ -79,3 +79,13 @@
     margin-left: 20%;
   }
 }
+
+/* 行间距 */
+.line-height24 {
+  line-height: 24;
+}
+
+/* 相对定位 */
+.position-relative {
+  position: relative;
+}

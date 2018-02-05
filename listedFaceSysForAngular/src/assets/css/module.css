@@ -30,6 +30,13 @@
 .m-subtitle {
 
 }
+.m-title_date {
+  float: right;
+  padding-right: 15px;
+  line-height: 24px;
+  font-size: 12px;
+  color: #999;
+}
 
 .m-accordion .panel {
   margin-bottom: -1px;
@@ -54,4 +61,11 @@
   width: calc(100% - 30px);
   height: 1px;
   background: #cfd8dc;
+}
+
+/* 居中 */
+.m-center_content {
+  -webkit-transform: translate(25%);
+  -moz-transform: translate(25%);
+  transform: translate(25%);
 }
