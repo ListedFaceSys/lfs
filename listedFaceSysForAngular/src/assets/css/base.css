@@ -5,6 +5,9 @@
 .height33 {
   height: 33.333333%;
 }
+.width-180 {
+  width: 180px;
+}
 
 /* 偏移 */
 .float-left {
@@ -160,4 +163,9 @@
 /* 居中 */
 vertical-sub {
   vertical-align: sub;
+}
+
+/* 行内框 */
+.display-inlineB {
+  display: inline-block;
 }
