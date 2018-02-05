@@ -156,3 +156,8 @@
 .text-decoration {
   text-decoration: underline;
 }
+
+/* 居中 */
+vertical-sub {
+  vertical-align: sub;
+}
