@@ -65,6 +65,9 @@
 .mgn-top_u10 {
   margin-top: -10px;
 }
+.mgn-top_10{
+  margin-top: 10px;
+}
 .mgn-top_15 {
   margin-top: 15px;
 }
@@ -161,7 +164,7 @@
 }
 
 /* 居中 */
-vertical-sub {
+.vertical-sub {
   vertical-align: sub;
 }
 

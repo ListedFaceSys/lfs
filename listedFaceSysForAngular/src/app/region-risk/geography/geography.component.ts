@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { NgxEchartsService } from 'ngx-echarts';
+import {ApiUrl} from "../../common/constant/api-url.const";
 
 @Component({
   selector: 'app-geography',
@@ -16,7 +17,6 @@ export class GeographyComponent implements OnInit {
     private es: NgxEchartsService) { }
 
   ngOnInit() {
-    console.log("Map");
     this.getAllCompany();
   }
 
@@ -25,11 +25,11 @@ export class GeographyComponent implements OnInit {
   getAllCompany(){
 
 
-    this.http.get('assets/dataJson/geographyAllCompanyData.json')
+    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographyAllCompanyData}`)
       .subscribe(geoJson => {
         this.allCompanyData = geoJson["data"].allCompanyData;
 
-        this.http.get('assets/mapJson/深圳各区.json')
+        this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographyChartsMap}`)
           .subscribe(geoJson => {
             this.es.registerMap('SZ', geoJson);
             this.options = {
@@ -81,9 +81,10 @@ export class GeographyComponent implements OnInit {
                 realtime: false,
                 calculable: true,
                 inRange: {
-                  color: ['lightskyblue', 'yellow', 'orangered']
+                  color: ['#ccc', '#eee'] //颜色控制
                 }
               },
+
               series: [
                 {
                   // name: '香港18区人口密度',
@@ -93,6 +94,7 @@ export class GeographyComponent implements OnInit {
                     normal: { label: { show: true } },
                     emphasis: { label: { show: true } }
                   },
+                  aspectScale:1.2, //图片长宽比
                   data: this.allCompanyData,
                   nameMap: {
                     'Guangming New District': '光明新区',
