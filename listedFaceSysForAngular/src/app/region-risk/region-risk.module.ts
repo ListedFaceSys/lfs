@@ -10,6 +10,8 @@ import { TrendChartComponent } from './trend-chart/trend-chart.component';
 import { NewsEventComponent } from './news-event/news-event.component';
 import { EarlyWarningComponent } from './early-warning/early-warning.component';
 import { NewsTrackComponent } from './news-track/news-track.component';
+import { WarningMoreComponent } from './warning-more/warning-more.component';
+import { TrackMoreComponent } from './track-more/track-more.component';
 
 import { LoginService } from '../common/service/login.service';
 import { AreaViewApiService } from '../common/api/area-view-api.service';
@@ -27,7 +29,9 @@ import { AreaViewApiService } from '../common/api/area-view-api.service';
     TrendChartComponent,    // 监测预警趋势图
     EarlyWarningComponent,  // 监测预警新闻
     NewsEventComponent,     // 热点新闻
-    NewsTrackComponent      // 负面新闻跟踪
+    NewsTrackComponent,     // 负面新闻跟踪
+    WarningMoreComponent,   // 更多监测预警
+    TrackMoreComponent      // 更多负面跟踪
   ],
   providers: [
     LoginService,
