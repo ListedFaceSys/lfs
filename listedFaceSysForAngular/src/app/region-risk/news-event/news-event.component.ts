@@ -42,7 +42,6 @@ export class NewsEventComponent implements OnInit {
 
   }
 
-
   //获取图形数据值
   getChartsData(dataMap){
     if(dataMap.currentIndex ==undefined){
@@ -81,7 +80,14 @@ export class NewsEventComponent implements OnInit {
         },
         tooltip: {
           trigger: 'axis',
-
+          formatter: function (params) {
+            let ret = "";
+            for(let t of params){
+                ret+=t.marker+" "+ t.seriesName+" : "+ t.value+"</br>";
+            }
+            console.log(params,ret);
+            return ret;
+          }
         },
         legend: {
           right: '30',
@@ -97,9 +103,6 @@ export class NewsEventComponent implements OnInit {
               type: 'shadow',
               label: {
                 show: true,
-                formatter: function (params) {
-                  return params.value.replace('\n', '');
-                }
               }
             }
           }
@@ -112,7 +115,14 @@ export class NewsEventComponent implements OnInit {
             data:dataMap.timeList,
             splitLine: {show: false},
             axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-              type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+              type : 'line',        // 默认为直线，可选为：'line' | 'shadow'
+              label: {
+                show: true,
+                // formatter: function (params) {
+                //   let ret = params.value.replace('\n', '');
+                //   return ret;
+                // }
+              }
             }
           }
         ],
@@ -128,7 +138,7 @@ export class NewsEventComponent implements OnInit {
         series: [
           {name: '新闻总数', type: 'line'},
           {name: '负面新闻', type: 'line'},
-          {name: '经营风险', type: 'line'},
+          {name: '总/负面新闻占比', type: 'line'},
         ]
       },
       options: dataMap.optionSeries
@@ -151,7 +161,6 @@ export class NewsEventComponent implements OnInit {
     }
 
   }
-
           //  days = 30;//月时间段
   private getTrueData(JsonData,timeList){ //传入后台json
     let dataMap:any = {};
@@ -174,24 +183,32 @@ export class NewsEventComponent implements OnInit {
         startEndList.push(oneConent.countDate);
         let dataList1:any = [];
         let dataList2:any = [];
+        let dataList3:any = [];
         for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
           dataList1.push({
             name: "01",
             value: oneSingleNews.newCount,
             postDt:'2018-01-01',
-            ratio:'36.36%'
+            ratio:oneSingleNews.ratio
           });
           dataList2.push({
             name: "01",
             value: oneSingleNews.negativeNewsCount,
             postDt:'2018-01-01',
-            ratio:'36.36%'
+            ratio:oneSingleNews.ratio
+          });
+          dataList3.push({
+            name: "01",
+            value: oneSingleNews.ratio,
+            postDt:'2018-01-01',
+            ratio:oneSingleNews.ratio
           })
         }
         optionSeries.push({  //添加所有时间轴数据
           series:[
             {data:dataList1},
-            {data:dataList2}
+            {data:dataList2},
+            {data:dataList3}
           ]
         })
       }
