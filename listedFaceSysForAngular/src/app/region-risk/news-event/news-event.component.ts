@@ -55,11 +55,12 @@ export class NewsEventComponent implements OnInit {
 
   //获取图形数据值
   getChartsData(dataMap){
-    this.http.get('assets/dataJson/newsEventChartData.json')
+    dataMap = this.getTrueData("");
+    console.log(dataMap.currentIndex = 0)
+    this.http.get('assets/dataJson/newsEventDataMap.json')
       .subscribe(geoJson => {
-        this.newsEventChartData.xAxisData = geoJson["data"].xAxisData;
-        this.newsEventChartData.seriesData = geoJson["data"].seriesData;
         //eCharts配置
+        console.log(dataMap ,geoJson["data"].dataMap)
         this.options = {
           baseOption: {
             timeline: {
@@ -77,11 +78,11 @@ export class NewsEventComponent implements OnInit {
                 color : 'auto',
                 borderColor:'auto',
               },
-              data: this.dataMap.startEndList,
-              currentIndex:this.dataMap.currentIndex, //默认选中值
+              data: dataMap.startEndList,
+              currentIndex:dataMap.currentIndex, //默认选中值
               label: {
                 formatter : function(s) {
-                  return (new Date(s)).getFullYear();
+                  return s;
                 }
               },
               controlStyle:{
@@ -121,7 +122,7 @@ export class NewsEventComponent implements OnInit {
                 type:'category',
                 axisLabel:{'interval':0},
                 boundaryGap : false,//从最左侧开始
-                data:this.dataMap.timeList,
+                data:dataMap.timeList,
                 splitLine: {show: false},
                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
                   type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
@@ -143,77 +144,7 @@ export class NewsEventComponent implements OnInit {
               {name: '经营风险', type: 'line'},
             ]
           },
-          options: [
-            {
-              series: [
-                {data: dataMap.dataPI['2002']},
-                {data: dataMap.dataSI['2002']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2003']},
-                {data: dataMap.dataSI['2003']},
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2004']},
-                {data: dataMap.dataSI['2004']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2005']},
-                {data: dataMap.dataSI['2005']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2006']},
-                {data: dataMap.dataSI['2006']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2007']},
-                {data: dataMap.dataSI['2007']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2008']},
-                {data: dataMap.dataSI['2008']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2009']},
-                {data: dataMap.dataSI['2009']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2010']},
-                {data: dataMap.dataSI['2010']},
-
-              ]
-            },
-            {
-              series : [
-                {data: dataMap.dataPI['2011']},
-                {data: dataMap.dataSI['2011']},
-
-              ]
-            }
-          ]
+          options: dataMap.optionSeries
         };
       });
   }
@@ -230,7 +161,7 @@ export class NewsEventComponent implements OnInit {
       })
   }
 
-  timeList =["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+  timeList =["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
   //加载数据展开图
   showChart(){
     let startEndList = [];
@@ -239,7 +170,20 @@ export class NewsEventComponent implements OnInit {
     }
     this.dataMap.startEndList = startEndList;
     this.dataMap.timeList = this.timeList;
+
+
     this.initDataMap(this.dataMap.timeList,this.dataMap.startEndList);
+    if(this.dataMap.startEndList != undefined && this.dataMap.startEndList != null){
+      this.dataMap.optionSeries = [];
+      for(let i = 0;i< this.dataMap.startEndList.length;i++){
+        this.dataMap.optionSeries.push({
+          series : [
+            {data: this.dataMap.dataPI[this.dataMap.startEndList[i]]},
+            {data: this.dataMap.dataSI[this.dataMap.startEndList[i]]},
+          ]
+        })
+      }
+    }
     this.getChartsData(this.dataMap);
   }
 
@@ -305,64 +249,91 @@ export class NewsEventComponent implements OnInit {
     }
 
   }
-}
 
 
-
-
-
-//初期配置
-/*
-this.options = {
-  title : {
-    show:false,
-  },
-  tooltip : {
-    trigger: 'axis'
-  },
-  legend: {
-    right:20,
-    data:['全网新闻总数','负面新闻总数']
-  },
-  toolbox: {
-    show : false,
-  },
-  calculable : true,
-  xAxis : [
-    {
-      type : 'category',
-      boundaryGap : false,
-      data :  this.newsEventChartData.xAxisData//[ "08-01", "08-02", "08-03", "08-04", "08-05", "08-06", "08-07"]//['周一','周二','周三','周四','周五','周六','周日']
-    }
-  ],
-  yAxis : [
-    {
-      type : 'value',
-      axisLabel : {
-        formatter: '{value} '
+  private getTrueData(JsonData){ //传入后台json
+    JsonData = {
+      code:'null',
+      message:'null',
+      count:0,
+      data:{
+        conent:[
+          {
+            singleNews:[
+              {
+                newCount:11,
+                negativeNewsCount:4,
+                postDt:'2018-01-01',
+                ratio:'36.36%'
+              },{
+                newCount:42,
+                negativeNewsCount:34,
+                postDt:'2018-01-02',
+                ratio:'36.36%'
+              }],
+            totalCount:155,
+            negativeTotalCount:85,
+            totalRatio:'54.84%',
+            countDate:'2018-01'
+          }
+        ]
       }
+    };
+
+    let dataMap:any = {};
+    let startEndList = [];//时间轴
+    let timeList = []; //直角坐标系x轴
+    let days = 30;
+    for(let i=1;i<= days;i++){
+      timeList.push(i<10?('0'+i):i+'');
     }
-  ],
-  series : [
-    {
-      name:'全网新闻总数',
-      type:'line',
-      data: this.newsEventChartData.seriesData.allNetwork//[0,2, 3, 5, 6, 4, 8, 9, 4, 3, 1, 6, 7],
-    },
-    {
-      name:'负面新闻总数',
-      type:'line',
-      data:this.newsEventChartData.seriesData.negative //[0,0, 0, 11, 3, 0, 8, 7, 4, 2, 1, 1],
-      /!*markPoint : {
-          data : [
-              {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
+    let optionSeries:{  //直角坐标系点坐标
+      series: [
+        {
+          data: [
+            {
+            name: string,
+            value: string
+          }
           ]
-      },
-      markLine : {
-          data : [
-              {type : 'average', name : '平均值'}
+        }
+      ]
+    }[] = [];
+
+    if(JsonData.data.conent!=undefined){
+      for(let oneConent of JsonData.data.conent){
+        startEndList.push(oneConent.countDate);
+        let dataList1:any = [];
+        let dataList2:any = [];
+        for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
+          dataList1.push({
+            name: "01",
+            value: oneSingleNews.newCount,
+            postDt:'2018-01-01',
+            ratio:'36.36%'
+          });
+          dataList2.push({
+            name: "01",
+            value: oneSingleNews.negativeNewsCount,
+            postDt:'2018-01-01',
+            ratio:'36.36%'
+          })
+        }
+        optionSeries.push({  //添加所有时间轴数据
+          series:[
+            {data:dataList1},
+            {data:dataList2}
           ]
-      }*!/
+        })
+      }
+    }else {
+      let mes = JSON.stringify(JsonData);
+      throw new Error("验证后台数据： "+mes);
     }
-  ]
-};*/
+
+    dataMap.startEndList = startEndList;//时间轴
+    dataMap.timeList = timeList; //直角坐标系x轴
+    dataMap.optionSeries = optionSeries;
+    return dataMap;
+  }
+}
