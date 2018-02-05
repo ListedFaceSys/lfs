@@ -37,3 +37,10 @@
   white-space: nowrap;
   overflow: hidden;
 }
+/* 居中 */
+.u-rel-center {
+  position: relative;
+}
+.u-abs-center {
+  position: absolute;
+}
