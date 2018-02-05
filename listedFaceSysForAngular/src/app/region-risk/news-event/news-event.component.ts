@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NgxEchartsService} from "ngx-echarts";
+import {ApiUrl} from "../../common/constant/api-url.const";
 
 @Component({
   selector: 'app-news-event',
@@ -8,11 +9,7 @@ import {NgxEchartsService} from "ngx-echarts";
   styleUrls: ['./news-event.component.css']
 })
 export class NewsEventComponent implements OnInit {
-  @ViewChild("newsEcharts")newsEcharts;
-
   options:any = {};
-  selectOptions:{}[] = []; //下拉选项集
-  selectChecked:number=1;//选中值
   getTimeNewsData:{dataName:string, allNetworkNum:number,negativeNum:number,negativeProportion:string }={
     dataName:"最近一周汇总",
     allNetworkNum:124,
@@ -34,7 +31,7 @@ export class NewsEventComponent implements OnInit {
   }
   //加载数据展开图
   showChart(){
-    this.http.get('assets/dataJson/tempData.json')
+    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`)
       .subscribe(geoJson => {
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);

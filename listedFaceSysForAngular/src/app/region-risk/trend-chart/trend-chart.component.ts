@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AreaViewApiService } from '../../common/api/area-view-api.service';
 import {NgxEchartsService} from "ngx-echarts";
 import {HttpClient} from "@angular/common/http";
+import {ApiUrl} from "../../common/constant/api-url.const";
 
 @Component({
   selector: 'app-trend-chart',
@@ -50,7 +51,7 @@ export class TrendChartComponent implements OnInit {
 
   //初始化数据
   initNewsData(){
-    this.http.get('assets/dataJson/selectBase.json')
+    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`)
       .subscribe(geoJson => {
         this.selectOptions= geoJson["data"].newsEventSelects;
       })
@@ -59,7 +60,7 @@ export class TrendChartComponent implements OnInit {
 
   //获取图形数据值
   getChartsData(dataMap){
-    this.http.get('assets/dataJson/newsEventChartData.json')
+    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}` )
       .subscribe(geoJson => {
 
         this.options = {
@@ -280,19 +281,6 @@ export class TrendChartComponent implements OnInit {
         };
       });
   }
-
-  //切换选中时间
-  getSelectChange(value){
-    console.log(value);
-    let inBody = {
-      selectKey:value
-    };
-    this.http.get('assets/dataJson/selectBase.json')
-      .subscribe(geoJson => {
-        // this.selectOptions= geoJson["data"].newsEventSelects;
-      })
-  }
-
 
 
 
