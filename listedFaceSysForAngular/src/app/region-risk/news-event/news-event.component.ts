@@ -82,7 +82,6 @@ export class NewsEventComponent implements OnInit {
             for(let t of params){
                 ret+=t.marker+" "+ t.seriesName+" : "+ t.value+"</br>";
             }
-            console.log(params,ret);
             return ret;
           }
         },
@@ -144,7 +143,6 @@ export class NewsEventComponent implements OnInit {
   //获取时间轴点击事件
   getClickTimeLine(e?){
     if(e.componentType =="timeline"){ //点击时间轴方法
-      console.log(e);
       let d = new Date(e.name);
       let days = new Date(d.getFullYear(),d.getMonth()+1,0);
       this.timeList = [];
@@ -152,7 +150,6 @@ export class NewsEventComponent implements OnInit {
         this.timeList.push(i<10?('0'+i):i+'');
       }
       this.dataMap.timeList = this.timeList;
-      console.log(JSON.stringify(this.timeList));
       this.dataMap.currentIndex = e.dataIndex;
       this.getChartsData(this.dataMap);
     }
@@ -213,7 +210,6 @@ export class NewsEventComponent implements OnInit {
       let mes = JSON.stringify(JsonData);
       throw new Error("验证后台数据： "+mes);
     }
-
     dataMap.startEndList = startEndList;//时间轴
     dataMap.timeList = timeList; //直角坐标系x轴
     dataMap.optionSeries = optionSeries;

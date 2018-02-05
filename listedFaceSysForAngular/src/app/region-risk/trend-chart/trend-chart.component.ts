@@ -14,7 +14,6 @@ export class TrendChartComponent implements OnInit {
 
   options = {};
   selectOptions:{}[] = []; //下拉选项集
-  selectChecked:number=1;//选中值
   getTimeNewsData: {
     dataName:string,
     allNetworkNum:number,

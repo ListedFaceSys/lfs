@@ -17,7 +17,6 @@ export class GeographyComponent implements OnInit {
     private es: NgxEchartsService) { }
 
   ngOnInit() {
-    console.log("Map");
     this.getAllCompany();
   }
 
