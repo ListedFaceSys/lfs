@@ -1,3 +1,16 @@
 .geog-chart {
   height: 400px;
 }
+
+.geog-border-right-2-solid-999{
+  border-right: 2px solid #999;
+}
+
+.geog-row-margin-bottom-10{
+  margin-bottom: 10px;
+}
+
+.geog-row-margin-top-bottom-10{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
