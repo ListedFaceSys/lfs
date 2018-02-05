@@ -81,7 +81,7 @@ export class GeographyComponent implements OnInit {
                 realtime: false,
                 calculable: true,
                 inRange: {
-                  color: ['lightskyblue', 'yellow', 'orangered']
+                  // color: ['lightskyblue', 'yellow', 'orangered'] //颜色控制
                 }
               },
               series: [
