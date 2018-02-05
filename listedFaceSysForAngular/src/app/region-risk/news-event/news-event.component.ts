@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NgxEchartsService} from "ngx-echarts";
+import {ApiUrl} from "../../common/constant/api-url.const";
 
 @Component({
   selector: 'app-news-event',
@@ -8,11 +9,7 @@ import {NgxEchartsService} from "ngx-echarts";
   styleUrls: ['./news-event.component.css']
 })
 export class NewsEventComponent implements OnInit {
-  @ViewChild("newsEcharts")newsEcharts;
-
   options:any = {};
-  selectOptions:{}[] = []; //下拉选项集
-  selectChecked:number=1;//选中值
   getTimeNewsData:{dataName:string, allNetworkNum:number,negativeNum:number,negativeProportion:string }={
     dataName:"最近一周汇总",
     allNetworkNum:124,
@@ -34,7 +31,7 @@ export class NewsEventComponent implements OnInit {
   }
   //加载数据展开图
   showChart(){
-    this.http.get('assets/dataJson/tempData.json')
+    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`)
       .subscribe(geoJson => {
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);
@@ -85,7 +82,6 @@ export class NewsEventComponent implements OnInit {
             for(let t of params){
                 ret+=t.marker+" "+ t.seriesName+" : "+ t.value+"</br>";
             }
-            console.log(params,ret);
             return ret;
           }
         },
@@ -147,7 +143,6 @@ export class NewsEventComponent implements OnInit {
   //获取时间轴点击事件
   getClickTimeLine(e?){
     if(e.componentType =="timeline"){ //点击时间轴方法
-      console.log(e);
       let d = new Date(e.name);
       let days = new Date(d.getFullYear(),d.getMonth()+1,0);
       this.timeList = [];
@@ -155,7 +150,6 @@ export class NewsEventComponent implements OnInit {
         this.timeList.push(i<10?('0'+i):i+'');
       }
       this.dataMap.timeList = this.timeList;
-      console.log(JSON.stringify(this.timeList));
       this.dataMap.currentIndex = e.dataIndex;
       this.getChartsData(this.dataMap);
     }
@@ -216,7 +210,6 @@ export class NewsEventComponent implements OnInit {
       let mes = JSON.stringify(JsonData);
       throw new Error("验证后台数据： "+mes);
     }
-
     dataMap.startEndList = startEndList;//时间轴
     dataMap.timeList = timeList; //直角坐标系x轴
     dataMap.optionSeries = optionSeries;

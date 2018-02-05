@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { NgxEchartsService } from 'ngx-echarts';
+import {ApiUrl} from "../../common/constant/api-url.const";
 
 @Component({
   selector: 'app-geography',
@@ -16,7 +17,6 @@ export class GeographyComponent implements OnInit {
     private es: NgxEchartsService) { }
 
   ngOnInit() {
-    console.log("Map");
     this.getAllCompany();
   }
 
@@ -25,11 +25,11 @@ export class GeographyComponent implements OnInit {
   getAllCompany(){
 
 
-    this.http.get('assets/dataJson/geographyAllCompanyData.json')
+    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographyAllCompanyData}`)
       .subscribe(geoJson => {
         this.allCompanyData = geoJson["data"].allCompanyData;
 
-        this.http.get('assets/mapJson/深圳各区.json')
+        this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographyChartsMap}`)
           .subscribe(geoJson => {
             this.es.registerMap('SZ', geoJson);
             this.options = {
