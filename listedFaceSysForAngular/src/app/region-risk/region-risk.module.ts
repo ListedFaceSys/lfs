@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { NgxEchartsModule } from 'ngx-echarts';
-import { AccordionModule, CarouselModule, PaginationModule } from 'ngx-bootstrap';
+import { AccordionModule, CarouselModule, PaginationModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { deLocale } from 'ngx-bootstrap/locale';
+defineLocale('zh-cn', deLocale);
 
 import { RegionRiskComponent } from './region-risk.component';
 import { GeographyComponent } from './geography/geography.component';
@@ -24,7 +27,8 @@ import { AreaViewApiService } from '../common/api/area-view-api.service';
     NgxEchartsModule,
     AccordionModule.forRoot(),
     CarouselModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   declarations: [
     RegionRiskComponent,

@@ -30,3 +30,8 @@
   height: 27px;
   padding: 3px 12px;
 }
+.track-news {
+  height: 256px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
