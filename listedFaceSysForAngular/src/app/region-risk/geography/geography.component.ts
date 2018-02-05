@@ -81,9 +81,10 @@ export class GeographyComponent implements OnInit {
                 realtime: false,
                 calculable: true,
                 inRange: {
-                  // color: ['lightskyblue', 'yellow', 'orangered'] //颜色控制
+                  color: ['#ccc', '#eee'] //颜色控制
                 }
               },
+
               series: [
                 {
                   // name: '香港18区人口密度',
@@ -93,6 +94,7 @@ export class GeographyComponent implements OnInit {
                     normal: { label: { show: true } },
                     emphasis: { label: { show: true } }
                   },
+                  aspectScale:1.2, //图片长宽比
                   data: this.allCompanyData,
                   nameMap: {
                     'Guangming New District': '光明新区',
