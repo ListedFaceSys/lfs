@@ -28,6 +28,7 @@
   font-size: 20px;
 }
 
+/* accordion */
 .m-accordion .panel {
   margin-bottom: -1px;
   border-radius: 0;
@@ -47,6 +48,28 @@
 .m-accordion .panel-default>.panel-heading+.panel-collapse>.panel-body {
   padding-bottom: 0;
   border-bottom: 1px dashed #cfd8dc;
+}
+
+/* carousel */
+.m-carousel .carousel-control.left {
+  background-image: none;
+}
+.m-carousel .carousel-control.right {
+  background-image: none;
+}
+.m-carousel .carousel-control .icon-prev {
+  left: 0;
+  margin-left: -30px;
+}
+.m-carousel .carousel-control .icon-next {
+  right: 0;
+  margin-right: -30px;
+}
+.m-carousel .carousel-control .icon-prev:before {
+  color: #333;
+}
+.m-carousel .carousel-control .icon-next:before {
+  color: #333;
 }
 
 /* 线 */
