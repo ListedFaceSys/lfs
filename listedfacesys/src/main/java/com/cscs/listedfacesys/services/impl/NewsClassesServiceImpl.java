@@ -6,16 +6,21 @@ import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Created by hj on 2018/02/01.
- * 新闻表格类实现类
+ * 新闻类实现类
  */
 @Service
 public class NewsClassesServiceImpl implements NewsClassesService {
+
+    @PersistenceContext
+    EntityManager em;
 
     @Override
     public BaseOutData getLastingBondViolationNews(int page, int pageSize) throws Exception {
@@ -106,22 +111,21 @@ public class NewsClassesServiceImpl implements NewsClassesService {
     @Override
     public List<Object> findchart(TendencyChartInData inData) {
         //查询当前时间前七个月的数据
-//        String sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -7) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
-//        String classify = " TO_CHAR(POST_DT,'YYYY-MM-DD')POST_DT";
-//        String sql = "SELECT CN1,CN2,A.POST_DT FROM(\n" +
-//                "SELECT COUNT(1) CN1,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
-//                "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
-//                "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID\n" +
-//                "" + sqlWhere + " )\n" +
-//                "GROUP BY POST_DT)A\n" +
-//                "LEFT JOIN (\n" +
-//                "SELECT COUNT(1) CN2,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
-//                "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
-//                "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID \n" +
-//                "" + sqlWhere + " AND B.SCORE < 0)\n" +
-//                "GROUP BY POST_DT)B ON A.POST_DT = B.POST_DT \n" +
-//                "ORDER BY POST_DT DESC\n";
-//        return em.createNativeQuery(sql).getResultList();
-       return  null;
+        String sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -7) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
+        String classify = " TO_CHAR(POST_DT,'YYYY-MM-DD')POST_DT";
+        String sql = "SELECT CN1,CN2,A.POST_DT FROM(\n" +
+                "SELECT COUNT(1) CN1,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
+                "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
+                "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID\n" +
+                "" + sqlWhere + " )\n" +
+                "GROUP BY POST_DT)A\n" +
+                "LEFT JOIN (\n" +
+                "SELECT COUNT(1) CN2,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
+                "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
+                "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID \n" +
+                "" + sqlWhere + " AND B.SCORE < 0)\n" +
+                "GROUP BY POST_DT)B ON A.POST_DT = B.POST_DT \n" +
+                "ORDER BY POST_DT DESC\n";
+        return em.createNativeQuery(sql).getResultList();
     }
 }
