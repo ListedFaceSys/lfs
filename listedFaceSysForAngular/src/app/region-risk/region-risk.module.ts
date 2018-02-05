@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { NgxEchartsModule } from 'ngx-echarts';
-import { AccordionModule, CarouselModule } from 'ngx-bootstrap';
+import { AccordionModule, CarouselModule, PaginationModule } from 'ngx-bootstrap';
 
 import { RegionRiskComponent } from './region-risk.component';
 import { GeographyComponent } from './geography/geography.component';
@@ -19,9 +20,11 @@ import { AreaViewApiService } from '../common/api/area-view-api.service';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     NgxEchartsModule,
     AccordionModule.forRoot(),
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   declarations: [
     RegionRiskComponent,

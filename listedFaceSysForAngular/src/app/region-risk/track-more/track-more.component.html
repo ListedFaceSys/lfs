@@ -240,3 +240,14 @@
     <div class="col-lg-12 m-line"></div>
   </div>
 </div>
+
+<div class="m-pagination text-right">
+  <pagination [boundaryLinks]="true"
+              [totalItems]="totalItems"
+              [(ngModel)]="currentPage"
+              class="pagination-sm"
+              previousText="&lsaquo;"
+              nextText="&rsaquo;"
+              firstText="&laquo;" lastText="&raquo;">
+  </pagination>
+</div>
