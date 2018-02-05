@@ -51,6 +51,9 @@
 .mgn-top_14 {
   margin-top: 14px;
 }
+.mgn-top_15 {
+  margin-top: 15px;
+}
 .mgn-bottom_20 {
   margin-bottom: 20px;
 }
@@ -61,6 +64,15 @@
   margin-top: 20px;
 }
 /* 内边距 */
+.padding-left_0 {
+  padding-left: 0;
+}
+.padding-right_0 {
+  padding-right: 0;
+}
+.padding-left_15 {
+  padding-left: 15px;
+}
 .padding-right_20 {
   padding-right: 20px;
 }

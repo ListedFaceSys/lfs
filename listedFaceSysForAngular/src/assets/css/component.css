@@ -7,6 +7,7 @@
   margin-left: 20px;
   padding: 4px 0;
   text-align: center;
+  color: #999;
   border: 1px solid #cfd8dc;
 }
 .u-circular {
@@ -16,4 +17,23 @@
   height: 10px;
   border-radius: 50%;
   background: #666;
+}
+.u-more {
+  line-height: 27px;
+  text-align: right;
+  cursor: pointer;
+  color: #999;
+  text-decoration: underline;
+}
+.u-company {
+  width: calc(100% - 70px);
+  padding: 4px 15px;
+  text-align: center;
+  color: #999;
+  border: 1px solid #cfd8dc;
+}
+.u-leaveOut {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
