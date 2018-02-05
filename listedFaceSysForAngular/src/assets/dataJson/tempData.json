@@ -1,0 +1,27 @@
+{
+  "code":"null",
+  "message":"null",
+  "count":0,
+  "data":{
+    "conent":[
+      {
+        "singleNews":[
+          {
+            "newCount":11,
+            "negativeNewsCount":4,
+            "postDt":"2018-01-01",
+            "ratio":"36.36%"
+          },{
+            "newCount":42,
+            "negativeNewsCount":34,
+            "postDt":"2018-01-02",
+            "ratio":"36.36%"
+          }],
+        "totalCount":155,
+        "negativeTotalCount":85,
+        "totalRatio":"54.84%",
+        "countDate":"2018-01"
+      }
+    ]
+  }
+}
