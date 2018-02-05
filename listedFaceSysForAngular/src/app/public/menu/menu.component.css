@@ -5,6 +5,7 @@
   overflow-x: hidden;
 }
 .m-menu ul {
+  cursor: pointer;
   position: absolute;
   height: 100%;
   box-shadow: 1px 5px 5px #e7e7e7;
@@ -28,6 +29,7 @@
   width: 90px;
 }
 .m-menu ul .active {
+  cursor: default;
   color: #333;
   background-color: #e7e7e7;
 }
