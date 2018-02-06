@@ -1,11 +1,13 @@
 package com.cscs.listedfacesys.controller;
 
+import com.cscs.listedfacesys.basic.AnnounceBusiService;
 import com.cscs.listedfacesys.dto.*;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
 import com.cscs.util.SimilarityUtil;
+import com.cscs.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +52,17 @@ public class RegionRiskController {
         List<Object> sevYearDataList = warningAnnounceService.getWarningYearCount(startDate, endDate);
 
         if (sevYearDataList.size() == 0) {
-
+            outData.setCode("1");
+            outData.setMessage("The query fails!");
+            logger.info("[未查询到风险数据信息]");
+            return outData;
         }
 
-        warningRiskList = convert(sevYearDataList);
+        warningRiskList = AnnounceBusiService.convert(sevYearDataList, startDate);
 
         if (warningRiskList.size() != 0) {
             data.put("warningRiskList", warningRiskList);
-            outData.setCode("1");
+            outData.setCode("0");
             outData.setMessage("The query is successful!");
             outData.setData(data);
             logger.info("[查询成功]"+warningRiskList);
@@ -69,12 +74,36 @@ public class RegionRiskController {
         return outData;
     }
 
-    //上市公司预警趋势图单月显示
-    @RequestMapping(value = "/warningChartSingle/{month}", method = RequestMethod.GET)
-    public BaseOutData getWarningChartSingle(@PathVariable String month) {
+    //上市公司预警趋势图当前月显示
+    @RequestMapping(value = "/warningChartSingle", method = RequestMethod.GET)
+    public BaseOutData getWarningChartSingle() {
         BaseOutData outData = new BaseOutData();
+        Map<String, WarningRiskInfoData> data = new HashMap<>();
+        WarningRiskInfoData warningRiskInfoData = new WarningRiskInfoData();
 
-        List<Object> sevYearDataList = warningAnnounceService.getWarningMonthCount(month);
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMM");
+        String month = df.format(new Date());
+        Object[] monthData = (Object[]) warningAnnounceService.getWarningMonthCount(month);
+
+        if (monthData == null) {
+            outData.setCode("1");
+            outData.setMessage("The query fails!");
+            logger.info("[未查询到本月风险数据信息]");
+            return outData;
+        } else {
+            warningRiskInfoData.setRisk1((Integer) monthData[0]);
+            warningRiskInfoData.setRisk1((Integer) monthData[1]);
+            warningRiskInfoData.setRisk1((Integer) monthData[2]);
+            warningRiskInfoData.setRisk1((Integer) monthData[3]);
+            warningRiskInfoData.setRisk1((Integer) monthData[4]);
+            warningRiskInfoData.setDataMonth(Integer.valueOf(month));
+        }
+
+        data.put("monthData", warningRiskInfoData);
+        outData.setCode("0");
+        outData.setMessage("The query is successful!");
+        outData.setData(data);
+        logger.info("[查询成功]"+warningRiskInfoData);
 
         return outData;
     }
@@ -85,15 +114,14 @@ public class RegionRiskController {
         BaseOutData outData = new BaseOutData();
 
         List<WarningInfoData> warningInfoList = new ArrayList<>();
-        String date = year;
+        String dateStart = year;
+        String dateEnd = "";
         String idList = "";
 
-        if (date == null) {
-            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-            date = df.format(new Date());
-        }
+        dateStart = dateStart + "01";
+        dateEnd = String.valueOf((Integer.parseInt(dateStart) + 11));
 
-        List<Object> companyIdList = warningAnnounceService.getWarningTop10();
+        List<Object> companyIdList = warningAnnounceService.getWarningTop10(dateStart, dateEnd);
 
         if (companyIdList.size() == 0) {
             outData.setCode("1");
@@ -118,7 +146,7 @@ public class RegionRiskController {
         }
 
         Set<String> focusIds = userAttentionService.searchAllCompy(userId);
-        warningInfoList = getWarningInfoData(contentList, focusIds, null, null);
+        warningInfoList = AnnounceBusiService.getWarningInfoData(contentList, focusIds, null, null);
 
         if (warningInfoList != null){
             Map<String, List<WarningInfoData>> data = new HashMap<>();
@@ -316,14 +344,14 @@ public class RegionRiskController {
 
 
     //负面新闻跟踪
-    @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
-    public BaseOutData getViolation(@PathVariable int page,@PathVariable int pageSize,@PathVariable String startDate,@PathVariable String endDate) {
+    @RequestMapping(value = "/lastingBondViolation", method = RequestMethod.POST)
+    public BaseOutData getViolation(@RequestBody negativeNewsInData inData) {
         BaseOutData out = new BaseOutData();
         List<Object> itemList = new ArrayList<Object>();
         List<CompanyNewsOutData> reslist = new ArrayList<CompanyNewsOutData>();
         Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
         try {
-            itemList =  newsClassService.getLastingBondViolationNews(page, pageSize,startDate,endDate);
+            itemList =  newsClassService.getLastingBondViolationNews(inData.getPage(), inData.getPageSize(),inData.getStartDate(),inData.getEndDate());
             if(itemList !=null && itemList.size()>0){
                for (int i = 0; i <itemList.size() ; i++) {
                    Object[] item = (Object[]) itemList.get(i);
@@ -343,7 +371,7 @@ public class RegionRiskController {
                    outData.setTitle(title.replaceAll("\\\\", ""));
                    outData.setUrl(item[5]!=null ? item[5].toString() :"");
                    outData.setDate(item[3]!=null ? item[3].toString() :"");
-                   outData.setCnn_score(item[7]!=null ? Integer.parseInt(item[3].toString()) : 0);
+                   outData.setCnn_score(item[7]!=null ? Integer.parseInt(item[7].toString()) : 0);
                    outData.setNewsSource(item[10]!=null ? item[10].toString() :"");
                    outData.setImportance(item[8]!=null ? item[8].toString() :"");
                    outData.setPlainText(item[4]!=null ? item[4].toString() :"");
@@ -368,105 +396,6 @@ public class RegionRiskController {
 
 
         return out;
-    }
-
-    //对公告信息列表进行处理及排序
-    private List<WarningInfoData> getWarningInfoData(List<Object> contentList, Set<String> focusIds,Map compyMap,Map compyFromMap) {
-        Map<String, WarningInfoData> outMap = new LinkedHashMap<String, WarningInfoData>();
-
-        for (Object it : contentList) {
-            Object[] item = (Object[]) it;
-            String companyId = item[0].toString();
-            WarningInfoData info = outMap.get(companyId);
-            if (info == null) {
-                info = new WarningInfoData();
-                info.setCompanyId(companyId);
-                if(compyMap != null && compyFromMap != null){
-                    String focusId = compyMap.get(companyId).toString();
-                    info.setFocusCompanyId(focusId);
-                    info.setFocusCompanyNm(compyFromMap.get(focusId).toString());
-                }
-                info.setCompanyNm(item[1].toString());
-                info.setFocused(focusIds.contains(companyId));
-                outMap.put(companyId, info);
-            }
-            Map<String, List<String>> typeMap = info.getTypeMap();
-            if (typeMap == null) {
-                typeMap = new TreeMap<String, List<String>>();
-                info.setTypeMap(typeMap);
-            }
-
-            String warnType = item[3].toString();
-            List<String> warnTitles = typeMap.get(warnType);
-            if (warnTitles == null) {
-                warnTitles = new ArrayList<String>();
-                typeMap.put(warnType, warnTitles);
-            }
-            if(!isDupliated(warnTitles, item[2].toString())){
-                warnTitles.add(item[2].toString());
-                info.setWarnCount(info.getWarnCount() + 1);
-            } else {
-                logger.info("[重复数据]" + item[2].toString());
-            }
-        }
-        List<WarningInfoData> list = new ArrayList<>(outMap.values());
-        Collections.sort(list, new Comparator<WarningInfoData>() {
-            @Override
-            public int compare(WarningInfoData o1, WarningInfoData o2) {
-                if (o1 != null && o2 != null) {
-                    return o2.getWarnCount() - o1.getWarnCount();
-                }
-                return 0;
-            }
-        });
-        return list;
-    }
-
-    //字符串相似比较
-    private boolean isDupliated(Collection<String> set, String s){
-        for(String item : set){
-            if(SimilarityUtil.isSimilar(item, s)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //7年数据遍历处理方法
-    private List<WarningRiskOutData> convert(List<Object> volumeData) {
-        Map<Integer, Map<String, List<Double>>> issuedVolume = new TreeMap<Integer, Map<String, List<Double>>>();
-        List<WarningRiskOutData> issuedVolumeList = new ArrayList<>();
-//        for (Object o : volumeData) {
-//            Object[] objs = (Object[]) o;
-//            Number volume = (Number) objs[0];
-//            String dateMonth = StringUtil.toString(objs[1]);
-//            if (volume != null && dateMonth != null && dateMonth.length() == 6) {
-//                String year = dateMonth.substring(0, 4);
-//                Integer month = Integer.parseInt(dateMonth.substring(4, 6));
-//                Number type = (Number) objs[2];
-//
-//                //债券类型
-//                Map<String, List<Double>> volumeByType = issuedVolume.get(type.intValue());
-//                if (volumeByType == null) {
-//                    volumeByType = new TreeMap<String, List<Double>>();
-//                    issuedVolume.put(type.intValue(), volumeByType);
-//                }
-//
-//                //年份
-//                List<Double> volumeByYear = volumeByType.get(year);
-//                if (volumeByYear == null) {
-//                    //月份
-//                    volumeByYear = new ArrayList<Double>();
-//                    for (int i = 0; i < 12; i++) {
-//                        volumeByYear.add(null);
-//                    }
-//                    volumeByType.put(year, volumeByYear);
-//                }
-//                volumeByYear.set(month - 1, volume.doubleValue());
-//            }
-//        }
-
-        return issuedVolumeList;
     }
 
     //根据日期，生成该日期月份的所有日期的数据

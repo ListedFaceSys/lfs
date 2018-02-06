@@ -15,5 +15,5 @@ export class EarlyWarning {
   isFocused: boolean;
   supervisor: string;
   content: Map<string, object>;
-  typeMap: Map<string, Array<string>>
+  typeMap: Map<string, string[]>
 }

@@ -14,7 +14,7 @@ public interface WarningAnnounceService {
      * 查询监测预警TOP10公司ID
      * @return
      */
-    public List<Object> getWarningTop10();
+    public List<Object> getWarningTop10(String dataStart, String dateEnd);
 
     /**
      * 查询监测预警TOP10公司相关公告详情
@@ -33,6 +33,6 @@ public interface WarningAnnounceService {
      * 查询当月相关公告条数
      * @return
      */
-    public List<Object> getWarningMonthCount(String date);
+    public Object getWarningMonthCount(String date);
 
 }

@@ -17,8 +17,8 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
     EntityManager em;
 
     @Override
-    public List<Object> getWarningTop10() {
-        String sql = "SELECT CN,COMPANY_ID FROM (SELECT NVL(A.CN,0) + NVL(B.CN,0) CN,NVL(A.COMPANY_ID,B.COMPANY_ID) COMPANY_ID FROM (\n" +
+    public List<Object> getWarningTop10(String dateStart, String dateEnd) {
+        /*String sql = "SELECT CN,COMPANY_ID FROM (SELECT NVL(A.CN,0) + NVL(B.CN,0) CN,NVL(A.COMPANY_ID,B.COMPANY_ID) COMPANY_ID FROM (\n" +
                 "SELECT COUNT(DISTINCT WARNING_TITLE) CN,COMPANY_ID FROM VW_COMPY_WARNINGS\n" +
                 "WHERE TYPE_ID NOT IN(10,12,107) \n" +
                 "GROUP BY COMPANY_ID)A\n" +
@@ -27,6 +27,17 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
                 "INNER JOIN LKP_ALARM_KEYWORD B ON A.ALARM_KEYWORD_CD = B.ALARM_KEYWORD_CD AND\n" +
                 "B.SECOND_TYPE IN ('治理风险','财务风险','经营风险','市场风险','法律法规风险')\n" +
                 "WHERE NOTICE_DT >= ADD_MONTHS(SYSDATE, -12)\n" +
+                "GROUP BY COMPANY_ID)B ON A.COMPANY_ID  = B.COMPANY_ID\n" +
+                "ORDER BY NVL(A.CN,0) + NVL(B.CN,0) DESC)WHERE ROWNUM < 11";*/
+        String sql = "SELECT CN,COMPANY_ID FROM (SELECT NVL(A.CN,0) + NVL(B.CN,0) CN,NVL(A.COMPANY_ID,B.COMPANY_ID) COMPANY_ID FROM (\n" +
+                "SELECT COUNT(DISTINCT WARNING_TITLE) CN,COMPANY_ID FROM VW_COMPY_WARNINGS\n" +
+                "WHERE TYPE_ID NOT IN(10,12,107) \n" +
+                "GROUP BY COMPANY_ID)A\n" +
+                "LEFT JOIN(SELECT COUNT(COMPANY_ID) CN,COMPANY_ID \n" +
+                "FROM COMPY_ANNOUNCE_ALARM A\n" +
+                "INNER JOIN LKP_ALARM_KEYWORD B ON A.ALARM_KEYWORD_CD = B.ALARM_KEYWORD_CD AND\n" +
+                "B.SECOND_TYPE IN ('治理风险','财务风险','经营风险','市场风险','法律法规风险')\n" +
+                "WHERE to_char(A.NOTICE_DT,'YYYYMM') between "+ dateStart +" and "+ dateEnd +"\n" +
                 "GROUP BY COMPANY_ID)B ON A.COMPANY_ID  = B.COMPANY_ID\n" +
                 "ORDER BY NVL(A.CN,0) + NVL(B.CN,0) DESC)WHERE ROWNUM < 11";
         return em.createNativeQuery(sql).getResultList();
@@ -53,23 +64,25 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
 
     @Override
     public List<Object> getWarningYearCount(String startDate, String endDate) {
-        String sql = "Select SUM(decode(ALARM_KEYWORD_CD,2,1,0)) counts1, SUM(decode(ALARM_KEYWORD_CD,8,1,0)) counts2, \n" +
-                "SUM(decode(ALARM_KEYWORD_CD,12,1,0)) counts3, SUM(decode(ALARM_KEYWORD_CD,18,1,0)) counts4,\n" +
-                "SUM(decode(ALARM_KEYWORD_CD,20,1,0)) counts5\n" +
+        String sql = "Select NOTICE_DT,\n" +
+                "SUM(decode(ALARM_KEYWORD_CD,2,1,0)) risk1, SUM(decode(ALARM_KEYWORD_CD,8,1,0)) risk2, \n" +
+                "SUM(decode(ALARM_KEYWORD_CD,12,1,0)) risk3, SUM(decode(ALARM_KEYWORD_CD,18,1,0)) risk4,\n" +
+                "SUM(decode(ALARM_KEYWORD_CD,20,1,0)) risk5\n" +
                 "FROM COMPY_ANNOUNCE_ALARM A\n" +
                 "where to_char(A.NOTICE_DT,'YYYYMM') between "+ startDate +" and "+ endDate +"\n" +
-                "group by to_char(A.NOTICE_DT,'YYYYMM');";
+                "group by to_char(A.NOTICE_DT,'YYYYMM'), NOTICE_DT\n" +
+                "ORDER BY A.NOTICE_DT;";
         return em.createNativeQuery(sql).getResultList();
     }
 
     @Override
-    public List<Object> getWarningMonthCount(String date) {
+    public Object getWarningMonthCount(String date) {
         String sql = "Select SUM(decode(ALARM_KEYWORD_CD,2,1,0)) counts1, SUM(decode(ALARM_KEYWORD_CD,8,1,0)) counts2, \n" +
                 "SUM(decode(ALARM_KEYWORD_CD,12,1,0)) counts3, SUM(decode(ALARM_KEYWORD_CD,18,1,0)) counts4,\n" +
                 "SUM(decode(ALARM_KEYWORD_CD,20,1,0)) counts5\n" +
                 "FROM COMPY_ANNOUNCE_ALARM A\n" +
                 "where to_char(A.NOTICE_DT,'YYYYMM') = "+ date;
-        return em.createNativeQuery(sql).getResultList();
+        return em.createNativeQuery(sql).getSingleResult();
     }
 
 }
