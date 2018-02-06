@@ -113,34 +113,36 @@ public class RegionRiskController {
                 month = month-1;
             }
         }
+        Map<String,List<TendencyChartOutData>> map = new HashMap<String,List<TendencyChartOutData>>();
         try {
             itemList = newsClassService.findchart(inData);
             List<TendencyChartOutData>  outList = new ArrayList<TendencyChartOutData>();
-            for (int j=0;j<dateStr.length;j++){
-                List<TendencyChartInfoData> list = new ArrayList<TendencyChartInfoData>();
-                TendencyChartOutData outData = new TendencyChartOutData();
-                for (int i = 0; i < itemList.size(); i++) {
-                    TendencyChartInfoData info = new TendencyChartInfoData();
-                    Object[] item = (Object[]) itemList.get(i);
-                    info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-                    info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
-                    info.setPostDt(item[2] != null ? item[2].toString() : "");
-                    if(info.getNewCount()==0){
-                        info.setRatio("0");
-                    }else {
-                        info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
-                    }
-                    //按年月对数据进行分组
-                    String postDt = item[2] != null ? item[2].toString() : "";
-                    if(null != postDt && !"".equals(postDt)){
-                        int year_Month = Integer.parseInt(postDt.substring(0,7));
-                        if(dateStr[j].equals(year_Month)){
-                            list.add(info);
+            if(itemList!=null && itemList.size()>0){
+                for (int j=0;j<dateStr.length;j++){
+                    List<TendencyChartInfoData> list = new ArrayList<TendencyChartInfoData>();
+                    TendencyChartOutData outData = new TendencyChartOutData();
+                    for (int i = 0; i < itemList.size(); i++) {
+                        TendencyChartInfoData info = new TendencyChartInfoData();
+                        Object[] item = (Object[]) itemList.get(i);
+                        info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                        info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
+                        info.setPostDt(item[2] != null ? item[2].toString() : "");
+                        if(info.getNewCount()==0){
+                            info.setRatio("0");
+                        }else {
+                            info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
                         }
-                    }
+                        //按年月对数据进行分组
+                        String postDt = item[2] != null ? item[2].toString() : "";
+                        if(null != postDt && !"".equals(postDt)){
+                            int year_Month = Integer.parseInt(postDt.substring(0,7));
+                            if(dateStr[j].equals(year_Month)){
+                                list.add(info);
+                            }
+                        }
                    /* newsCount += item[0] != null ? Integer.valueOf(item[0].toString()) : 0;
                     negativeNewsCount += item[1] != null ? Integer.valueOf(item[1].toString()) : 0;*/
-                }
+                    }
                 /*outData.setNegativeTotalCount(negativeNewsCount);
                 outData.setTotalCount(newsCount);
                 if(newsCount==0){
@@ -148,19 +150,28 @@ public class RegionRiskController {
                 }else {
                     outData.setTotalRatio(String.format("%.2f", (double) negativeNewsCount / newsCount * 100) + "%");
                 }*/
-                outData.setCountDate(dateStr[j]);
+                    outData.setCountDate(dateStr[j]);
 
-                //根据日期，生成该日期月份的所有日期的数据
-                List<TendencyChartInfoData> reslist =getDaysStr(dateStr[j],list);
+                    //根据日期，生成该日期月份的所有日期的数据
+                    List<TendencyChartInfoData> reslist =getDaysStr(dateStr[j],list);
 
-                outData.setSingleNews(reslist);
-                outList.add(outData);
+                    outData.setSingleNews(reslist);
+                    outList.add(outData);
+                }
+
+                map.put("conent",outList);
+                out.setData(map);
+                out.setCode("0");
+            }else{
+                out.setData(map);
+                out.setCode("1");
+                out.setMessage("热点新闻，获取数据为空");
             }
 
-            Map<String,List<TendencyChartOutData>> map = new HashMap<String,List<TendencyChartOutData>>();
-            map.put("conent",outList);
-            out.setData(map);
         } catch (Exception e) {
+            out.setData(map);
+            out.setCode("-1");
+            out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
             e.printStackTrace();
         }
@@ -254,40 +265,56 @@ public class RegionRiskController {
 
     //负面新闻跟踪
     @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
-    public BaseOutData getViolation(@PathVariable int page,@PathVariable String startDate,@PathVariable String endDate) {
+    public BaseOutData getViolation(@PathVariable int page,@PathVariable int pageSize,@PathVariable String startDate,@PathVariable String endDate) {
         BaseOutData out = new BaseOutData();
         List<Object> itemList = new ArrayList<Object>();
         List<CompanyNewsOutData> reslist = new ArrayList<CompanyNewsOutData>();
+        Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
         try {
-            itemList =  newsClassService.getLastingBondViolationNews(page, 10,startDate,endDate);
-            for (int i = 0; i <itemList.size() ; i++) {
-                Object[] item = (Object[]) itemList.get(i);
-                CompanyNewsOutData outData = new CompanyNewsOutData();
-                String compyId = item[6].toString();
-                if(!StringUtils.isEmpty(compyId)){
-                    List<Object> obj = newsClassService.findCompanyNm(compyId);
-                    if(obj.size() > 0){
-                        Object[] info = (Object[])obj.get(0);
-                        outData.setCompanyId(info[0].toString());
-                        outData.setCompanyNm(info[1].toString());
-                    }
-                }
-                String title = item[2]!=null ? item[2].toString() : "";
-                outData.setTitle(title.replaceAll("\\\\", ""));
-                outData.setUrl(item[5]!=null ? item[5].toString() :"");
-                outData.setDate(item[3]!=null ? item[3].toString() :"");
-                outData.setCnn_score(item[7]!=null ? Integer.parseInt(item[3].toString()) : 0);
-                outData.setNewsSource(item[10]!=null ? item[10].toString() :"");
-                outData.setImportance(item[8]!=null ? item[8].toString() :"");
-                outData.setPlainText(item[4]!=null ? item[4].toString() :"");
-                outData.setRelevance(item[9]!=null ? item[9].toString() :"");
-                reslist.add(outData);
+            itemList =  newsClassService.getLastingBondViolationNews(page, pageSize,startDate,endDate);
+            if(itemList !=null && itemList.size()>0){
+               for (int i = 0; i <itemList.size() ; i++) {
+                   Object[] item = (Object[]) itemList.get(i);
+                   CompanyNewsOutData outData = new CompanyNewsOutData();
+                   String compyId = item[6].toString();
+                   if(!StringUtils.isEmpty(compyId)){
+                       List<Object> obj = newsClassService.findCompanyNm(compyId);
+                       if(obj.size() > 0){
+                           Object[] info = (Object[])obj.get(0);
+                           outData.setCompanyId(info[0].toString());
+                           outData.setCompanyNm(info[1].toString());
+                       }else{
+                           logger.info("根据公司ID:"+compyId+",查询公司名称，为空");
+                       }
+                   }
+                   String title = item[2]!=null ? item[2].toString() : "";
+                   outData.setTitle(title.replaceAll("\\\\", ""));
+                   outData.setUrl(item[5]!=null ? item[5].toString() :"");
+                   outData.setDate(item[3]!=null ? item[3].toString() :"");
+                   outData.setCnn_score(item[7]!=null ? Integer.parseInt(item[3].toString()) : 0);
+                   outData.setNewsSource(item[10]!=null ? item[10].toString() :"");
+                   outData.setImportance(item[8]!=null ? item[8].toString() :"");
+                   outData.setPlainText(item[4]!=null ? item[4].toString() :"");
+                   outData.setRelevance(item[9]!=null ? item[9].toString() :"");
+                   reslist.add(outData);
+               }
+                map.put("content", reslist);
+                out.setCode("0");
+                out.setData(map);
+            }else{
+                out.setCode("1");
+                out.setData(map);
+                out.setMessage("负面新闻跟踪，获取数据为空");
             }
+
         } catch (Exception e) {
+            out.setCode("-1");
+            out.setData(map);
+            out.setMessage("负面新闻跟踪，获取异常，异常信息："+e.getMessage());
             e.printStackTrace();
         }
-        Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
-        map.put("content", reslist);
+
+
         return out;
     }
 
@@ -404,21 +431,4 @@ public class RegionRiskController {
     }
 
 
-    public static  void main(String args[]){
-
-
-        /*List<TendencyChartInfoData> list = new ArrayList<TendencyChartInfoData>();
-        TendencyChartInfoData infoData1 = new TendencyChartInfoData();
-        infoData1.setPostDt("2017-02-01");
-        list.add(infoData1);
-        TendencyChartInfoData infoData2 = new TendencyChartInfoData();
-        infoData2.setPostDt("2017-02-05");
-        list.add(infoData2);
-        List<TendencyChartInfoData> reslist =  getDaysStr("2017-02-01",list);
-        for (int o =0;o<reslist.size();o++){
-            System.out.print(reslist.get(o)+"++++++++++++\n");
-        }
-        System.out.print(reslist.size()+"-------");*/
-
-    }
 }
