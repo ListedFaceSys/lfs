@@ -6,6 +6,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { AccordionModule, CarouselModule, PaginationModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { deLocale } from 'ngx-bootstrap/locale';
+
 defineLocale('zh-cn', deLocale);
 
 import { RegionRiskComponent } from './region-risk.component';

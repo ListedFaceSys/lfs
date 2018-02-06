@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginService} from "../common/service/login.service";
+import { LoginService } from "../common/service/login.service";
 
 @Component({
   selector: 'app-region-risk',
