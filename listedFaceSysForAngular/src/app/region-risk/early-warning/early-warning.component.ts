@@ -11,7 +11,8 @@ import { RegionRiskApiService } from '../../common/api/region-risk-api.service';
   styleUrls: ['../region-risk.component.css']
 })
 export class EarlyWarningComponent implements OnInit {
-  earlyWarningList: Array<EarlyWarning>;
+  earlyWarningList: EarlyWarning[];
+  copyEarlyWarningList: EarlyWarning[];
 
   constructor(
     private router: Router,
@@ -29,8 +30,10 @@ export class EarlyWarningComponent implements OnInit {
     this.regionRiskApiService.getWarningTop(userId, year)
       .subscribe(
         data => {
-          this.earlyWarningList = data.data['creditWarningDataList'];
+          this.earlyWarningList = data.data['creditWarningDataList'].slice(5);
+          this.copyEarlyWarningList = data.data['creditWarningDataList'].slice(5, 10);
           console.log(this.earlyWarningList);
+          console.log(this.copyEarlyWarningList);
         },
         error => {
           console.log(error);
