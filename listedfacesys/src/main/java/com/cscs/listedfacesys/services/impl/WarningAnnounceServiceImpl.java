@@ -51,4 +51,25 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
         return em.createNativeQuery(sql).getResultList();
     }
 
+    @Override
+    public List<Object> getWarningYearCount(String startDate, String endDate) {
+        String sql = "Select SUM(decode(ALARM_KEYWORD_CD,2,1,0)) counts1, SUM(decode(ALARM_KEYWORD_CD,8,1,0)) counts2, \n" +
+                "SUM(decode(ALARM_KEYWORD_CD,12,1,0)) counts3, SUM(decode(ALARM_KEYWORD_CD,18,1,0)) counts4,\n" +
+                "SUM(decode(ALARM_KEYWORD_CD,20,1,0)) counts5\n" +
+                "FROM COMPY_ANNOUNCE_ALARM A\n" +
+                "where to_char(A.NOTICE_DT,'YYYYMM') between "+ startDate +" and "+ endDate +"\n" +
+                "group by to_char(A.NOTICE_DT,'YYYYMM');";
+        return em.createNativeQuery(sql).getResultList();
+    }
+
+    @Override
+    public List<Object> getWarningMonthCount(String date) {
+        String sql = "Select SUM(decode(ALARM_KEYWORD_CD,2,1,0)) counts1, SUM(decode(ALARM_KEYWORD_CD,8,1,0)) counts2, \n" +
+                "SUM(decode(ALARM_KEYWORD_CD,12,1,0)) counts3, SUM(decode(ALARM_KEYWORD_CD,18,1,0)) counts4,\n" +
+                "SUM(decode(ALARM_KEYWORD_CD,20,1,0)) counts5\n" +
+                "FROM COMPY_ANNOUNCE_ALARM A\n" +
+                "where to_char(A.NOTICE_DT,'YYYYMM') = "+ date;
+        return em.createNativeQuery(sql).getResultList();
+    }
+
 }
