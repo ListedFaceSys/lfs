@@ -213,7 +213,7 @@ public class RegionRiskController {
                         //按年月对数据进行分组
                         String postDt = item[2] != null ? item[2].toString() : "";
                         if(null != postDt && !"".equals(postDt)){
-                            int year_Month = Integer.parseInt(postDt.substring(0,7));
+                            String year_Month = postDt.substring(0,7);
                             if(dateStr[j].equals(year_Month)){
                                 list.add(info);
                             }
@@ -398,6 +398,7 @@ public class RegionRiskController {
 
     //根据日期，生成该日期月份的所有日期的数据
     private  List<TendencyChartInfoData> getDaysStr(String date,List<TendencyChartInfoData> list){
+        date=date+"-01";
         List<TendencyChartInfoData> resList = new ArrayList<TendencyChartInfoData>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         //获取某月的天数
