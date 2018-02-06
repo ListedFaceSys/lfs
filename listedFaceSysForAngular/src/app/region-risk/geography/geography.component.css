@@ -1,3 +1,8 @@
 .geog-chart {
   height: 400px;
 }
+
+.geog-border-right-2-solid-eee{
+  border-right: 2px solid #eee;
+}
+
