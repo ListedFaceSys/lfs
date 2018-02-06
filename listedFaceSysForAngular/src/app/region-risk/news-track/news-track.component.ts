@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { listLocales } from 'ngx-bootstrap/chronos';
-import { getSetGlobalLocale} from "ngx-bootstrap";
+import { BsLocaleService } from "ngx-bootstrap/datepicker";
 
 @Component({
   selector: 'app-news-track',
@@ -11,17 +9,13 @@ import { getSetGlobalLocale} from "ngx-bootstrap";
   styleUrls: ['../region-risk.component.css']
 })
 export class NewsTrackComponent implements OnInit {
-  locale = 'zh-cn';
-  locales = listLocales();
 
   constructor(
     private router: Router,
     private bsLocaleService: BsLocaleService) { }
 
   ngOnInit() {
-    this.bsLocaleService.use(this.locale);
-    getSetGlobalLocale('zh-cn');
-    console.log(getSetGlobalLocale());
+    this.bsLocaleService.use('zh-cn');
   }
 
   moreTracks() {
