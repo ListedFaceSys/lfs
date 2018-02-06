@@ -175,9 +175,9 @@ export class NewsEventComponent implements OnInit {
     if(JsonData.data.conent!=undefined){
       for(let oneConent of JsonData.data.conent){
         startEndList.push(oneConent.countDate);
-        let dataList1:any = [];
-        let dataList2:any = [];
-        let dataList3:any = [];
+        let dataList1:any = [];  //添加新闻总数
+        let dataList2:any = [];  //负面新闻数
+        let dataList3:any = [];  //负面/新闻总数占比
         for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
           dataList1.push({
             name: "01",
