@@ -316,14 +316,14 @@ public class RegionRiskController {
 
 
     //负面新闻跟踪
-    @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
-    public BaseOutData getViolation(@PathVariable int page,@PathVariable int pageSize,@PathVariable String startDate,@PathVariable String endDate) {
+    @RequestMapping(value = "/lastingBondViolation", method = RequestMethod.POST)
+    public BaseOutData getViolation(@RequestBody negativeNewsInData inData) {
         BaseOutData out = new BaseOutData();
         List<Object> itemList = new ArrayList<Object>();
         List<CompanyNewsOutData> reslist = new ArrayList<CompanyNewsOutData>();
         Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
         try {
-            itemList =  newsClassService.getLastingBondViolationNews(page, pageSize,startDate,endDate);
+            itemList =  newsClassService.getLastingBondViolationNews(inData.getPage(), inData.getPageSize(),inData.getStartDate(),inData.getEndDate());
             if(itemList !=null && itemList.size()>0){
                for (int i = 0; i <itemList.size() ; i++) {
                    Object[] item = (Object[]) itemList.get(i);
@@ -343,7 +343,7 @@ public class RegionRiskController {
                    outData.setTitle(title.replaceAll("\\\\", ""));
                    outData.setUrl(item[5]!=null ? item[5].toString() :"");
                    outData.setDate(item[3]!=null ? item[3].toString() :"");
-                   outData.setCnn_score(item[7]!=null ? Integer.parseInt(item[3].toString()) : 0);
+                   outData.setCnn_score(item[7]!=null ? Integer.parseInt(item[7].toString()) : 0);
                    outData.setNewsSource(item[10]!=null ? item[10].toString() :"");
                    outData.setImportance(item[8]!=null ? item[8].toString() :"");
                    outData.setPlainText(item[4]!=null ? item[4].toString() :"");
