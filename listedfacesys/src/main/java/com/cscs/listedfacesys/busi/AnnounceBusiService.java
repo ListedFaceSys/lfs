@@ -1,4 +1,4 @@
-package com.cscs.listedfacesys.basic;
+package com.cscs.listedfacesys.busi;
 
 import com.cscs.listedfacesys.dto.WarningInfoData;
 import com.cscs.listedfacesys.dto.WarningRiskInfoData;

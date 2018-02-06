@@ -1,13 +1,11 @@
 package com.cscs.listedfacesys.controller;
 
-import com.cscs.listedfacesys.basic.AnnounceBusiService;
+import com.cscs.listedfacesys.busi.AnnounceBusiService;
 import com.cscs.listedfacesys.dto.*;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
-import com.cscs.util.SimilarityUtil;
-import com.cscs.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
