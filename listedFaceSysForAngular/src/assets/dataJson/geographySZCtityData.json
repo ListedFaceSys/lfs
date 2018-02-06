@@ -1,0 +1,17 @@
+{
+  "code":1,
+  "data":{
+    "SZCityData" : {
+      "deadline": "2018-01",
+      "SHASZMBCompanyNum":914,
+      "SHASZMBCompanyRatio":"52%",
+
+      "MASBCompanyNum":284,
+      "MASBCompanyRatio":"32%",
+
+      "GCompanyNum":124,
+      "GCompanyRatio":"12%"
+  },
+  "message": "成功"
+  }
+}

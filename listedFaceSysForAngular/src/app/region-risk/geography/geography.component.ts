@@ -10,6 +10,18 @@ import {ApiUrl} from "../../common/constant/api-url.const";
   styleUrls: ['./geography.component.css']
 })
 export class GeographyComponent implements OnInit {
+  SZCityData={  //深沪各类公司数据
+    deadline: "2018-01", //截止时间
+
+    SHASZMBCompanyNum:234,    //主板公司
+    SHASZMBCompanyRatio:"32%",    //主板公司 较上年同比新增
+
+    MASBCompanyNum:234,    //中小板公司
+    MASBCompanyRatio:"32%",    //中小板公司 较上年同比新增
+
+    GCompanyNum:234,    //创业板公司
+    GCompanyRatio:"32%",    //创业板公司 较上年同比新增
+  };
   options = {};
 
   constructor(
@@ -18,13 +30,21 @@ export class GeographyComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCompany();
+    this.getSZCityData();
+  }
+
+
+  //获取 深圳市 所有区公司数据
+  getSZCityData(){
+    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographySZCityData}`)
+      .subscribe(geoJson => {
+        this.SZCityData = geoJson["data"].SZCityData;
+      })
   }
 
   allCompanyData:any ={};
   //获取公司数据
   getAllCompany(){
-
-
     this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographyAllCompanyData}`)
       .subscribe(geoJson => {
         this.allCompanyData = geoJson["data"].allCompanyData;

@@ -10,11 +10,11 @@ import {ApiUrl} from "../../common/constant/api-url.const";
 })
 export class NewsEventComponent implements OnInit {
   options:any = {};
-  getTimeNewsData:{dataName:string, allNetworkNum:number,negativeNum:number,negativeProportion:string }={
+  getTimeNewsData:{dataName:string, newCount:number,negativeNewsCount:number,ratio:string }={
     dataName:"最近一周汇总",
-    allNetworkNum:124,
-    negativeNum:53,
-    negativeProportion:"32%"
+    newCount:124,  //新闻总数
+    negativeNewsCount:53, //负面新闻
+    ratio:"32%" //总/负新闻占比
   };
   //eChart图数据值
   dataMap:any = {
