@@ -28,6 +28,7 @@
   font-size: 20px;
 }
 
+/* accordion */
 .m-accordion .panel {
   margin-bottom: -1px;
   border-radius: 0;
@@ -47,6 +48,28 @@
 .m-accordion .panel-default>.panel-heading+.panel-collapse>.panel-body {
   padding-bottom: 0;
   border-bottom: 1px dashed #cfd8dc;
+}
+
+/* carousel */
+.m-carousel .carousel-control.left {
+  background-image: none;
+}
+.m-carousel .carousel-control.right {
+  background-image: none;
+}
+.m-carousel .carousel-control .icon-prev {
+  left: 0;
+  margin-left: -30px;
+}
+.m-carousel .carousel-control .icon-next {
+  right: 0;
+  margin-right: -30px;
+}
+.m-carousel .carousel-control .icon-prev:before {
+  color: #333;
+}
+.m-carousel .carousel-control .icon-next:before {
+  color: #333;
 }
 
 /* 线 */
@@ -93,4 +116,38 @@
   border-left: 5px solid #2f2f2f;
   font-size: 0;
   line-height: 0;
+}
+
+/* 分页 */
+.m-pagination .pagination>li>a {
+ color: #333;
+}
+.m-pagination .pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+  color: #fff;
+  background-color: #999;
+  border-color: #999;
+}
+
+/* 滚动条样式 chome */
+.m-scrollbar::-webkit-scrollbar{
+  width: 5px;
+  height: 0;
+}
+/*滚动条的轨道*/
+.m-scrollbar::-webkit-scrollbar-track{
+  background-color: #cfd8dc;
+}
+/*滚动条的滑块按钮*/
+.m-scrollbar::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #999;
+}
+/*滚动条的上下两端的按钮*/
+.m-scrollbar::-webkit-scrollbar-button{
+  height: 0;
 }

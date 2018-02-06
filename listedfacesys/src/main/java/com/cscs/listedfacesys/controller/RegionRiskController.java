@@ -42,45 +42,97 @@ public class RegionRiskController {
     }
 
     //上市公司预警趋势图
-    @RequestMapping(value = "/warningChart", method = RequestMethod.POST)
-    public BaseOutData getWarningChart(@RequestBody WarningInData inData) {
+    @RequestMapping(value = "/warningChart/{startDate}/{endDate}", method = RequestMethod.GET)
+    public BaseOutData getWarningChart(@PathVariable String startDate, @PathVariable String endDate) {
         BaseOutData outData = new BaseOutData();
+        Map<String, List<WarningRiskOutData>> data = new HashMap<>();
+        List<WarningRiskOutData> warningRiskList = new ArrayList<>();
+        List<Object> sevYearDataList = warningAnnounceService.getWarningYearCount(startDate, endDate);
+
+        if (sevYearDataList.size() == 0) {
+
+        }
+
+        warningRiskList = convert(sevYearDataList);
+
+        if (warningRiskList.size() != 0) {
+            data.put("warningRiskList", warningRiskList);
+            outData.setCode("1");
+            outData.setMessage("The query is successful!");
+            outData.setData(data);
+            logger.info("[查询成功]"+warningRiskList);
+        } else {
+            outData.setCode("-1");
+            outData.setMessage("The background anomaly!");
+            logger.info("[公告数据处理异常]");
+        }
+        return outData;
+    }
+
+    //上市公司预警趋势图单月显示
+    @RequestMapping(value = "/warningChartSingle/{month}", method = RequestMethod.GET)
+    public BaseOutData getWarningChartSingle(@PathVariable String month) {
+        BaseOutData outData = new BaseOutData();
+
+        List<Object> sevYearDataList = warningAnnounceService.getWarningMonthCount(month);
 
         return outData;
     }
 
     //查询预警趋势TOP10公司信息
-    @RequestMapping(value = "/warningTop/{userId}", method = RequestMethod.GET)
-    public BaseOutData getWarningTop10(@PathVariable Long userId) {
+    @RequestMapping(value = "/warningTop/{userId}/{year}", method = RequestMethod.GET)
+    public BaseOutData getWarningTop10(@PathVariable Long userId, @PathVariable String year) {
         BaseOutData outData = new BaseOutData();
 
         List<WarningInfoData> warningInfoList = new ArrayList<>();
+        String date = year;
+        String idList = "";
+
+        if (date == null) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+            date = df.format(new Date());
+        }
 
         List<Object> companyIdList = warningAnnounceService.getWarningTop10();
-        String idList = "";
+
+        if (companyIdList.size() == 0) {
+            outData.setCode("1");
+            outData.setMessage("The query fails!");
+            logger.info("[未查询到公司ID数据]");
+            return outData;
+        }
         for (Object it : companyIdList) {
             Object[] focusItem = (Object[]) it;
             idList += focusItem[1].toString() + ",";
-        }
-        if (idList.length() == 0) {
-            logger.info("[未查询到ID数据]"+idList);
-            return outData;
         }
 
         idList = idList.substring(0, idList.length() - 1);
 
         List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList);
-        Set<String> focusIds = userAttentionService.searchAllCompy(userId);
 
+        if (contentList.size() == 0) {
+            outData.setCode("1");
+            outData.setMessage("The query fails!");
+            logger.info("[未查询到公告数据]");
+            return outData;
+        }
+
+        Set<String> focusIds = userAttentionService.searchAllCompy(userId);
         warningInfoList = getWarningInfoData(contentList, focusIds, null, null);
 
         if (warningInfoList != null){
             Map<String, List<WarningInfoData>> data = new HashMap<>();
             data.put("warningDataList",warningInfoList);
             outData.setData(data);
+            outData.setCode("0");
+            outData.setMessage("The query is successful!");
+            logger.info("[查询成功]"+warningInfoList);
         } else {
-            logger.info("[公告数据处理异常]" + warningInfoList);
+            outData.setCode("-1");
+            outData.setMessage("The background anomaly!");
+            logger.info("[公告数据处理异常]");
         }
+
         return outData;
     }
 
@@ -378,6 +430,43 @@ public class RegionRiskController {
             }
         }
         return false;
+    }
+
+    //7年数据遍历处理方法
+    private List<WarningRiskOutData> convert(List<Object> volumeData) {
+        Map<Integer, Map<String, List<Double>>> issuedVolume = new TreeMap<Integer, Map<String, List<Double>>>();
+        List<WarningRiskOutData> issuedVolumeList = new ArrayList<>();
+//        for (Object o : volumeData) {
+//            Object[] objs = (Object[]) o;
+//            Number volume = (Number) objs[0];
+//            String dateMonth = StringUtil.toString(objs[1]);
+//            if (volume != null && dateMonth != null && dateMonth.length() == 6) {
+//                String year = dateMonth.substring(0, 4);
+//                Integer month = Integer.parseInt(dateMonth.substring(4, 6));
+//                Number type = (Number) objs[2];
+//
+//                //债券类型
+//                Map<String, List<Double>> volumeByType = issuedVolume.get(type.intValue());
+//                if (volumeByType == null) {
+//                    volumeByType = new TreeMap<String, List<Double>>();
+//                    issuedVolume.put(type.intValue(), volumeByType);
+//                }
+//
+//                //年份
+//                List<Double> volumeByYear = volumeByType.get(year);
+//                if (volumeByYear == null) {
+//                    //月份
+//                    volumeByYear = new ArrayList<Double>();
+//                    for (int i = 0; i < 12; i++) {
+//                        volumeByYear.add(null);
+//                    }
+//                    volumeByType.put(year, volumeByYear);
+//                }
+//                volumeByYear.set(month - 1, volume.doubleValue());
+//            }
+//        }
+
+        return issuedVolumeList;
     }
 
     //根据日期，生成该日期月份的所有日期的数据

@@ -1,0 +1,37 @@
+.col-lg-m-1, .col-lg-m-2, .col-lg-m-3, .col-lg-m-4 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+@media (min-width: 1200px) {
+  .col-lg-m-1, .col-lg-m-2, .col-lg-m-3, .col-lg-m-4 {
+    float: left;
+  }
+  .col-lg-m-1 {
+    width: 5%;
+  }
+  .col-lg-m-2 {
+    width: 16%;
+  }
+  .col-lg-m-3 {
+    width: 31%;
+  }
+  .col-lg-m-4 {
+    width: 32%;
+  }
+}
+.track-padding {
+  padding: 10px 15px;
+}
+.track-select {
+  display: inline-block;
+  width: 70px;
+  height: 27px;
+  padding: 3px 12px;
+}
+.track-news {
+  height: 256px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

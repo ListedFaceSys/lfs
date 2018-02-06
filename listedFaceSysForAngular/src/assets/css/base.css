@@ -1,3 +1,14 @@
+/* 高度 */
+.height100 {
+  height: 100%;
+}
+.height33 {
+  height: 33.333333%;
+}
+.width-180 {
+  width: 180px;
+}
+
 /* 偏移 */
 .float-left {
   float: left;
@@ -51,8 +62,17 @@
 .mgn-top_14 {
   margin-top: 14px;
 }
+.mgn-top_u10 {
+  margin-top: -10px;
+}
+.mgn-top_10{
+  margin-top: 10px;
+}
 .mgn-top_15 {
   margin-top: 15px;
+}
+.mgn-bottom_10 {
+  margin-bottom: 10px;
 }
 .mgn-bottom_20 {
   margin-bottom: 20px;
@@ -75,6 +95,9 @@
 }
 .padding-right_20 {
   padding-right: 20px;
+}
+.padding-top-205 {
+  padding-top: 20.5%;
 }
 
 /* 边框 */
@@ -138,4 +161,14 @@
 /* 字体下边线 */
 .text-decoration {
   text-decoration: underline;
+}
+
+/* 居中 */
+.vertical-sub {
+  vertical-align: sub;
+}
+
+/* 行内框 */
+.display-inlineB {
+  display: inline-block;
 }
