@@ -130,5 +130,24 @@
 .pagination>.active>span:hover {
   color: #fff;
   background-color: #999;
-  border-color: #999999;
+  border-color: #999;
+}
+
+/* 滚动条样式 chome */
+.m-scrollbar::-webkit-scrollbar{
+  width: 5px;
+  height: 0;
+}
+/*滚动条的轨道*/
+.m-scrollbar::-webkit-scrollbar-track{
+  background-color: #cfd8dc;
+}
+/*滚动条的滑块按钮*/
+.m-scrollbar::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #999;
+}
+/*滚动条的上下两端的按钮*/
+.m-scrollbar::-webkit-scrollbar-button{
+  height: 0;
 }

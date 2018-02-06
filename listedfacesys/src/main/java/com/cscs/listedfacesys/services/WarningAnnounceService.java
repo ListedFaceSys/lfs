@@ -23,4 +23,16 @@ public interface WarningAnnounceService {
      */
     public List<Object> getWarningTop10Content(String compyList);
 
+    /**
+     * 查询最近七年相关公告条数
+     * @return
+     */
+    public List<Object> getWarningYearCount(String startDate, String endDate);
+
+    /**
+     * 查询当月相关公告条数
+     * @return
+     */
+    public List<Object> getWarningMonthCount(String date);
+
 }
