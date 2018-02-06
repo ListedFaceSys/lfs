@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AreaViewApiService } from '../../common/api/area-view-api.service';
 import {NgxEchartsService} from "ngx-echarts";
 import {HttpClient} from "@angular/common/http";
 import {ApiUrl} from "../../common/constant/api-url.const";
@@ -28,7 +27,7 @@ export class TrendChartComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private es: NgxEchartsService,private areaViewApiService: AreaViewApiService) { }
+    private es: NgxEchartsService) { }
 
 
 
