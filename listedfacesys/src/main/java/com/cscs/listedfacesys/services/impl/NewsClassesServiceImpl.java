@@ -36,7 +36,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
                 "        || d.company_id ID,\n" +
                 "        a.NEWS_BASICINFO_SID INFO_CD,\n" +
                 "        a.TITLE,\n" +
-                "        a.POST_DT,\n" +
+                "        TO_CHAR(a.POST_DT,'YYYY-MM-DD')POST_DT,\n" +
                 "        a.PLAIN_TEXT,\n" +
                 "        a.POST_URL,\n" +
                 "        d.company_id,\n" +
@@ -88,6 +88,9 @@ public class NewsClassesServiceImpl implements NewsClassesService {
      */
     private String returnSqlStr(String sqlWhere,String byDate) {
         String classify = " TO_CHAR(POST_DT,'YYYY-MM-DD')POST_DT";
+        if(byDate==null){
+            byDate="";
+        }
         String mysql = "SELECT CN1,CN2,A.POST_DT FROM(\n" +
                 "SELECT COUNT(1) CN1,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
                 "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
@@ -108,7 +111,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
     //热点新闻，查询当前时间前七个月的数据
     public List<Object> findchart(TendencyChartInData inData) {
         String sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -7) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
-        String sql = returnSqlStr(sqlWhere,null);
+        String sql = returnSqlStr(sqlWhere,"");
         System.out.print(sql);
         return em.createNativeQuery(sql).getResultList();
     }

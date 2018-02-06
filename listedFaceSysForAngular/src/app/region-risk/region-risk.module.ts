@@ -13,6 +13,7 @@ import { GeographyComponent } from './geography/geography.component';
 import { TrendChartComponent } from './trend-chart/trend-chart.component';
 import { NewsEventComponent } from './news-event/news-event.component';
 import { EarlyWarningComponent } from './early-warning/early-warning.component';
+import { WarningTopComponent } from './early-warning/warning-top.component';
 import { NewsTrackComponent } from './news-track/news-track.component';
 import { WarningMoreComponent } from './warning-more/warning-more.component';
 import { TrackMoreComponent } from './track-more/track-more.component';
@@ -35,6 +36,7 @@ import { RegionRiskApiService } from '../common/api/region-risk-api.service';
     GeographyComponent,     // 上市公司地理分布一览
     TrendChartComponent,    // 监测预警趋势图
     EarlyWarningComponent,  // 监测预警新闻
+    WarningTopComponent,
     NewsEventComponent,     // 热点新闻
     NewsTrackComponent,     // 负面新闻跟踪
     WarningMoreComponent,   // 更多监测预警
