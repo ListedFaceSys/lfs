@@ -18,7 +18,7 @@ import { WarningMoreComponent } from './warning-more/warning-more.component';
 import { TrackMoreComponent } from './track-more/track-more.component';
 
 import { LoginService } from '../common/service/login.service';
-import { AreaViewApiService } from '../common/api/area-view-api.service';
+import { RegionRiskApiService } from '../common/api/region-risk-api.service';
 
 @NgModule({
   imports: [
@@ -42,7 +42,7 @@ import { AreaViewApiService } from '../common/api/area-view-api.service';
   ],
   providers: [
     LoginService,
-    AreaViewApiService
+    RegionRiskApiService
   ]
 })
 export class RegionRiskModule { }

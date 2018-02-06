@@ -2,13 +2,6 @@ export class EarlyWarning {
   companyId: string;
   companyNm: string;
   noticeDt: string;
-  content: [
-    {
-      title: string;
-      typeName: object
-    }
-
-    ];
   type: string;
   securityCd: string;
   industryNm: string;
@@ -20,5 +13,7 @@ export class EarlyWarning {
   focusCompanyId: string;
   focusCompanyNm: string;
   isFocused: boolean;
-  typeMap: {}
+  supervisor: string;
+  content: Map<string, object>;
+  typeMap: Map<string, Array<string>>
 }
