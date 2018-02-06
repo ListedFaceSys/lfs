@@ -12,13 +12,12 @@ export const ApiUrl = {
   user_updatePassword: 'user/updatePassword',
   user_getAllUser: 'user/getAllUser',
 
-  areaView_warningTop5: 'assets/dataJson/earlyWarning.json',
-
-  regionRisk_newsCharts:'assets/dataJson/tempData.json', //上市公司-热点新闻Charts图接口
+  regionRisk_warningTop: 'assets/dataJson/warningTop.json',
+  regionRisk_newsCharts: 'assets/dataJson/tempData.json',
+  regionRisk_geographyAllCompanyData: 'assets/dataJson/geographyAllCompanyData.json',
+  regionRisk_trendChartSelectBase: 'assets/dataJson/selectBase.json',
   regionRisk_geographyChartsMap:'assets/mapJson/ShenzhenDistrict.json',
-  regionRisk_geographyAllCompanyData:'assets/dataJson/geographyAllCompanyData.json',
   regionRisk_geographySZCityData:'assets/dataJson/geographySZCtityData.json',  //深圳市 所有区公司数据
-  regionRisk_trendChartSelectBase:'assets/dataJson/selectBase.json',
 };
 
 export const HttpOptions = {
