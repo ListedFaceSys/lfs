@@ -6,8 +6,6 @@ import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
-import com.cscs.util.SimilarityUtil;
-import com.cscs.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ import java.util.*;
  * Create by wzy on 2018/2/1
  * 区域风险总览
  */
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/regionRisk")
 public class RegionRiskController {

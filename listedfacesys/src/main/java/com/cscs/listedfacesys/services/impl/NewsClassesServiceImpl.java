@@ -22,7 +22,11 @@ public class NewsClassesServiceImpl implements NewsClassesService {
     public List<Object> getLastingBondViolationNews(int page, int pageSize,String startDate,String endDate) throws Exception {
         int pageNum = page*pageSize+1;
         int rows = (page-1)*pageSize;
+        String where = "    AND (to_date(x.POST_DT,'yyyy-mm-dd') BETWEEN to_date('"+ startDate +"','yyyy-mm-dd') AND to_date('"+ endDate +"','yyyy-mm-dd'))\n";
 
+        if((startDate==null && !"".equals(startDate)) || (endDate==null && !"".equals(endDate))){
+            where="";
+        }
         String sql = "SELECT *\n" +
                 "FROM\n" +
                 "  (SELECT tt.*,\n" +
@@ -69,8 +73,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
                 "        B.COMPANY_ID\n" +
                 "      ) z ON x.ID     = z.ID\n" +
                 "    WHERE x.CNN_SCORE <0\n" +
-                "    AND x.RELEVANCE  >= 0.8\n" +
-                "    AND (x.POST_DT BETWEEN to_date('"+ startDate +"','yyyy-mm-dd') AND to_date('"+ endDate +"','yyyy-mm-dd'))\n" +
+                "    AND x.RELEVANCE  >= 0.8\n" +where+
                 "    ORDER BY x.POST_DT DESC\n" +
                 "    ) tt\n" +
                 "  WHERE ROWNUM <= "+pageNum+"   \n" +
@@ -110,7 +113,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
 
     //热点新闻，查询当前时间前七个月的数据
     public List<Object> findchart(TendencyChartInData inData) {
-        String sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -7) AND A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
+        String sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -7) ";
         String sql = returnSqlStr(sqlWhere,"");
         System.out.print(sql);
         return em.createNativeQuery(sql).getResultList();
