@@ -1,8 +1,6 @@
 package com.cscs.listedfacesys.controller;
 
 import com.cscs.listedfacesys.dto.*;
-import com.cscs.listedfacesys.dto.WarningInData;
-import com.cscs.listedfacesys.dto.WarningInfoData;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
@@ -11,8 +9,10 @@ import com.cscs.util.SimilarityUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -98,7 +98,7 @@ public class RegionRiskController {
         String[] dateStr = new String[7];
         int year = Integer.parseInt(nowDateStr.substring(0,4));
         int month = Integer.parseInt(nowDateStr.substring(5,7));
-        for (int w = 0; w < 7; w++) {
+        for (int w =dateStr.length-1 ; w >= 0; w--) {
             if((month-1)<=0){
                 month=12;
                 year=year-1;
@@ -125,7 +125,11 @@ public class RegionRiskController {
                     info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
                     info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
                     info.setPostDt(item[2] != null ? item[2].toString() : "");
-                    info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+                    if(info.getNewCount()==0){
+                        info.setRatio("0");
+                    }else {
+                        info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+                    }
                     //按年月对数据进行分组
                     String postDt = item[2] != null ? item[2].toString() : "";
                     if(null != postDt && !"".equals(postDt)){
@@ -134,17 +138,25 @@ public class RegionRiskController {
                             list.add(info);
                         }
                     }
-                    newsCount += item[0] != null ? Integer.valueOf(item[0].toString()) : 0;
-                    negativeNewsCount += item[1] != null ? Integer.valueOf(item[1].toString()) : 0;
+                   /* newsCount += item[0] != null ? Integer.valueOf(item[0].toString()) : 0;
+                    negativeNewsCount += item[1] != null ? Integer.valueOf(item[1].toString()) : 0;*/
                 }
-                outData.setNegativeTotalCount(negativeNewsCount);
+                /*outData.setNegativeTotalCount(negativeNewsCount);
                 outData.setTotalCount(newsCount);
-                outData.setTotalRatio(String.format("%.2f", (double) negativeNewsCount / newsCount * 100) + "%");
+                if(newsCount==0){
+                    outData.setTotalRatio("0");
+                }else {
+                    outData.setTotalRatio(String.format("%.2f", (double) negativeNewsCount / newsCount * 100) + "%");
+                }*/
                 outData.setCountDate(dateStr[j]);
-                outData.setSingleNews(list);
 
+                //根据日期，生成该日期月份的所有日期的数据
+                List<TendencyChartInfoData> reslist =getDaysStr(dateStr[j],list);
+
+                outData.setSingleNews(reslist);
                 outList.add(outData);
             }
+
             Map<String,List<TendencyChartOutData>> map = new HashMap<String,List<TendencyChartOutData>>();
             map.put("conent",outList);
             out.setData(map);
@@ -212,15 +224,70 @@ public class RegionRiskController {
 //        return out;
     }
 
+
+    //热点新闻趋势图(根据日期查询)
+    @RequestMapping(value = "/newsChartByDate", method = RequestMethod.POST)
+    public TendencyChartInfoData getNewsChartByDate(@RequestBody TendencyChartInData inData) {
+        int newsCount = 0;
+        int negativeNewsCount = 0;
+        List<Object> itemList = new ArrayList<Object>();
+        TendencyChartInfoData info = new TendencyChartInfoData();
+        try {
+            itemList = newsClassService.findchartByDate(inData);
+            Object[] item = (Object[]) itemList.get(0);
+            info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+            info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
+            info.setPostDt(item[2] != null ? item[2].toString() : "");
+            if(info.getNewCount()==0){
+                info.setRatio("0");
+            }else {
+                info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+            }
+        } catch (Exception e) {
+            logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
+            e.printStackTrace();
+        }
+
+        return info;
+    }
+
+
     //负面新闻跟踪
     @RequestMapping(value = "/lastingBondViolation/{page}", method = RequestMethod.GET)
-    public BaseOutData getViolation(@PathVariable int page) {
+    public BaseOutData getViolation(@PathVariable int page,@PathVariable String startDate,@PathVariable String endDate) {
         BaseOutData out = new BaseOutData();
+        List<Object> itemList = new ArrayList<Object>();
+        List<CompanyNewsOutData> reslist = new ArrayList<CompanyNewsOutData>();
         try {
-            out =  newsClassService.getLastingBondViolationNews(page, 10);
+            itemList =  newsClassService.getLastingBondViolationNews(page, 10,startDate,endDate);
+            for (int i = 0; i <itemList.size() ; i++) {
+                Object[] item = (Object[]) itemList.get(i);
+                CompanyNewsOutData outData = new CompanyNewsOutData();
+                String compyId = item[6].toString();
+                if(!StringUtils.isEmpty(compyId)){
+                    List<Object> obj = newsClassService.findCompanyNm(compyId);
+                    if(obj.size() > 0){
+                        Object[] info = (Object[])obj.get(0);
+                        outData.setCompanyId(info[0].toString());
+                        outData.setCompanyNm(info[1].toString());
+                    }
+                }
+                String title = item[2]!=null ? item[2].toString() : "";
+                outData.setTitle(title.replaceAll("\\\\", ""));
+                outData.setUrl(item[5]!=null ? item[5].toString() :"");
+                outData.setDate(item[3]!=null ? item[3].toString() :"");
+                outData.setCnn_score(item[7]!=null ? Integer.parseInt(item[3].toString()) : 0);
+                outData.setNewsSource(item[10]!=null ? item[10].toString() :"");
+                outData.setImportance(item[8]!=null ? item[8].toString() :"");
+                outData.setPlainText(item[4]!=null ? item[4].toString() :"");
+                outData.setRelevance(item[9]!=null ? item[9].toString() :"");
+                reslist.add(outData);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
+        map.put("content", reslist);
         return out;
     }
 
@@ -284,5 +351,74 @@ public class RegionRiskController {
             }
         }
         return false;
+    }
+
+    //根据日期，生成该日期月份的所有日期的数据
+    private  List<TendencyChartInfoData> getDaysStr(String date,List<TendencyChartInfoData> list){
+        List<TendencyChartInfoData> resList = new ArrayList<TendencyChartInfoData>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //获取某月的天数
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(sdf.parse(date));
+        } catch (ParseException e) {
+            this.logger.error("根据日期，获取改日期月份的所有日期,日期转换异常，异常信息："+e.getMessage());
+        }
+        int daysSize =calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        String[] daysStr = new String[daysSize];
+        String yearMonth = date.substring(0,7);
+        //生成该月份的所有日期
+        for (int i =0 ; i < daysStr.length; i++) {
+            if(i<9){
+                daysStr[i] = yearMonth+"-0"+(i+1);
+            }else {
+                daysStr[i] = yearMonth+"-"+(i+1);
+            }
+        }
+
+        for (int j=0;j<daysStr.length;j++){
+            boolean flag = true;//标识list中没有当天日期的数据
+            for (int k=0;k<list.size();k++){
+                TendencyChartInfoData info = list.get(k);
+                if(null!=info.getPostDt() && !"".equals(info.getPostDt())){
+                    if(daysStr[j].equals(info.getPostDt())){
+                        resList.add(info);
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+            //当list中没有该日期的数据时，手动add空的对象进去
+            if(flag){
+                TendencyChartInfoData infoData = new TendencyChartInfoData();
+                infoData.setNewCount(0);
+                infoData.setNegativeNewsCount(0);
+                infoData.setRatio("0");
+                infoData.setPostDt(daysStr[j]);
+                resList.add(infoData);
+            }
+        }
+
+        return resList;
+    }
+
+
+    public static  void main(String args[]){
+
+
+        /*List<TendencyChartInfoData> list = new ArrayList<TendencyChartInfoData>();
+        TendencyChartInfoData infoData1 = new TendencyChartInfoData();
+        infoData1.setPostDt("2017-02-01");
+        list.add(infoData1);
+        TendencyChartInfoData infoData2 = new TendencyChartInfoData();
+        infoData2.setPostDt("2017-02-05");
+        list.add(infoData2);
+        List<TendencyChartInfoData> reslist =  getDaysStr("2017-02-01",list);
+        for (int o =0;o<reslist.size();o++){
+            System.out.print(reslist.get(o)+"++++++++++++\n");
+        }
+        System.out.print(reslist.size()+"-------");*/
+
     }
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NgxEchartsModule } from 'ngx-echarts';
-import { AccordionModule } from 'ngx-bootstrap';
+import { AccordionModule, TooltipModule } from 'ngx-bootstrap';
 
 import { RegionRiskComponent } from './region-risk.component';
 import { GeographyComponent } from './geography/geography.component';
@@ -18,7 +18,8 @@ import { AreaViewApiService } from '../common/api/area-view-api.service';
   imports: [
     CommonModule,
     NgxEchartsModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   declarations: [
     RegionRiskComponent,

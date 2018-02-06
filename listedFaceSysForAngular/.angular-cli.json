@@ -22,7 +22,8 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "styles.css",
         "assets/css/base.css",
-        "assets/css/module.css"
+        "assets/css/module.css",
+        "assets/css/component.css"
       ],
       "scripts": [
         "../node_modules/echarts/dist/echarts.min.js"
