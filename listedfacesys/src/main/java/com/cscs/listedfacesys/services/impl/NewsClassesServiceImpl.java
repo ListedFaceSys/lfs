@@ -48,7 +48,8 @@ public class NewsClassesServiceImpl implements NewsClassesService {
                 "        d.SCORE CNN_SCORE,\n" +
                 "        d.IMPORTANCE,\n" +
                 "        d.RELEVANCE,\n" +
-                "        a.MEDIA_NM\n" +
+                "        a.MEDIA_NM,\n" +
+                "       TO_CHAR(a.POST_DT,'YYYY-MM-DD HH:mm:ss')POST_DT1 \n"+
                 "      FROM NEWS_BASICINFO a\n" +
                 "      INNER JOIN XW_NEWS_COMPANY d\n" +
                 "      ON a.NEWS_BASICINFO_SID  = d.NEWS_BASICINFO_SID\n" +
@@ -153,7 +154,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
         if(byDate==null){
             byDate="";
         }
-        String mysql = "SELECT CN1,CN2,TO_CHAR(A.POST_DT,'YYYY-MM-DD') FROM(\n" +
+        String mysql = "SELECT CN1,CN2,A.POST_DT FROM(\n" +
                 "SELECT COUNT(1) CN1,POST_DT FROM(SELECT " + classify + " FROM COMPY_BASICINFO A\n" +
                 "INNER JOIN XW_NEWS_COMPANY B ON A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
                 "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID\n" +
