@@ -23,10 +23,10 @@
         </div>
       </div>
     </div>
-    <div *ngFor="let type of earlyWarning.typeMap" class="u-list">
-      <p class="fontW-700 font-16">{{ type.key }}</p>
+    <div *ngFor="let type of earlyWarning.typeMap | mapTrans" class="u-list">
+      <p class="fontW-700 font-16">{{ type['key'] }}</p>
       <ul>
-        <li *ngFor="let item of type.value" class="line-height30">
+        <li *ngFor="let item of type['value']" class="line-height30">
           <div class="u-circular"></div>
           {{ item }}
         </li>

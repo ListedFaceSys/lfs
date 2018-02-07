@@ -1,19 +1,18 @@
 package com.cscs.listedfacesys.controller;
 
-import com.cscs.listedfacesys.basic.AnnounceBusiService;
+import com.cscs.listedfacesys.busi.AnnounceBusiService;
 import com.cscs.listedfacesys.dto.*;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
-import com.cscs.util.SimilarityUtil;
-import com.cscs.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,7 +21,7 @@ import java.util.*;
  * Create by wzy on 2018/2/1
  * 区域风险总览
  */
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/regionRisk")
 public class RegionRiskController {
@@ -49,19 +48,22 @@ public class RegionRiskController {
         BaseOutData outData = new BaseOutData();
         Map<String, List<WarningRiskOutData>> data = new HashMap<>();
         List<WarningRiskOutData> warningRiskList = new ArrayList<>();
-        List<Object> sevYearDataList = warningAnnounceService.getWarningYearCount(startDate, endDate);
+
+        String startDateToMM = startDate + "01";
+        String endDateToMM = endDate + "12";
+
+        List<Object> sevYearDataList = warningAnnounceService.getWarningYearCount(startDateToMM, endDateToMM);
 
         if (sevYearDataList.size() == 0) {
             outData.setCode("1");
             outData.setMessage("The query fails!");
             logger.info("[未查询到风险数据信息]");
-            return outData;
         }
 
         warningRiskList = AnnounceBusiService.convert(sevYearDataList, startDate);
 
-        if (warningRiskList.size() != 0) {
-            data.put("warningRiskList", warningRiskList);
+        if (warningRiskList != null) {
+            data.put("warningRiskOutDataList", warningRiskList);
             outData.setCode("0");
             outData.setMessage("The query is successful!");
             outData.setData(data);
@@ -83,7 +85,7 @@ public class RegionRiskController {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyyMM");
         String month = df.format(new Date());
-        Object[] monthData = (Object[]) warningAnnounceService.getWarningMonthCount(month);
+        List<Object> monthData = warningAnnounceService.getWarningMonthCount(month);
 
         if (monthData == null) {
             outData.setCode("1");
@@ -91,11 +93,16 @@ public class RegionRiskController {
             logger.info("[未查询到本月风险数据信息]");
             return outData;
         } else {
-            warningRiskInfoData.setRisk1((Integer) monthData[0]);
-            warningRiskInfoData.setRisk1((Integer) monthData[1]);
-            warningRiskInfoData.setRisk1((Integer) monthData[2]);
-            warningRiskInfoData.setRisk1((Integer) monthData[3]);
-            warningRiskInfoData.setRisk1((Integer) monthData[4]);
+            Object[] objs = (Object[]) monthData.get(0);
+            List<Number> nb = new ArrayList<>();
+            for (int i = 0;i < 5;i++) {
+                nb.add((Number) objs[i]);
+            }
+            warningRiskInfoData.setRisk1(nb.get(0).intValue());
+            warningRiskInfoData.setRisk2(nb.get(1).intValue());
+            warningRiskInfoData.setRisk3(nb.get(2).intValue());
+            warningRiskInfoData.setRisk4(nb.get(3).intValue());
+            warningRiskInfoData.setRisk5(nb.get(4).intValue());
             warningRiskInfoData.setDataMonth(Integer.valueOf(month));
         }
 
@@ -109,23 +116,23 @@ public class RegionRiskController {
     }
 
     //查询预警趋势TOP10公司信息
-    @RequestMapping(value = "/warningTop/{userId}/{year}", method = RequestMethod.GET)
-    public BaseOutData getWarningTop10(@PathVariable Long userId, @PathVariable String year) {
+    @RequestMapping(value = "/warningTop", method = RequestMethod.POST)
+    public BaseOutData getWarningTop10(@RequestBody WarningRiskInData inData) {
         BaseOutData outData = new BaseOutData();
 
         List<WarningInfoData> warningInfoList = new ArrayList<>();
-        String dateStart = year;
+        String dateStart = inData.getYear();
         String dateEnd = "";
         String idList = "";
 
         dateStart = dateStart + "01";
         dateEnd = String.valueOf((Integer.parseInt(dateStart) + 11));
 
-        List<Object> companyIdList = warningAnnounceService.getWarningTop10(dateStart, dateEnd);
+        List<Object> companyIdList = warningAnnounceService.getWarningTop10(dateStart, dateEnd, inData.getPageSize(), inData.getPageCount());
 
         if (companyIdList.size() == 0) {
             outData.setCode("1");
-            outData.setMessage("The query fails!");
+            outData.setMessage("The ID data is not queried!");
             logger.info("[未查询到公司ID数据]");
             return outData;
         }
@@ -136,22 +143,35 @@ public class RegionRiskController {
 
         idList = idList.substring(0, idList.length() - 1);
 
-        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList);
+        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd);
 
         if (contentList.size() == 0) {
             outData.setCode("1");
-            outData.setMessage("The query fails!");
+            outData.setMessage("The Announce data is not queried!");
             logger.info("[未查询到公告数据]");
             return outData;
         }
 
-        Set<String> focusIds = userAttentionService.searchAllCompy(userId);
+        List<Object> countList = warningAnnounceService.getWarningCpCount(dateStart, dateEnd);
+        logger.info("今年公司总数：" + countList);
+
+        if (countList.get(0) == null) {
+            outData.setCode("1");
+            outData.setMessage("The Count data is not queried!");
+            logger.info("[未查询到更多总数数据]");
+        }
+
+        BigDecimal bd = (BigDecimal) countList.get(0);
+        int count = bd.intValue();
+
+        Set<String> focusIds = userAttentionService.searchAllCompy(inData.getUserId());
         warningInfoList = AnnounceBusiService.getWarningInfoData(contentList, focusIds, null, null);
 
         if (warningInfoList != null){
             Map<String, List<WarningInfoData>> data = new HashMap<>();
             data.put("warningDataList",warningInfoList);
             outData.setData(data);
+            outData.setCount(count);
             outData.setCode("0");
             outData.setMessage("The query is successful!");
             logger.info("[查询成功]"+warningInfoList);
@@ -215,7 +235,7 @@ public class RegionRiskController {
                         //按年月对数据进行分组
                         String postDt = item[2] != null ? item[2].toString() : "";
                         if(null != postDt && !"".equals(postDt)){
-                            int year_Month = Integer.parseInt(postDt.substring(0,7));
+                            String year_Month = postDt.substring(0,7);
                             if(dateStr[j].equals(year_Month)){
                                 list.add(info);
                             }
@@ -243,13 +263,13 @@ public class RegionRiskController {
                 out.setData(map);
                 out.setCode("0");
             }else{
-                out.setData(map);
+                out.setData(null);
                 out.setCode("1");
                 out.setMessage("热点新闻，获取数据为空");
             }
 
         } catch (Exception e) {
-            out.setData(map);
+            out.setData(null);
             out.setCode("-1");
             out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
@@ -318,28 +338,43 @@ public class RegionRiskController {
 
     //热点新闻趋势图(根据日期查询)
     @RequestMapping(value = "/newsChartByDate", method = RequestMethod.POST)
-    public TendencyChartInfoData getNewsChartByDate(@RequestBody TendencyChartInData inData) {
+    public BaseOutData getNewsChartByDate(@RequestBody TendencyChartInData inData) {
+        BaseOutData out =  new BaseOutData();
         int newsCount = 0;
         int negativeNewsCount = 0;
         List<Object> itemList = new ArrayList<Object>();
         TendencyChartInfoData info = new TendencyChartInfoData();
+        Map<String,Object> map = new HashMap<String,Object>();
         try {
             itemList = newsClassService.findchartByDate(inData);
-            Object[] item = (Object[]) itemList.get(0);
-            info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-            info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
-            info.setPostDt(item[2] != null ? item[2].toString() : "");
-            if(info.getNewCount()==0){
-                info.setRatio("0");
-            }else {
-                info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+            if(itemList!=null && itemList.size()>0){
+                Object[] item = (Object[]) itemList.get(0);
+                info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
+                info.setPostDt(item[2] != null ? item[2].toString() : "");
+                if(info.getNewCount()==0){
+                    info.setRatio("0");
+                }else {
+                    info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+                }
+                map.put("content",info);
+                out.setCode("0");
+                out.setData(map);
+            }else{
+                out.setCode("1");
+                out.setData(null);
+                logger.error("热点新闻，获取数据为空");
             }
+
         } catch (Exception e) {
+            out.setCode("-1");
+            out.setData(null);
+            out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
             e.printStackTrace();
         }
 
-        return info;
+        return out;
     }
 
 
@@ -351,6 +386,8 @@ public class RegionRiskController {
         List<CompanyNewsOutData> reslist = new ArrayList<CompanyNewsOutData>();
         Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
         try {
+            //查询负面新闻总数
+            int count =  newsClassService.getLastingBondViolationNewsCount(inData.getStartDate(),inData.getEndDate());
             itemList =  newsClassService.getLastingBondViolationNews(inData.getPage(), inData.getPageSize(),inData.getStartDate(),inData.getEndDate());
             if(itemList !=null && itemList.size()>0){
                for (int i = 0; i <itemList.size() ; i++) {
@@ -376,20 +413,22 @@ public class RegionRiskController {
                    outData.setImportance(item[8]!=null ? item[8].toString() :"");
                    outData.setPlainText(item[4]!=null ? item[4].toString() :"");
                    outData.setRelevance(item[9]!=null ? item[9].toString() :"");
+                   outData.setPostDt(item[11]!=null ? item[11].toString() :"");
                    reslist.add(outData);
                }
                 map.put("content", reslist);
                 out.setCode("0");
                 out.setData(map);
+                out.setCount(count);
             }else{
                 out.setCode("1");
-                out.setData(map);
+                out.setData(null);
                 out.setMessage("负面新闻跟踪，获取数据为空");
             }
 
         } catch (Exception e) {
             out.setCode("-1");
-            out.setData(map);
+            out.setData(null);
             out.setMessage("负面新闻跟踪，获取异常，异常信息："+e.getMessage());
             e.printStackTrace();
         }
@@ -400,6 +439,7 @@ public class RegionRiskController {
 
     //根据日期，生成该日期月份的所有日期的数据
     private  List<TendencyChartInfoData> getDaysStr(String date,List<TendencyChartInfoData> list){
+        date=date+"-01";
         List<TendencyChartInfoData> resList = new ArrayList<TendencyChartInfoData>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         //获取某月的天数

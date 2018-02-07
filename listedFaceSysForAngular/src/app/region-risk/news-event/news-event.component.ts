@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NgxEchartsService} from "ngx-echarts";
 import {ApiUrl} from "../../common/constant/api-url.const";
+import {CommonUtil} from "../../common/utill/common-util";
 
 @Component({
   selector: 'app-news-event',
@@ -9,13 +10,15 @@ import {ApiUrl} from "../../common/constant/api-url.const";
   styleUrls: ['./news-event.component.css']
 })
 export class NewsEventComponent implements OnInit {
+  userId;
   options:any = {};
-  getTimeNewsData:{dataName:string, newCount:number,negativeNewsCount:number,ratio:string }={
-    dataName:"最近一周汇总",
-    newCount:124,  //新闻总数
-    negativeNewsCount:53, //负面新闻
-    ratio:"32%" //总/负新闻占比
+  getTimeNewsData:{postDt:string, newCount:number,negativeNewsCount:number,ratio:string }={
+    postDt:this.commonUtil.dateFormat(new Date(),"yyyy-MM-dd"),
+    newCount:0,  //新闻总数
+    negativeNewsCount:0, //负面新闻
+    ratio:"0" //总/负新闻占比
   };
+
   //eChart图数据值
   dataMap:any = {
     currentIndex:0
@@ -24,18 +27,46 @@ export class NewsEventComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private es: NgxEchartsService) { }
+    private es: NgxEchartsService,private commonUtil:CommonUtil) { }
 
   ngOnInit() {
+    this.userId = 1;
     this.showChart();
+    this.showDateData()
   }
+
+  showDateData(){
+    let body = {
+      time:this.commonUtil.dateFormat(new Date(),"yyyy-MM-dd"),
+      userId:this.userId,
+    };
+    this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsChartByDate}`,body)
+      .subscribe(geoJson => {
+        if(geoJson["code"] == 0){
+          this.getTimeNewsData = geoJson["data"];
+        }else if(geoJson["code"] == 1 ){
+          this.getTimeNewsData = {
+            postDt:this.commonUtil.dateFormat(new Date(),"yyyy-MM-dd"),
+            newCount:0,  //新闻总数
+            negativeNewsCount:0, //负面新闻
+            ratio:"0" //总/负新闻占比
+          };
+        }
+      });
+  }
+
+
   //加载数据展开图
   showChart(){
-    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`)
-      .subscribe(geoJson => {
+    this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsCharts}`,{})
+    .subscribe(geoJson => {
+      if(geoJson["code"] == 0){
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);
-      });
+      }else{
+
+      }
+    });
 
   }
 
@@ -175,28 +206,30 @@ export class NewsEventComponent implements OnInit {
     if(JsonData.data.conent!=undefined){
       for(let oneConent of JsonData.data.conent){
         startEndList.push(oneConent.countDate);
-        let dataList1:any = [];
-        let dataList2:any = [];
-        let dataList3:any = [];
-        for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
-          dataList1.push({
-            name: "01",
-            value: oneSingleNews.newCount,
-            postDt:'2018-01-01',
-            ratio:oneSingleNews.ratio
-          });
-          dataList2.push({
-            name: "01",
-            value: oneSingleNews.negativeNewsCount,
-            postDt:'2018-01-01',
-            ratio:oneSingleNews.ratio
-          });
-          dataList3.push({
-            name: "01",
-            value: oneSingleNews.ratio,
-            postDt:'2018-01-01',
-            ratio:oneSingleNews.ratio
-          })
+        let dataList1:any = [];  //添加新闻总数
+        let dataList2:any = [];  //负面新闻数
+        let dataList3:any = [];  //负面/新闻总数占比
+        if(oneConent.singleNews != null){
+          for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
+            dataList1.push({
+              name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+              value: oneSingleNews.newCount,
+              postDt:oneSingleNews.postDt,
+              ratio:oneSingleNews.ratio
+            });
+            dataList2.push({
+              name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+              value: oneSingleNews.negativeNewsCount,
+              postDt:oneSingleNews.postDt,
+              ratio:oneSingleNews.ratio
+            });
+            dataList3.push({
+              name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+              value: oneSingleNews.ratio,
+              postDt:oneSingleNews.postDt,
+              ratio:oneSingleNews.ratio
+            })
+          }
         }
         optionSeries.push({  //添加所有时间轴数据
           series:[

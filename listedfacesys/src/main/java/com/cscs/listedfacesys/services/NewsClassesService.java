@@ -23,6 +23,15 @@ public interface NewsClassesService {
     public List<Object> getLastingBondViolationNews(int page, int pageSize,String startDate,String endDate) throws Exception;
 
     /**
+     * 负面跟踪新闻总数
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return
+     * @throws Exception
+     */
+    public int getLastingBondViolationNewsCount(String startDate,String endDate) throws Exception;
+
+    /**
      * 查询公司名称
      * @param compyId
      * @return

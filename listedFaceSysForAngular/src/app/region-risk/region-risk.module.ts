@@ -18,6 +18,8 @@ import { NewsTrackComponent } from './news-track/news-track.component';
 import { WarningMoreComponent } from './warning-more/warning-more.component';
 import { TrackMoreComponent } from './track-more/track-more.component';
 
+import { MapTransPipe } from '../common/pipe/map-trans.pipe';
+
 import { LoginService } from '../common/service/login.service';
 import { RegionRiskApiService } from '../common/api/region-risk-api.service';
 
@@ -40,7 +42,8 @@ import { RegionRiskApiService } from '../common/api/region-risk-api.service';
     NewsEventComponent,     // 热点新闻
     NewsTrackComponent,     // 负面新闻跟踪
     WarningMoreComponent,   // 更多监测预警
-    TrackMoreComponent      // 更多负面跟踪
+    TrackMoreComponent,     // 更多负面跟踪
+    MapTransPipe
   ],
   providers: [
     LoginService,
