@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -81,7 +82,7 @@ public class RegionRiskController {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyyMM");
         String month = df.format(new Date());
-        Object[] monthData = (Object[]) warningAnnounceService.getWarningMonthCount(month);
+        List<Object> monthData = warningAnnounceService.getWarningMonthCount(month);
 
         if (monthData == null) {
             outData.setCode("1");
@@ -89,11 +90,17 @@ public class RegionRiskController {
             logger.info("[未查询到本月风险数据信息]");
             return outData;
         } else {
-            warningRiskInfoData.setRisk1((Integer) monthData[0]);
-            warningRiskInfoData.setRisk1((Integer) monthData[1]);
-            warningRiskInfoData.setRisk1((Integer) monthData[2]);
-            warningRiskInfoData.setRisk1((Integer) monthData[3]);
-            warningRiskInfoData.setRisk1((Integer) monthData[4]);
+            Object[] objs = (Object[]) monthData.get(0);
+//            Object[] objs = (Object[]) o;
+            List<Number> nb = new ArrayList<>();
+            for (int i = 0;i < 5;i++) {
+                nb.add((Number) objs[i]);
+            }
+            warningRiskInfoData.setRisk1(nb.get(0).intValue());
+            warningRiskInfoData.setRisk2(nb.get(1).intValue());
+            warningRiskInfoData.setRisk3(nb.get(2).intValue());
+            warningRiskInfoData.setRisk4(nb.get(3).intValue());
+            warningRiskInfoData.setRisk5(nb.get(4).intValue());
             warningRiskInfoData.setDataMonth(Integer.valueOf(month));
         }
 
@@ -123,7 +130,7 @@ public class RegionRiskController {
 
         if (companyIdList.size() == 0) {
             outData.setCode("1");
-            outData.setMessage("The query fails!");
+            outData.setMessage("The ID data is not queried!");
             logger.info("[未查询到公司ID数据]");
             return outData;
         }
@@ -134,11 +141,11 @@ public class RegionRiskController {
 
         idList = idList.substring(0, idList.length() - 1);
 
-        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList);
+        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd);
 
         if (contentList.size() == 0) {
             outData.setCode("1");
-            outData.setMessage("The query fails!");
+            outData.setMessage("The Announce data is not queried!");
             logger.info("[未查询到公告数据]");
             return outData;
         }
