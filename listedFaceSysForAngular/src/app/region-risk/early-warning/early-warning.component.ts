@@ -35,13 +35,10 @@ export class EarlyWarningComponent implements OnInit {
           list = data.data['warningDataList'];
           if (list.length <= 5) {
             this.earlyWarningList = list;
-          } else if (list.length <= 10) {
-            this.earlyWarningList = data.data['warningDataList'].slice(5);
-            this.copyEarlyWarningList = data.data['warningDataList'].slice(5, list.length);
-          } else {
-            this.earlyWarningList = data.data['warningDataList'].slice(5);
-            this.copyEarlyWarningList = data.data['warningDataList'].slice(5, 10);
+            return;
           }
+          this.earlyWarningList = data.data['warningDataList'].slice(5);
+          this.copyEarlyWarningList = data.data['warningDataList'].slice(5, list.length);
         },
         (error: any[]) => console.log('Error: ' + error),
       );
