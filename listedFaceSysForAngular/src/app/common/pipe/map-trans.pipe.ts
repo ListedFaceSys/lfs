@@ -1,36 +1,29 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { BaseMap } from '../model/base-map';
 
 @Pipe({
   name: 'mapTrans'
 })
 export class MapTransPipe implements PipeTransform{
 
-  transform(value: any): any {
+  transform(data: Object): Array<Map<string, any>> {
+    let array: Array<any> = new Array<Map<string, any>>();
+    let baseMap: BaseMap;
+    let map = new Map<string, any>();
+    for (let key of Object.keys(data)) {
+      map.set(key, data[key]);
+    }
+    if (map !== null && map.size > 0) {
+      map.forEach((value, key) => {
+        baseMap = new BaseMap();
 
-    const array = new Array<any>();
-    let map: any;
-    value = this.transMap(value);
-
-    if (value != null && value.size > 0) {
-      value.forEach((value, key) => {
-        map = new Map();
-        map.key = key;
-        map.value = value;
-        array.push(map);
-        console.log(map.key + ' : ' + map.value);
+        baseMap.value = value;
+        baseMap.key = key;
+        array.push(baseMap);
       });
+
     }
     return array;
   }
 
-  transMap(value: any): any {
-    if (!(value instanceof Map)) {
-      let strMap = new Map();
-      for (let k of Object.keys(value)) {
-        strMap.set(k, value[k]);
-      }
-      value = strMap;
-    }
-    return value;
-  }
 }

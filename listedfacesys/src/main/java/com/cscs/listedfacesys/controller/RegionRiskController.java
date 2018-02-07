@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -251,13 +250,13 @@ public class RegionRiskController {
                 out.setData(map);
                 out.setCode("0");
             }else{
-                out.setData(map);
+                out.setData(null);
                 out.setCode("1");
                 out.setMessage("热点新闻，获取数据为空");
             }
 
         } catch (Exception e) {
-            out.setData(map);
+            out.setData(null);
             out.setCode("-1");
             out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
@@ -326,28 +325,43 @@ public class RegionRiskController {
 
     //热点新闻趋势图(根据日期查询)
     @RequestMapping(value = "/newsChartByDate", method = RequestMethod.POST)
-    public TendencyChartInfoData getNewsChartByDate(@RequestBody TendencyChartInData inData) {
+    public BaseOutData getNewsChartByDate(@RequestBody TendencyChartInData inData) {
+        BaseOutData out =  new BaseOutData();
         int newsCount = 0;
         int negativeNewsCount = 0;
         List<Object> itemList = new ArrayList<Object>();
         TendencyChartInfoData info = new TendencyChartInfoData();
+        Map<String,Object> map = new HashMap<String,Object>();
         try {
             itemList = newsClassService.findchartByDate(inData);
-            Object[] item = (Object[]) itemList.get(0);
-            info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-            info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
-            info.setPostDt(item[2] != null ? item[2].toString() : "");
-            if(info.getNewCount()==0){
-                info.setRatio("0");
-            }else {
-                info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+            if(itemList!=null && itemList.size()>0){
+                Object[] item = (Object[]) itemList.get(0);
+                info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
+                info.setPostDt(item[2] != null ? item[2].toString() : "");
+                if(info.getNewCount()==0){
+                    info.setRatio("0");
+                }else {
+                    info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+                }
+                map.put("content",info);
+                out.setCode("0");
+                out.setData(map);
+            }else{
+                out.setCode("1");
+                out.setData(null);
+                logger.error("热点新闻，获取数据为空");
             }
+
         } catch (Exception e) {
+            out.setCode("-1");
+            out.setData(null);
+            out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
             e.printStackTrace();
         }
 
-        return info;
+        return out;
     }
 
 
@@ -359,6 +373,8 @@ public class RegionRiskController {
         List<CompanyNewsOutData> reslist = new ArrayList<CompanyNewsOutData>();
         Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
         try {
+            //查询负面新闻总数
+            int count =  newsClassService.getLastingBondViolationNewsCount(inData.getStartDate(),inData.getEndDate());
             itemList =  newsClassService.getLastingBondViolationNews(inData.getPage(), inData.getPageSize(),inData.getStartDate(),inData.getEndDate());
             if(itemList !=null && itemList.size()>0){
                for (int i = 0; i <itemList.size() ; i++) {
@@ -389,15 +405,16 @@ public class RegionRiskController {
                 map.put("content", reslist);
                 out.setCode("0");
                 out.setData(map);
+                out.setCount(count);
             }else{
                 out.setCode("1");
-                out.setData(map);
+                out.setData(null);
                 out.setMessage("负面新闻跟踪，获取数据为空");
             }
 
         } catch (Exception e) {
             out.setCode("-1");
-            out.setData(map);
+            out.setData(null);
             out.setMessage("负面新闻跟踪，获取异常，异常信息："+e.getMessage());
             e.printStackTrace();
         }

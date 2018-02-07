@@ -31,11 +31,14 @@ export class EarlyWarningComponent implements OnInit {
     this.regionRiskApiService.getWarningTop(userId, year)
       .subscribe(
         (data: BaseApiResponseModel) => {
-          console.log(data);
-          console.log(data.data['creditWarningDataList'][0]['typeMap']);
-          // this.earlyWarningList = data.data['warningDataList'];
-          this.earlyWarningList = data.data['creditWarningDataList'].slice(5);
-          // this.copyEarlyWarningList = data.data['warningDataList'].slice(5, 10);
+          let list: EarlyWarning[];
+          list = data.data['warningDataList'];
+          if (list.length <= 5) {
+            this.earlyWarningList = list;
+            return;
+          }
+          this.earlyWarningList = data.data['warningDataList'].slice(5);
+          this.copyEarlyWarningList = data.data['warningDataList'].slice(5, list.length);
         },
         (error: any[]) => console.log('Error: ' + error),
       );

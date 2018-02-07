@@ -4,7 +4,7 @@
       <slide>
         <app-warning-top [earlyWarningList]="earlyWarningList" [num]="1"></app-warning-top>
       </slide>
-      <slide>
+      <slide *ngIf="copyEarlyWarningList">
         <app-warning-top [earlyWarningList]="copyEarlyWarningList" [num]="6"></app-warning-top>
       </slide>
     </carousel>
