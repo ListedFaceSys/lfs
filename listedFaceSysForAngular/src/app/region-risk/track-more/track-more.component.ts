@@ -41,7 +41,6 @@ export class TrackMoreComponent implements OnInit {
           if (data.code === '0') {
             this.totalItems = data.count;
             this.newsTrack = data.data['content'];
-            console.log(data);
             return;
           }
           this.newsTrack = null;

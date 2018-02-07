@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
     <ng-container *ngIf="earlyWarningList || earlyWarningList !== null; else isNotEarlyWarning">
-      <carousel class="m-carousel" [showIndicators]="false">
+      <carousel class="m-carousel" [interval]="0" [showIndicators]="false">
         <slide>
           <app-warning-top [earlyWarningList]="earlyWarningList" [num]="1"></app-warning-top>
         </slide>
