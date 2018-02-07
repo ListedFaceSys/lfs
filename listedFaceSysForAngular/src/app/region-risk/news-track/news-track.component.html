@@ -20,7 +20,7 @@
     <ng-container *ngIf="newsTrack || newsTrack !== null; else isNotNewsTrack">
       <div class="mgn-top_15 track-news m-scrollbar b-border b-border_bottomN">
         <div *ngFor="let new of newsTrack" class="row">
-          <div class="col-lg-12 track-padding">
+          <div class="col-lg-12 track-padding" (click)="newsDetail()">
             <div class="col-lg-2 line-height30">{{ new.postDt | date: "y-MM-dd HH:mm" }}</div>
             <div class="col-lg-4 line-height30 padding-left_0 u-leaveOut"
                  data-toggle="tooltip"

@@ -27,10 +27,10 @@ export class EarlyWarningComponent implements OnInit {
   }
 
   ngOnInit() {
-    let userId = 1;
     this.getWarningTop();
   }
 
+  // 获取监测预警信息
   getWarningTop() {
     let warningRiskIn: WarningRiskIn = {
       userId: this.userId,
@@ -57,6 +57,7 @@ export class EarlyWarningComponent implements OnInit {
       );
   }
 
+  // 查看更多监测预警
   moreWarning() {
     this.router.navigate(['lfs/warnings']);
   }
