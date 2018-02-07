@@ -86,8 +86,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
         if((startDate==null && !"".equals(startDate)) || (endDate==null && !"".equals(endDate))){
             where="";
         }
-        String sql = "SELECT count(*) FROM (SELECT x.*,\n" +
-                "      Z.LABEL\n" +
+        String sql = "SELECT count(*)\n" +
                 "    FROM\n" +
                 "      (SELECT d.NEWS_BASICINFO_SID\n" +
                 "        || '-'\n" +
@@ -128,8 +127,7 @@ public class NewsClassesServiceImpl implements NewsClassesService {
                 "      ) z ON x.ID     = z.ID\n" +
                 "    WHERE x.CNN_SCORE <0\n" +
                 "    AND x.RELEVANCE  >= 0.8\n" +where+
-                "    ORDER BY x.POST_DT DESC) \n";
-        System.out.print(sql);
+                "    ORDER BY x.POST_DT DESC \n";
         Query query = em.createNativeQuery(sql);
         return Integer.valueOf(query.getSingleResult().toString());
     }
@@ -167,7 +165,6 @@ public class NewsClassesServiceImpl implements NewsClassesService {
     public List<Object> findchart(TendencyChartInData inData) {
         String sqlWhere = " WHERE POST_DT >= add_months(SYSDATE, -7) ";
         String sql = returnSqlStr(sqlWhere,"");
-        System.out.print(sql);
         return em.createNativeQuery(sql).getResultList();
     }
 
@@ -175,14 +172,47 @@ public class NewsClassesServiceImpl implements NewsClassesService {
     public List<Object> findchartByDate(TendencyChartInData inData) {
         String sqlwhereDate = " WHERE A.POST_DT= '"+inData.getPos_Dt()+"'";
         String sql = returnSqlStr("",sqlwhereDate);
-        System.out.print(sql);
         return em.createNativeQuery(sql).getResultList();
     }
 
     //查询公司名称
     public List<Object> findCompanyNm(String compyId) {
         String sql = "SELECT COMPANY_ID,COMPANY_NM FROM COMPY_BASICINFO WHERE IS_DEL = 0 AND COMPANY_ID IN ("+compyId+")";
-        // System.out.println(sql);
         return em.createNativeQuery(sql).getResultList();
     }
+
+    //获取新闻事件
+    public List<Object> findNewsType(long compyId, String newsCode) {
+        String sql = "SELECT SHEET_L1,WM_CONCAT(DISTINCT A.LABEL)LABEL\n" +
+                "FROM WARNING_NEWS_RESULT A\n" +
+                "INNER JOIN RULE B ON A.RULE_ID = B.RULE_ID AND B.SHEET_TYPE = 0 \n" +
+                "INNER JOIN (SELECT SHEET_ID,SHEET_L1 FROM SHEET WHERE SHEET_TYPE = 0)C ON B.SHEET_ID = C.SHEET_ID \n" +
+                "WHERE COMPANY_ID = ?1 AND NEWS_BASICINFO_SID = ?2\n" +
+                "GROUP BY C.SHEET_L1";
+        Query query = em.createNativeQuery(sql);
+        query.setParameter(1, compyId);
+        query.setParameter(2, newsCode);
+        return query.getResultList();
+    }
+
+    //获取新闻事件信息
+    public List<Object> findNewsContent(long compyId, String newsCode) {
+        String sql = "SELECT D.LABEL,NVL(F.TITLE,C.TITLE),C.POST_URL,C.POST_DT,C.MEDIA_NM,B.RELEVANCE,B.SCORE,NVL(E.HIGHLIGHT_TEXT,C.CONTENT),B.IMPORTANCE\n" +
+                "FROM COMPY_BASICINFO A\n" +
+                "INNER JOIN XW_NEWS_COMPANY B ON  A.COMPANY_ID = B.COMPANY_ID AND B.ISDEL = 0 AND (B.RELEVANCE > 0.01 OR B.IMPORTANCE > 0)\n" +
+                "INNER JOIN NEWS_BASICINFO C ON C.NEWS_BASICINFO_SID = B.NEWS_BASICINFO_SID\n" +
+                "LEFT JOIN(SELECT COMPANY_ID,WM_CONCAT(DISTINCT SHEET_L1)LABEL,NEWS_BASICINFO_SID \n" +
+                "          FROM WARNING_NEWS_RESULT A \n" +
+                "          INNER JOIN RULE B ON A.RULE_ID = B.RULE_ID AND B.SHEET_TYPE = 0\n" +
+                "          INNER JOIN (SELECT SHEET_ID,SHEET_L1 FROM SHEET WHERE SHEET_TYPE = 0)C ON B.SHEET_ID = C.SHEET_ID\n" +
+                "          WHERE COMPANY_ID = " + compyId + "\n" +
+                "          GROUP BY COMPANY_ID,NEWS_BASICINFO_SID)D ON A.COMPANY_ID = D.COMPANY_ID AND B.NEWS_BASICINFO_SID = D.NEWS_BASICINFO_SID\n" +
+                "LEFT JOIN WARNING_NEWS_HIGHLIGHT E ON A.COMPANY_ID = E.COMPANY_ID AND B.NEWS_BASICINFO_SID = E.NEWS_BASICINFO_SID\n" +
+                "LEFT JOIN WARNING_NEWS_RESULT F ON A.COMPANY_ID = F.COMPANY_ID AND B.NEWS_BASICINFO_SID = F.NEWS_BASICINFO_SID\n" +
+                "WHERE A.COMPANY_ID = " + compyId + " AND B.NEWS_BASICINFO_SID = ?1";
+        Query query = em.createNativeQuery(sql);
+        query.setParameter(1, newsCode);
+        return query.getResultList();
+    }
+
 }
