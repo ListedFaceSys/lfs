@@ -11,6 +11,7 @@ import { CompanyRiskComponent } from '../company-risk/company-risk.component';
 import { AtlasMapComponent } from '../atlas-map/atlas-map.component';
 import { TrackMoreComponent } from '../region-risk/track-more/track-more.component';
 import { WarningMoreComponent } from '../region-risk/warning-more/warning-more.component';
+import { NewsDetailComponent } from '../region-risk/news-detail/news-detail.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
       {
         path: 'warnings',
         component: WarningMoreComponent  // 更多预警信息
+      },
+      {
+        path: 'new',
+        component: NewsDetailComponent   // 更多预警信息
       }
     ]
   }

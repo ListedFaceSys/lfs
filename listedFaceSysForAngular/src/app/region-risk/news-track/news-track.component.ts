@@ -30,16 +30,17 @@ export class NewsTrackComponent implements OnInit, DoCheck {
     this.getNewsTrack(1, 10);
   }
 
+  // 监听时间
   ngDoCheck() {
     if (this.range !== this.oldRange) {
       let startDate = this.commonUtil.dateFormat(this.range[0], 'yyyy-MM-dd');
       let endDate = this.commonUtil.dateFormat(this.range[1], 'yyyy-MM-dd');
-      console.log(startDate, endDate);
       this.getNewsTrack(1, 10, startDate, endDate);
       this.oldRange = this.range;
     }
   }
 
+  // 获取负面新闻
   getNewsTrack(page: number, pageSize: number, startDate?: string, endDate?: string) {
     let news: NegativeNewsIn;
     news = {
@@ -63,7 +64,13 @@ export class NewsTrackComponent implements OnInit, DoCheck {
       );
   }
 
+  // 查看更多负面新闻
   moreTracks() {
     this.router.navigate(['lfs/tracks']);
+  }
+
+  // 查看新闻详情
+  newsDetail() {
+    this.router.navigate(['lfs/new']);
   }
 }

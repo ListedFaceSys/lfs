@@ -23,6 +23,7 @@
 }
 .track-padding {
   padding: 10px 15px;
+  cursor: pointer;
 }
 .track-select {
   display: inline-block;
