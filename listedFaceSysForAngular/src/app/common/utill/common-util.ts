@@ -1,4 +1,4 @@
-export class UtillFun {
+export class CommonUtil {
   constructor() {
   }
   //获取随机数方法min 最小 max最大值

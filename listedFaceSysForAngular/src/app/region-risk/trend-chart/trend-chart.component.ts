@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgxEchartsService} from "ngx-echarts";
 import {HttpClient} from "@angular/common/http";
 import {ApiUrl} from "../../common/constant/api-url.const";
-import {UtillFun} from "../../common/utill/common-util";
+import {CommonUtil} from "../../common/utill/common-util";
 
 @Component({
   selector: 'app-trend-chart',
@@ -18,7 +18,7 @@ export class TrendChartComponent implements OnInit {
   };
 
   trendChartData = {
-    dataMonth: UtillFun.prototype.dateFormat(new Date(),"yyyy-MM"),  //日期时间
+    dataMonth: CommonUtil.prototype.dateFormat(new Date(),"yyyy-MM"),  //日期时间
     risk1: 0,  //治理风险
     risk2: 0,  //财务风险
     risk3: 0,  //经营风险
