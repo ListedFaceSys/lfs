@@ -17,12 +17,12 @@ export class TrendChartComponent implements OnInit {
   };
 
   trendChartData = {
-    dateTime: "2018-11",  //日期时间
-    financialRisk: 213,  //财务风险
-    governanceRisk: 12,  //治理风险
-    businessRisk: 54,  //经营风险
-    marketRisk: 124,  //市场风险
-    lawsRegulationsRisk: 53,   //法律法规风险
+    dateMonth: "2018-11",  //日期时间
+    risk1: 0,  //治理风险
+    risk2: 0,  //财务风险
+    risk3: 0,  //经营风险
+    risk4: 0,  //市场风险
+    risk5: 0,   //法律法规风险
   };
   timeList =["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
 
@@ -31,35 +31,36 @@ export class TrendChartComponent implements OnInit {
     private es: NgxEchartsService) { }
 
 
-
-  //eChart图数据值
-  ChartData:{ xAxisData:any[],seriesData:{ allNetwork:any[], negative:any[] } } = {
-    xAxisData:[], //时间周期
-    seriesData:{
-      allNetwork:[], //全网新闻数据
-      negative:[]  //负面新闻数据
-    }
-  };
-
-
   ngOnInit() {
     this.initNewsData();
     this.showChart();
   }
 
-  //初始化数据
+  //初始化当前年月数据
   initNewsData(){
+    let yy = new Date().getFullYear();
+    let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChartSingle}`+'"?startDate"="'+(yy-7)+'"&endDate"='+yy;
+    console.log(url);
+    this.http.get(url)
+      .subscribe(geoJson => {
+        if(geoJson["code"] == 0){
+          this.trendChartData = geoJson["data"];
+        }else if(geoJson["code"] == 1 ){
+
+        }
+      });
 
   }
 
   //加载数据展开图
   showChart(){
-    this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsCharts}`,{})
+    let yy = new Date().getFullYear();
+    let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChart}`+'"?startDate"="'+(yy-7)+'"&endDate"='+yy;
+    this.http.get(url)
       .subscribe(geoJson => {
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);
       });
-
   }
 
 
