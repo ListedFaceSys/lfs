@@ -1,6 +1,7 @@
 package com.cscs.listedfacesys.services.impl;
 
 import com.cscs.listedfacesys.services.WarningAnnounceService;
+import com.cscs.util.SqlUtils;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -44,7 +45,7 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
         if (pageSize == 0 && pageCount == 0) {
             sql += queryTop10;
         } else {
-
+            SqlUtils.pagingMethod(pageSize, pageCount, sql);
         }
 
         return em.createNativeQuery(sql).getResultList();
