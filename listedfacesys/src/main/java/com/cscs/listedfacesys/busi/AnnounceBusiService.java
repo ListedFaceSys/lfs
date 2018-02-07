@@ -148,6 +148,7 @@ public class AnnounceBusiService {
             if (dataMap.get(String.valueOf(yearByI + i)) == null ){
                 single = new WarningRiskOutData();
                 single.setDate(String.valueOf(yearByI + i));
+                single.setWarningRiskInfoDataList(addMonthElement());
             } else {
                 single = dataMap.get(String.valueOf(yearByI + i));
             }
@@ -155,6 +156,16 @@ public class AnnounceBusiService {
         }
 
         return issuedVolumeList;
+    }
+
+    private static List<WarningRiskInfoData> addMonthElement() {
+        List<WarningRiskInfoData> monthList = new ArrayList<>();
+        for (int i = 0; i < 12 ; i++) {
+            WarningRiskInfoData single = new WarningRiskInfoData();
+            single.setDataMonth(i + 1);
+            monthList.add(i, single);
+        }
+        return monthList;
     }
 
 }
