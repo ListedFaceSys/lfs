@@ -3,6 +3,7 @@ package com.cscs.listedfacesys.controller;
 import com.cscs.listedfacesys.busi.AnnounceBusiService;
 import com.cscs.listedfacesys.dto.*;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
+import com.cscs.listedfacesys.services.MapRegionService;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
@@ -33,11 +34,28 @@ public class RegionRiskController {
     WarningAnnounceService warningAnnounceService;
     @Autowired
     UserAttentionService userAttentionService;
+    @Autowired
+    MapRegionService mapRegionService;
 
     //地图分布一览查询
-    @RequestMapping(value = "/companyMap/{userId}", method = RequestMethod.GET)
-    public BaseOutData getCompanyMap(@PathVariable Long userId) {
+    @RequestMapping(value = "/companyMap", method = RequestMethod.GET)
+    public BaseOutData getCompanyMap() {
         BaseOutData outData = new BaseOutData();
+
+        RegionMapInfoData regionMapInfoData = new RegionMapInfoData();
+
+        List<Object> mapList = mapRegionService.getRegionCompanyCount();
+
+        return outData;
+    }
+
+    //同比增长数据
+    @RequestMapping(value = "/companyMapRatio", method = RequestMethod.GET)
+    public BaseOutData getCompanyMapRation() {
+        BaseOutData outData = new BaseOutData();
+
+        SimpleDateFormat df = new SimpleDateFormat("YYYYMM");
+        String date = df.format(new Date());
 
         return outData;
     }
@@ -85,6 +103,7 @@ public class RegionRiskController {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyyMM");
         String month = df.format(new Date());
+        String monthFormat = new SimpleDateFormat("yyyy-MM").format(new Date());
         List<Object> monthData = warningAnnounceService.getWarningMonthCount(month);
 
         if (monthData == null) {
@@ -103,7 +122,7 @@ public class RegionRiskController {
             warningRiskInfoData.setRisk3(nb.get(2).intValue());
             warningRiskInfoData.setRisk4(nb.get(3).intValue());
             warningRiskInfoData.setRisk5(nb.get(4).intValue());
-            warningRiskInfoData.setDataMonth(Integer.valueOf(month));
+            warningRiskInfoData.setDataMonth(Integer.valueOf(monthFormat));
         }
 
         data.put("monthData", warningRiskInfoData);
