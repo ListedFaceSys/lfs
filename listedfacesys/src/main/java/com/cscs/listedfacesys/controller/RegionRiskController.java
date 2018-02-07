@@ -370,6 +370,8 @@ public class RegionRiskController {
         List<CompanyNewsOutData> reslist = new ArrayList<CompanyNewsOutData>();
         Map<String, List<CompanyNewsOutData>> map = new HashMap<String, List<CompanyNewsOutData>>();
         try {
+            //查询负面新闻总数
+            int count =  newsClassService.getLastingBondViolationNewsCount(inData.getStartDate(),inData.getEndDate());
             itemList =  newsClassService.getLastingBondViolationNews(inData.getPage(), inData.getPageSize(),inData.getStartDate(),inData.getEndDate());
             if(itemList !=null && itemList.size()>0){
                for (int i = 0; i <itemList.size() ; i++) {
@@ -400,7 +402,7 @@ public class RegionRiskController {
                 map.put("content", reslist);
                 out.setCode("0");
                 out.setData(map);
-                out.setCount(reslist.size());
+                out.setCount(count);
             }else{
                 out.setCode("1");
                 out.setData(null);
