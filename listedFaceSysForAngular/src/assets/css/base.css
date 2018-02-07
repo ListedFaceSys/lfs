@@ -71,6 +71,9 @@
 .mgn-top_15 {
   margin-top: 15px;
 }
+.mgn-top_20 {
+  margin-top: 20px;
+}
 .mgn-bottom_10 {
   margin-bottom: 10px;
 }
@@ -80,9 +83,10 @@
 .mgn-bottom_70 {
   margin-bottom: 70px;
 }
-.mgn-top_20 {
-  margin-top: 20px;
+.mgn-bottom_240 {
+  margin-bottom: 240px;
 }
+
 /* 内边距 */
 .padding-left_0 {
   padding-left: 0;
