@@ -2,6 +2,7 @@ package com.cscs.listedfacesys.services.impl;
 
 import com.cscs.listedfacesys.dto.TendencyChartInData;
 import com.cscs.listedfacesys.services.NewsClassesService;
+import com.cscs.util.SqlUtils;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -21,19 +22,13 @@ public class NewsClassesServiceImpl implements NewsClassesService {
 
     //负面跟踪新闻
     public List<Object> getLastingBondViolationNews(int page, int pageSize,String startDate,String endDate) throws Exception {
-        int pageNum = page*pageSize+1;
-        int rows = (page-1)*pageSize;
+
         String where = "    AND (to_date(x.POST_DT,'yyyy-mm-dd') BETWEEN to_date('"+ startDate +"','yyyy-mm-dd') AND to_date('"+ endDate +"','yyyy-mm-dd'))\n";
 
         if((startDate==null && !"".equals(startDate)) || (endDate==null && !"".equals(endDate))){
             where="";
         }
-        String sql = "SELECT *\n" +
-                "FROM\n" +
-                "  (SELECT tt.*,\n" +
-                "    ROWNUM RN\n" +
-                "  FROM\n" +
-                "    (SELECT x.*,\n" +
+        String sql = "SELECT x.*,\n" +
                 "      Z.LABEL\n" +
                 "    FROM\n" +
                 "      (SELECT d.NEWS_BASICINFO_SID\n" +
@@ -76,13 +71,10 @@ public class NewsClassesServiceImpl implements NewsClassesService {
                 "      ) z ON x.ID     = z.ID\n" +
                 "    WHERE x.CNN_SCORE <0\n" +
                 "    AND x.RELEVANCE  >= 0.8\n" +where+
-                "    ORDER BY x.POST_DT DESC\n" +
-                "    ) tt\n" +
-                "  WHERE ROWNUM < "+pageNum+"   \n" +
-                "  )\n" +
-                "WHERE RN > "+ rows+"\n";
-        System.out.print(sql);
-        return em.createNativeQuery(sql).getResultList();
+                "    ORDER BY x.POST_DT DESC\n" ;
+        //使用自定义sql工具类，生成分页sql语句
+        String paginSql = SqlUtils.pagingMethod(page,pageSize,sql);
+        return em.createNativeQuery(paginSql).getResultList();
     }
 
 
