@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NgxEchartsService} from "ngx-echarts";
 import {ApiUrl} from "../../common/constant/api-url.const";
+import {UtillFun} from "../../common/utill/utillFun";
 
 @Component({
   selector: 'app-news-event',
@@ -9,13 +10,15 @@ import {ApiUrl} from "../../common/constant/api-url.const";
   styleUrls: ['./news-event.component.css']
 })
 export class NewsEventComponent implements OnInit {
+  userId;
   options:any = {};
-  getTimeNewsData:{dataName:string, newCount:number,negativeNewsCount:number,ratio:string }={
-    dataName:"最近一周汇总",
+  getTimeNewsData:{postDt:string, newCount:number,negativeNewsCount:number,ratio:string }={
+    postDt:"2018-01-01",
     newCount:124,  //新闻总数
     negativeNewsCount:53, //负面新闻
     ratio:"32%" //总/负新闻占比
   };
+
   //eChart图数据值
   dataMap:any = {
     currentIndex:0
@@ -24,18 +27,41 @@ export class NewsEventComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private es: NgxEchartsService) { }
+    private es: NgxEchartsService,private utillFun:UtillFun) { }
 
   ngOnInit() {
+    this.userId = 1;
     this.showChart();
+    this.showDateData()
   }
+
+  showDateData(){
+    let body = {
+      time:this.utillFun.dateFormat(new Date(),"yyyy-MM-dd"),
+      userId:this.userId,
+    };
+    this.http.post(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsChartByDate}`,body)
+      .subscribe(geoJson => {
+        if(geoJson["code"] == 0){
+          this.getTimeNewsData = geoJson["data"];
+        }else{
+
+        }
+      });
+  }
+
+
   //加载数据展开图
   showChart(){
-    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`)
-      .subscribe(geoJson => {
+    this.http.post(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`,{})
+    .subscribe(geoJson => {
+      if(geoJson["code"] == 0){
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);
-      });
+      }else{
+
+      }
+    });
 
   }
 

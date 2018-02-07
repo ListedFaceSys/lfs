@@ -36,7 +36,7 @@ export class GeographyComponent implements OnInit {
 
   //获取 深圳市 所有区公司数据
   getSZCityData(){
-    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographySZCityData}`)
+    this.http.get(`${ApiUrl.regionRisk_geographySZCityData}`)
       .subscribe(geoJson => {
         this.SZCityData = geoJson["data"].SZCityData;
       })
@@ -45,11 +45,11 @@ export class GeographyComponent implements OnInit {
   allCompanyData:any ={};
   //获取公司数据
   getAllCompany(){
-    this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographyAllCompanyData}`)
+    this.http.get(`${ApiUrl.regionRisk_geographyAllCompanyData}`)
       .subscribe(geoJson => {
         this.allCompanyData = geoJson["data"].allCompanyData;
 
-        this.http.get(`${ApiUrl.api_url}${ApiUrl.regionRisk_geographyChartsMap}`)
+        this.http.get(`${ApiUrl.regionRisk_geographyChartsMap}`)
           .subscribe(geoJson => {
             this.es.registerMap('SZ', geoJson);
             this.options = {
