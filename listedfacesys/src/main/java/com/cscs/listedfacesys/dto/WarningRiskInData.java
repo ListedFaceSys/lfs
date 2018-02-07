@@ -1,11 +1,15 @@
 package com.cscs.listedfacesys.dto;
 
+/**
+ * create by wzy on 2018/02/07
+ * 预警Top10入参类
+ */
 public class WarningRiskInData {
 
-    private Long userId;
-    private String year;
-    private int pageSize;
-    private int pageCount;
+    private Long userId;        //用户ID
+    private String year;        //年份（YYYY）
+    private int pageSize;       //页码
+    private int pageCount;      //单页数据量
 
     public Long getUserId() {
         return userId;

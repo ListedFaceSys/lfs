@@ -144,7 +144,13 @@ public class AnnounceBusiService {
         issuedVolumeList = new ArrayList<WarningRiskOutData>();
         for (int i = 0; i < 7; i++) {
             int yearByI = Integer.valueOf(startDate);;
-            WarningRiskOutData single = dataMap.get(String.valueOf(yearByI + i));
+            WarningRiskOutData single = null;
+            if (dataMap.get(String.valueOf(yearByI + i)) == null ){
+                single = new WarningRiskOutData();
+                single.setDate(String.valueOf(yearByI + i));
+            } else {
+                single = dataMap.get(String.valueOf(yearByI + i));
+            }
             issuedVolumeList.add(i,single);
         }
 

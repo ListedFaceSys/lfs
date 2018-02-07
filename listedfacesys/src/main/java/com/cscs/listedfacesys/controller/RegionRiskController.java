@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -57,7 +58,6 @@ public class RegionRiskController {
             outData.setCode("1");
             outData.setMessage("The query fails!");
             logger.info("[未查询到风险数据信息]");
-            return outData;
         }
 
         warningRiskList = AnnounceBusiService.convert(sevYearDataList, startDate);
@@ -128,7 +128,7 @@ public class RegionRiskController {
         dateStart = dateStart + "01";
         dateEnd = String.valueOf((Integer.parseInt(dateStart) + 11));
 
-        List<Object> companyIdList = warningAnnounceService.getWarningTop10(dateStart, dateEnd);
+        List<Object> companyIdList = warningAnnounceService.getWarningTop10(dateStart, dateEnd, inData.getPageSize(), inData.getPageCount());
 
         if (companyIdList.size() == 0) {
             outData.setCode("1");
@@ -143,7 +143,7 @@ public class RegionRiskController {
 
         idList = idList.substring(0, idList.length() - 1);
 
-        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd, inData.getPageSize(), inData.getPageCount());
+        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd);
 
         if (contentList.size() == 0) {
             outData.setCode("1");
@@ -152,6 +152,18 @@ public class RegionRiskController {
             return outData;
         }
 
+        List<Object> countList = warningAnnounceService.getWarningCpCount(dateStart, dateEnd);
+        logger.info("今年公司总数：" + countList);
+
+        if (countList.get(0) == null) {
+            outData.setCode("1");
+            outData.setMessage("The Count data is not queried!");
+            logger.info("[未查询到更多总数数据]");
+        }
+
+        BigDecimal bd = (BigDecimal) countList.get(0);
+        int count = bd.intValue();
+
         Set<String> focusIds = userAttentionService.searchAllCompy(inData.getUserId());
         warningInfoList = AnnounceBusiService.getWarningInfoData(contentList, focusIds, null, null);
 
@@ -159,6 +171,7 @@ public class RegionRiskController {
             Map<String, List<WarningInfoData>> data = new HashMap<>();
             data.put("warningDataList",warningInfoList);
             outData.setData(data);
+            outData.setCount(count);
             outData.setCode("0");
             outData.setMessage("The query is successful!");
             logger.info("[查询成功]"+warningInfoList);
