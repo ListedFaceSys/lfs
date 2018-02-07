@@ -11,7 +11,7 @@ import { CompanyRiskModule } from './company-risk/company-risk.module';
 import { AtlasMapModule } from './atlas-map/atlas-map.module';
 
 import { AppRoutingModule } from './app-routing.module';
-import { UtillFun } from './common/utill/utillFun';
+import { CommonUtil } from './common/utill/common-util';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { UtillFun } from './common/utill/utillFun';
   declarations: [
     AppComponent
   ],
-  providers: [UtillFun],
+  providers: [CommonUtil],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

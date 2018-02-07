@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgxEchartsService} from "ngx-echarts";
 import {HttpClient} from "@angular/common/http";
 import {ApiUrl} from "../../common/constant/api-url.const";
+import {CommonUtil} from "../../common/utill/common-util";
 
 @Component({
   selector: 'app-trend-chart',
@@ -17,7 +18,7 @@ export class TrendChartComponent implements OnInit {
   };
 
   trendChartData = {
-    dateMonth: "2018-11",  //日期时间
+    dataMonth: CommonUtil.prototype.dateFormat(new Date(),"yyyy-MM"),  //日期时间
     risk1: 0,  //治理风险
     risk2: 0,  //财务风险
     risk3: 0,  //经营风险
@@ -38,13 +39,12 @@ export class TrendChartComponent implements OnInit {
 
   //初始化当前年月数据
   initNewsData(){
-    let yy = new Date().getFullYear();
-    let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChartSingle}`+'"?startDate"="'+(yy-7)+'"&endDate"='+yy;
+    let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChartSingle}`;
     console.log(url);
     this.http.get(url)
       .subscribe(geoJson => {
         if(geoJson["code"] == 0){
-          this.trendChartData = geoJson["data"];
+          this.trendChartData = geoJson["data"].monthData;
         }else if(geoJson["code"] == 1 ){
 
         }
@@ -56,6 +56,7 @@ export class TrendChartComponent implements OnInit {
   showChart(){
     let yy = new Date().getFullYear();
     let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChart}`+'"?startDate"="'+(yy-7)+'"&endDate"='+yy;
+    console.log(url);
     this.http.get(url)
       .subscribe(geoJson => {
         this.dataMap = this.getTrueData(geoJson, this.timeList);

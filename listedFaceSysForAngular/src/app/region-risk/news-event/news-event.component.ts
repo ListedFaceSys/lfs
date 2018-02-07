@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NgxEchartsService} from "ngx-echarts";
 import {ApiUrl} from "../../common/constant/api-url.const";
-import {UtillFun} from "../../common/utill/utillFun";
+import {CommonUtil} from "../../common/utill/common-util";
 
 @Component({
   selector: 'app-news-event',
@@ -13,7 +13,7 @@ export class NewsEventComponent implements OnInit {
   userId;
   options:any = {};
   getTimeNewsData:{postDt:string, newCount:number,negativeNewsCount:number,ratio:string }={
-    postDt:this.utillFun.dateFormat(new Date(),"yyyy-MM-dd"),
+    postDt:this.commonUtil.dateFormat(new Date(),"yyyy-MM-dd"),
     newCount:0,  //新闻总数
     negativeNewsCount:0, //负面新闻
     ratio:"0" //总/负新闻占比
@@ -27,7 +27,7 @@ export class NewsEventComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private es: NgxEchartsService,private utillFun:UtillFun) { }
+    private es: NgxEchartsService,private commonUtil:CommonUtil) { }
 
   ngOnInit() {
     this.userId = 1;
@@ -37,7 +37,7 @@ export class NewsEventComponent implements OnInit {
 
   showDateData(){
     let body = {
-      time:this.utillFun.dateFormat(new Date(),"yyyy-MM-dd"),
+      time:this.commonUtil.dateFormat(new Date(),"yyyy-MM-dd"),
       userId:this.userId,
     };
     this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsChartByDate}`,body)
@@ -46,7 +46,7 @@ export class NewsEventComponent implements OnInit {
           this.getTimeNewsData = geoJson["data"];
         }else if(geoJson["code"] == 1 ){
           this.getTimeNewsData = {
-            postDt:this.utillFun.dateFormat(new Date(),"yyyy-MM-dd"),
+            postDt:this.commonUtil.dateFormat(new Date(),"yyyy-MM-dd"),
             newCount:0,  //新闻总数
             negativeNewsCount:0, //负面新闻
             ratio:"0" //总/负新闻占比
@@ -211,19 +211,19 @@ export class NewsEventComponent implements OnInit {
         let dataList3:any = [];  //负面/新闻总数占比
         for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
           dataList1.push({
-            name: this.utillFun.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+            name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
             value: oneSingleNews.newCount,
             postDt:oneSingleNews.postDt,
             ratio:oneSingleNews.ratio
           });
           dataList2.push({
-            name: this.utillFun.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+            name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
             value: oneSingleNews.negativeNewsCount,
             postDt:oneSingleNews.postDt,
             ratio:oneSingleNews.ratio
           });
           dataList3.push({
-            name: this.utillFun.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+            name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
             value: oneSingleNews.ratio,
             postDt:oneSingleNews.postDt,
             ratio:oneSingleNews.ratio

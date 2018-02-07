@@ -1,13 +1,20 @@
 <div class="row">
   <div class="col-lg-12">
-    <carousel class="m-carousel" [showIndicators]="false">
-      <slide>
-        <app-warning-top [earlyWarningList]="earlyWarningList" [num]="1"></app-warning-top>
-      </slide>
-      <slide *ngIf="copyEarlyWarningList">
-        <app-warning-top [earlyWarningList]="copyEarlyWarningList" [num]="6"></app-warning-top>
-      </slide>
-    </carousel>
+    <ng-container *ngIf="earlyWarningList || earlyWarningList !== null; else isNotEarlyWarning">
+      <carousel class="m-carousel" [showIndicators]="false">
+        <slide>
+          <app-warning-top [earlyWarningList]="earlyWarningList" [num]="1"></app-warning-top>
+        </slide>
+        <slide *ngIf="copyEarlyWarningList || copyEarlyWarningList !== null">
+          <app-warning-top [earlyWarningList]="copyEarlyWarningList" [num]="6"></app-warning-top>
+        </slide>
+      </carousel>
+    </ng-container>
+    <ng-template #isNotEarlyWarning>
+      <div class="mgn-top_15">
+        {{ getYear }}年暂无监测预警信息
+      </div>
+    </ng-template>
   </div>
   <div class="col-lg-12 mgn-top_u10">
     <div class="u-more" (click)="moreWarning()">查看更多</div>
