@@ -194,27 +194,29 @@ export class TrendChartComponent implements OnInit {
         let dataList3:any = [];  //经营风险
         let dataList4:any = [];  //市场风险
         let dataList5:any = [];  //法律法规风险
-        for(let oneSingleNews of oneConent.warningRiskInfoDataList){ //添加新闻总数 ， 负面新闻数
-          dataList1.push({
-            name: timeList[oneSingleNews.dataMonth],
-            value: oneSingleNews.risk1,
-          });
-          dataList2.push({
-            name: timeList[oneSingleNews.dataMonth],
-            value: oneSingleNews.risk2,
-          });
-          dataList3.push({
-            name: timeList[oneSingleNews.dataMonth],
-            value: oneSingleNews.risk3,
-          });
-          dataList4.push({
-            name: timeList[oneSingleNews.dataMonth],
-            value: oneSingleNews.risk5,
-          });
-          dataList5.push({
-            name: timeList[oneSingleNews.dataMonth],
-            value: oneSingleNews.risk4,
-          })
+        if(oneConent.warningRiskInfoDataList!=null){
+          for(let oneSingleNews of oneConent.warningRiskInfoDataList){ //添加新闻总数 ， 负面新闻数
+            dataList1.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk1,
+            });
+            dataList2.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk2,
+            });
+            dataList3.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk3,
+            });
+            dataList4.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk5,
+            });
+            dataList5.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk4,
+            })
+          }
         }
         optionSeries.push({  //添加所有时间轴数据
           series:[
