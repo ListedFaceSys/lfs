@@ -21,7 +21,7 @@ public interface WarningAnnounceService {
      * @param compyList
      * @return
      */
-    public List<Object> getWarningTop10Content(String compyList, String dateStart, String dateEnd);
+    public List<Object> getWarningTop10Content(String compyList, String dateStart, String dateEnd, int pageSize, int pageCount);
 
     /**
      * 查询最近七年相关公告条数

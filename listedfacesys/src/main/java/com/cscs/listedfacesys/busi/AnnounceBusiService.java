@@ -97,16 +97,20 @@ public class AnnounceBusiService {
      */
     public static List<WarningRiskOutData> convert(List<Object> volumeData, String startDate) {
         Map<String, WarningRiskOutData> dataMap = new TreeMap<String, WarningRiskOutData>();
-        List<WarningRiskOutData> issuedVolumeList = new ArrayList<WarningRiskOutData>();
+        List<WarningRiskOutData> issuedVolumeList = null;
 
-        for (Object o: issuedVolumeList) {
+        for (Object o: volumeData) {
             Object[] objs = (Object[]) o;
             String dateMonth = StringUtil.toString(objs[0]);
-            int risk1 = (int) objs[1];
-            int risk2 = (int) objs[2];
-            int risk3 = (int) objs[3];
-            int risk4 = (int) objs[4];
-            int risk5 = (int) objs[5];
+            List<Number> nb = new ArrayList<>();
+            for (int i = 0;i < 5;i++) {
+                nb.add((Number) objs[i+1]);
+            }
+            int risk1 = nb.get(0).intValue();
+            int risk2 = nb.get(1).intValue();
+            int risk3 = nb.get(2).intValue();
+            int risk4 = nb.get(3).intValue();
+            int risk5 = nb.get(4).intValue();
 
             if (dateMonth != null && dateMonth.length() == 6) {
                 String year = dateMonth.substring(0, 4);
@@ -137,6 +141,7 @@ public class AnnounceBusiService {
             }
         }
 
+        issuedVolumeList = new ArrayList<WarningRiskOutData>();
         for (int i = 0; i < 7; i++) {
             int yearByI = Integer.valueOf(startDate);;
             WarningRiskOutData single = dataMap.get(String.valueOf(yearByI + i));

@@ -44,7 +44,7 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
     }
 
     @Override
-    public List<Object> getWarningTop10Content(String compyList, String dateStart, String dateEnd) {
+    public List<Object> getWarningTop10Content(String compyList, String dateStart, String dateEnd, int pageSize, int pageCount) {
         String sql = "SELECT DISTINCT COMPANY_ID,COMPANY_NM,TITLE,TYPE_NAME,NOTICE_DT\n" +
                 "FROM(\n" +
                 "SELECT A.COMPANY_ID,A.COMPANY_NM,A.WARNING_TITLE TITLE,B.TYPE_NAME,A.NOTICE_DT\n" +
@@ -65,14 +65,14 @@ public class WarningAnnounceServiceImpl implements WarningAnnounceService {
 
     @Override
     public List<Object> getWarningYearCount(String startDate, String endDate) {
-        String sql = "Select NOTICE_DT,\n" +
+        String sql = "Select to_char(NOTICE_DT,'YYYYMM') noticeDtShow,\n" +
                 "SUM(decode(ALARM_KEYWORD_CD,102,1,0)) risk1, SUM(decode(ALARM_KEYWORD_CD,103,1,0)) risk2, \n" +
                 "SUM(decode(ALARM_KEYWORD_CD,104,1,0)) risk3, SUM(decode(ALARM_KEYWORD_CD,105,1,0)) risk4,\n" +
                 "SUM(decode(ALARM_KEYWORD_CD,106,1,0)) risk5\n" +
                 "FROM COMPY_ANNOUNCE_ALARM A\n" +
-                "where to_char(A.NOTICE_DT,'YYYYMM') between "+ startDate +" and "+ endDate +"\n" +
-                "group by to_char(A.NOTICE_DT,'YYYYMM'), NOTICE_DT\n" +
-                "ORDER BY A.NOTICE_DT;";
+                "where to_char(A.NOTICE_DT,'YYYYMM') between \'"+ startDate +"\' and \'"+ endDate +"\'\n" +
+                "group by to_char(NOTICE_DT,'YYYYMM')\n" +
+                "ORDER BY noticeDtShow ASC ";
         return em.createNativeQuery(sql).getResultList();
     }
 
