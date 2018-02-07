@@ -48,7 +48,11 @@ public class RegionRiskController {
         BaseOutData outData = new BaseOutData();
         Map<String, List<WarningRiskOutData>> data = new HashMap<>();
         List<WarningRiskOutData> warningRiskList = new ArrayList<>();
-        List<Object> sevYearDataList = warningAnnounceService.getWarningYearCount(startDate, endDate);
+
+        String startDateToMM = startDate + "01";
+        String endDateToMM = endDate + "12";
+
+        List<Object> sevYearDataList = warningAnnounceService.getWarningYearCount(startDateToMM, endDateToMM);
 
         if (sevYearDataList.size() == 0) {
             outData.setCode("1");
@@ -59,7 +63,7 @@ public class RegionRiskController {
 
         warningRiskList = AnnounceBusiService.convert(sevYearDataList, startDate);
 
-        if (warningRiskList.size() != 0) {
+        if (warningRiskList != null) {
             data.put("warningRiskList", warningRiskList);
             outData.setCode("0");
             outData.setMessage("The query is successful!");
@@ -91,7 +95,6 @@ public class RegionRiskController {
             return outData;
         } else {
             Object[] objs = (Object[]) monthData.get(0);
-//            Object[] objs = (Object[]) o;
             List<Number> nb = new ArrayList<>();
             for (int i = 0;i < 5;i++) {
                 nb.add((Number) objs[i]);
@@ -114,12 +117,12 @@ public class RegionRiskController {
     }
 
     //查询预警趋势TOP10公司信息
-    @RequestMapping(value = "/warningTop/{userId}/{year}", method = RequestMethod.GET)
-    public BaseOutData getWarningTop10(@PathVariable Long userId, @PathVariable String year) {
+    @RequestMapping(value = "/warningTop", method = RequestMethod.POST)
+    public BaseOutData getWarningTop10(@RequestBody WarningRiskInData inData) {
         BaseOutData outData = new BaseOutData();
 
         List<WarningInfoData> warningInfoList = new ArrayList<>();
-        String dateStart = year;
+        String dateStart = inData.getYear();
         String dateEnd = "";
         String idList = "";
 
@@ -141,7 +144,7 @@ public class RegionRiskController {
 
         idList = idList.substring(0, idList.length() - 1);
 
-        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd);
+        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd, inData.getPageSize(), inData.getPageCount());
 
         if (contentList.size() == 0) {
             outData.setCode("1");
@@ -150,7 +153,7 @@ public class RegionRiskController {
             return outData;
         }
 
-        Set<String> focusIds = userAttentionService.searchAllCompy(userId);
+        Set<String> focusIds = userAttentionService.searchAllCompy(inData.getUserId());
         warningInfoList = AnnounceBusiService.getWarningInfoData(contentList, focusIds, null, null);
 
         if (warningInfoList != null){
