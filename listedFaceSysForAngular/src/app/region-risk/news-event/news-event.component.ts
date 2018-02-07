@@ -40,12 +40,12 @@ export class NewsEventComponent implements OnInit {
       time:this.utillFun.dateFormat(new Date(),"yyyy-MM-dd"),
       userId:this.userId,
     };
-    this.http.post(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsChartByDate}`,body)
+    this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsChartByDate}`,body)
       .subscribe(geoJson => {
         if(geoJson["code"] == 0){
           this.getTimeNewsData = geoJson["data"];
-        }else{
-
+        }else if(geoJson["code"] == null || geoJson["code"] == { } ){
+          this.getTimeNewsData = geoJson["data"];
         }
       });
   }
@@ -53,8 +53,9 @@ export class NewsEventComponent implements OnInit {
 
   //加载数据展开图
   showChart(){
-    this.http.post(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`,{})
+    this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsCharts}`,{})
     .subscribe(geoJson => {
+      console.log(geoJson)
       if(geoJson["code"] == 0){
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);
