@@ -15,7 +15,8 @@ export const ApiUrl = {
 
   regionRisk_warningTop: 'regionRisk/warningTop',
   regionRisk_lastingBondViolation: 'regionRisk/lastingBondViolation',
-  regionRisk_newsCharts: 'assets/dataJson/tempData.json',
+  regionRisk_newsCharts: 'regionRisk/newsChart',
+  regionRisk_newsChartByDate: 'regionRisk/newsChartByDate',
   regionRisk_geographyAllCompanyData: 'assets/dataJson/geographyAllCompanyData.json',
   regionRisk_trendChartSelectBase: 'assets/dataJson/selectBase.json',
   regionRisk_geographyChartsMap:'assets/mapJson/ShenzhenDistrict.json',
