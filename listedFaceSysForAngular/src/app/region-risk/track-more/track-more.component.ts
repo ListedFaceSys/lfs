@@ -1,28 +1,55 @@
 import { Component, OnInit } from '@angular/core';
 
+import { RegionRiskApiService } from '../../common/api/region-risk-api.service';
+
+import { CompanyNews } from '../../common/model/company-news';
+import { NegativeNews } from '../../common/model/negative-news';
+
 @Component({
   selector: 'app-track-more',
   templateUrl: './track-more.component.html',
   styleUrls: ['../region-risk.component.css']
 })
 export class TrackMoreComponent implements OnInit {
+  newsTrack: CompanyNews;
+  totalItems: number;
+  currentPage: number;
+  itemsPerPage: number;
 
-  totalItems = 64;
-  currentPage = 4;
-  smallnumPages = 0;
-
-  constructor() { }
+  constructor(
+    private regionRiskApiService: RegionRiskApiService
+  ) {
+    this.currentPage = 1;
+    this.itemsPerPage = 10;
+  }
 
   ngOnInit() {
+    this.getNewsTrack();
   }
 
-  setPage(pageNo: number): void {
-    this.currentPage = pageNo;
-  }
-
-  pageChanged(event: any): void {
-    console.log('Page changed to: ' + event.page);
-    console.log('Number items per page: ' + event.itemsPerPage);
+  getNewsTrack($event?) {
+    if ($event) {
+      this.currentPage = $event.page;
+    }
+    let news: NegativeNews = {
+      page: this.currentPage,
+      pageSize: this.itemsPerPage,
+    };
+    this.regionRiskApiService.getNewsTrack(news)
+      .subscribe(
+        data => {
+          if (data.code === '0') {
+            this.totalItems = data.count;
+            this.newsTrack = data.data['content'];
+            console.log(data);
+            return;
+          }
+          this.newsTrack = null;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
 }

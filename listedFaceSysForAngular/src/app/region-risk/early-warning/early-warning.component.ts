@@ -22,7 +22,7 @@ export class EarlyWarningComponent implements OnInit {
 
   ngOnInit() {
     let userId = 1;
-    let year = '2003';
+    let year = new Date().getFullYear().toString();
 
     this.getWarningTop(userId, year);
   }
@@ -31,14 +31,19 @@ export class EarlyWarningComponent implements OnInit {
     this.regionRiskApiService.getWarningTop(userId, year)
       .subscribe(
         (data: BaseApiResponseModel) => {
-          let list: EarlyWarning[];
-          list = data.data['warningDataList'];
-          if (list.length <= 5) {
-            this.earlyWarningList = list;
+          if (data.code === '0') {
+            let list: EarlyWarning[];
+            list = data.data['warningDataList'];
+            if (list.length <= 5) {
+              this.earlyWarningList = list;
+              return;
+            }
+            this.earlyWarningList = data.data['warningDataList'].slice(5);
+            this.copyEarlyWarningList = data.data['warningDataList'].slice(5, list.length);
             return;
           }
-          this.earlyWarningList = data.data['warningDataList'].slice(5);
-          this.copyEarlyWarningList = data.data['warningDataList'].slice(5, list.length);
+          this.earlyWarningList = null;
+          this.copyEarlyWarningList = null;
         },
         (error: any[]) => console.log('Error: ' + error),
       );
