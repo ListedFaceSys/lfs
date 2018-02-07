@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NgxEchartsService} from "ngx-echarts";
 import {ApiUrl} from "../../common/constant/api-url.const";
-import {UtillFun} from "../../common/utill/utillFun";
+import {UtillFun} from "../../common/utill/common-util";
 
 @Component({
   selector: 'app-news-event',
