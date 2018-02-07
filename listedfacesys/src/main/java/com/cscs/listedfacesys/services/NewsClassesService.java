@@ -52,4 +52,22 @@ public interface NewsClassesService {
      * @throws Exception
      */
     public List<Object> findchartByDate(TendencyChartInData inData) throws Exception;
+
+    /**
+     * 负面新闻跟踪详情
+     * @param compyId
+     * @param newsCode
+     * @return
+     * @throws Exception
+     */
+    public List<Object> findNewsContent(long compyId, String newsCode) throws Exception;
+
+    /**
+     * 新闻事件
+     * @param compyId  公司ID
+     * @param newsCode 新闻ID
+     * @return
+     */
+    public List<Object> findNewsType(long compyId, String newsCode);
+
 }

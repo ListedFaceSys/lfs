@@ -6,6 +6,7 @@ import com.cscs.listedfacesys.dto.base.BaseOutData;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
+import com.cscs.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -250,13 +251,11 @@ public class RegionRiskController {
                 out.setData(map);
                 out.setCode("0");
             }else{
-                out.setData(null);
                 out.setCode("1");
                 out.setMessage("热点新闻，获取数据为空");
             }
 
         } catch (Exception e) {
-            out.setData(null);
             out.setCode("-1");
             out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
@@ -349,13 +348,11 @@ public class RegionRiskController {
                 out.setData(map);
             }else{
                 out.setCode("1");
-                out.setData(null);
                 logger.error("热点新闻，获取数据为空");
             }
 
         } catch (Exception e) {
             out.setCode("-1");
-            out.setData(null);
             out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
             e.printStackTrace();
@@ -401,6 +398,7 @@ public class RegionRiskController {
                    outData.setPlainText(item[4]!=null ? item[4].toString() :"");
                    outData.setRelevance(item[9]!=null ? item[9].toString() :"");
                    outData.setPostDt(item[11]!=null ? item[11].toString() :"");
+                   outData.setNewsCode(item[1]!=null ? item[1].toString() :"");
                    reslist.add(outData);
                }
                 map.put("content", reslist);
@@ -409,13 +407,11 @@ public class RegionRiskController {
                 out.setCount(count);
             }else{
                 out.setCode("1");
-                out.setData(null);
                 out.setMessage("负面新闻跟踪，获取数据为空");
             }
 
         } catch (Exception e) {
             out.setCode("-1");
-            out.setData(null);
             out.setMessage("负面新闻跟踪，获取异常，异常信息："+e.getMessage());
             e.printStackTrace();
         }
@@ -423,6 +419,57 @@ public class RegionRiskController {
 
         return out;
     }
+
+
+    //负面新闻详情
+    @RequestMapping(value = "/newsContent/{compyId}/{newsCode}", method = RequestMethod.GET)
+    public BaseOutData getNewsContent(@PathVariable long compyId, @PathVariable String newsCode) {
+        BaseOutData out = new BaseOutData();
+        NewsWarningOutData outData = new NewsWarningOutData();
+        List<Object> itemList = null;
+        try {
+            itemList = newsClassService.findNewsContent(compyId, newsCode);
+            if (itemList.size() > 0) {
+                Object[] item = (Object[]) itemList.get(0);
+                outData.setWarningType(item[0] != null ? item[0].toString() : "");
+                outData.setNewsTitle(item[1] != null ? item[1].toString() : "");
+                outData.setPublishTime(item[3] != null ? item[3].toString() : "");
+                outData.setNewsSource(item[4] != null ? item[4].toString() : "");
+                outData.setRelevance(item[5] != null ? item[5].toString() : "");
+                outData.setScore(item[6] != null ? item[6].toString() : "");
+                outData.setContent(item[7] != null ? StringUtil.toString(item[7]) : "");
+                outData.setImportance(item[8] != null ? item[8].toString() : "");
+
+                Map sheetLabel = new HashMap();
+                List<Object> labelList = newsClassService.findNewsType(compyId, newsCode);
+                if(labelList!=null && labelList.size()>0){
+                    for (int i = 0; i < labelList.size(); i++) {
+                        Object[] label = (Object[]) labelList.get(i);
+                        sheetLabel.put(label[0], label[1]);
+                    }
+                }else{
+                    out.setCode("1");
+                    out.setMessage("获取负面跟踪新闻事件信息，获取为空");
+                }
+
+                outData.setSheetLabel(sheetLabel);
+                Map<String,Object> resMap = new HashMap<String,Object>();
+                resMap.put("content",outData);
+                out.setCode("0");
+                out.setData(resMap);
+            }else{
+                out.setCode("1");
+                out.setMessage("负面跟踪新闻详细信息，获取为空");
+            }
+        } catch (Exception e) {
+            out.setCode("-1");
+            out.setMessage("负面跟踪新闻详细信息，获取异常,异常信息："+e.getMessage());
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
 
     //根据日期，生成该日期月份的所有日期的数据
     private  List<TendencyChartInfoData> getDaysStr(String date,List<TendencyChartInfoData> list){

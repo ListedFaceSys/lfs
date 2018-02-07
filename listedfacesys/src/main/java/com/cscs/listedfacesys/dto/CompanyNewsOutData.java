@@ -15,6 +15,7 @@ public class CompanyNewsOutData {
     private String importance;//重要度
     private String newsSource;//新闻来源
     private String postDt; //发布日期（页面显示用这个）
+    private String newsCode;//新闻ID
 
     public String getTitle() {
         return title;
@@ -102,5 +103,13 @@ public class CompanyNewsOutData {
 
     public void setPostDt(String postDt) {
         this.postDt = postDt;
+    }
+
+    public String getNewsCode() {
+        return newsCode;
+    }
+
+    public void setNewsCode(String newsCode) {
+        this.newsCode = newsCode;
     }
 }
