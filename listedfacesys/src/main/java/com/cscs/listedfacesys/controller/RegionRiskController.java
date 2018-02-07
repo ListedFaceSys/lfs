@@ -397,6 +397,7 @@ public class RegionRiskController {
                    outData.setImportance(item[8]!=null ? item[8].toString() :"");
                    outData.setPlainText(item[4]!=null ? item[4].toString() :"");
                    outData.setRelevance(item[9]!=null ? item[9].toString() :"");
+                   outData.setPostDt(item[11]!=null ? item[11].toString() :"");
                    reslist.add(outData);
                }
                 map.put("content", reslist);
