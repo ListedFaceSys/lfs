@@ -209,25 +209,27 @@ export class NewsEventComponent implements OnInit {
         let dataList1:any = [];  //添加新闻总数
         let dataList2:any = [];  //负面新闻数
         let dataList3:any = [];  //负面/新闻总数占比
-        for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
-          dataList1.push({
-            name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
-            value: oneSingleNews.newCount,
-            postDt:oneSingleNews.postDt,
-            ratio:oneSingleNews.ratio
-          });
-          dataList2.push({
-            name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
-            value: oneSingleNews.negativeNewsCount,
-            postDt:oneSingleNews.postDt,
-            ratio:oneSingleNews.ratio
-          });
-          dataList3.push({
-            name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
-            value: oneSingleNews.ratio,
-            postDt:oneSingleNews.postDt,
-            ratio:oneSingleNews.ratio
-          })
+        if(oneConent.singleNews != null){
+          for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
+            dataList1.push({
+              name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+              value: oneSingleNews.newCount,
+              postDt:oneSingleNews.postDt,
+              ratio:oneSingleNews.ratio
+            });
+            dataList2.push({
+              name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+              value: oneSingleNews.negativeNewsCount,
+              postDt:oneSingleNews.postDt,
+              ratio:oneSingleNews.ratio
+            });
+            dataList3.push({
+              name: this.commonUtil.dateFormat(new Date(oneSingleNews.postDt),"dd"),
+              value: oneSingleNews.ratio,
+              postDt:oneSingleNews.postDt,
+              ratio:oneSingleNews.ratio
+            })
+          }
         }
         optionSeries.push({  //添加所有时间轴数据
           series:[

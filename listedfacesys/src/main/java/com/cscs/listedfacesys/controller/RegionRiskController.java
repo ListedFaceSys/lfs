@@ -3,6 +3,7 @@ package com.cscs.listedfacesys.controller;
 import com.cscs.listedfacesys.busi.AnnounceBusiService;
 import com.cscs.listedfacesys.dto.*;
 import com.cscs.listedfacesys.dto.base.BaseOutData;
+import com.cscs.listedfacesys.services.MapRegionService;
 import com.cscs.listedfacesys.services.NewsClassesService;
 import com.cscs.listedfacesys.services.UserAttentionService;
 import com.cscs.listedfacesys.services.WarningAnnounceService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,11 +35,28 @@ public class RegionRiskController {
     WarningAnnounceService warningAnnounceService;
     @Autowired
     UserAttentionService userAttentionService;
+    @Autowired
+    MapRegionService mapRegionService;
 
     //地图分布一览查询
-    @RequestMapping(value = "/companyMap/{userId}", method = RequestMethod.GET)
-    public BaseOutData getCompanyMap(@PathVariable Long userId) {
+    @RequestMapping(value = "/companyMap", method = RequestMethod.GET)
+    public BaseOutData getCompanyMap() {
         BaseOutData outData = new BaseOutData();
+
+        RegionMapInfoData regionMapInfoData = new RegionMapInfoData();
+
+        List<Object> mapList = mapRegionService.getRegionCompanyCount();
+
+        return outData;
+    }
+
+    //同比增长数据
+    @RequestMapping(value = "/companyMapRatio", method = RequestMethod.GET)
+    public BaseOutData getCompanyMapRation() {
+        BaseOutData outData = new BaseOutData();
+
+        SimpleDateFormat df = new SimpleDateFormat("YYYYMM");
+        String date = df.format(new Date());
 
         return outData;
     }
@@ -58,7 +77,6 @@ public class RegionRiskController {
             outData.setCode("1");
             outData.setMessage("The query fails!");
             logger.info("[未查询到风险数据信息]");
-            return outData;
         }
 
         warningRiskList = AnnounceBusiService.convert(sevYearDataList, startDate);
@@ -86,6 +104,7 @@ public class RegionRiskController {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyyMM");
         String month = df.format(new Date());
+        String monthFormat = new SimpleDateFormat("yyyy-MM").format(new Date());
         List<Object> monthData = warningAnnounceService.getWarningMonthCount(month);
 
         if (monthData == null) {
@@ -104,7 +123,7 @@ public class RegionRiskController {
             warningRiskInfoData.setRisk3(nb.get(2).intValue());
             warningRiskInfoData.setRisk4(nb.get(3).intValue());
             warningRiskInfoData.setRisk5(nb.get(4).intValue());
-            warningRiskInfoData.setDataMonth(Integer.valueOf(month));
+            warningRiskInfoData.setDataMonth(Integer.valueOf(monthFormat));
         }
 
         data.put("monthData", warningRiskInfoData);
@@ -129,7 +148,7 @@ public class RegionRiskController {
         dateStart = dateStart + "01";
         dateEnd = String.valueOf((Integer.parseInt(dateStart) + 11));
 
-        List<Object> companyIdList = warningAnnounceService.getWarningTop10(dateStart, dateEnd);
+        List<Object> companyIdList = warningAnnounceService.getWarningTop10(dateStart, dateEnd, inData.getPageSize(), inData.getPageCount());
 
         if (companyIdList.size() == 0) {
             outData.setCode("1");
@@ -144,7 +163,7 @@ public class RegionRiskController {
 
         idList = idList.substring(0, idList.length() - 1);
 
-        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd, inData.getPageSize(), inData.getPageCount());
+        List<Object> contentList = warningAnnounceService.getWarningTop10Content(idList, dateStart, dateEnd);
 
         if (contentList.size() == 0) {
             outData.setCode("1");
@@ -153,6 +172,18 @@ public class RegionRiskController {
             return outData;
         }
 
+        List<Object> countList = warningAnnounceService.getWarningCpCount(dateStart, dateEnd);
+        logger.info("今年公司总数：" + countList);
+
+        if (countList.get(0) == null) {
+            outData.setCode("1");
+            outData.setMessage("The Count data is not queried!");
+            logger.info("[未查询到更多总数数据]");
+        }
+
+        BigDecimal bd = (BigDecimal) countList.get(0);
+        int count = bd.intValue();
+
         Set<String> focusIds = userAttentionService.searchAllCompy(inData.getUserId());
         warningInfoList = AnnounceBusiService.getWarningInfoData(contentList, focusIds, null, null);
 
@@ -160,6 +191,7 @@ public class RegionRiskController {
             Map<String, List<WarningInfoData>> data = new HashMap<>();
             data.put("warningDataList",warningInfoList);
             outData.setData(data);
+            outData.setCount(count);
             outData.setCode("0");
             outData.setMessage("The query is successful!");
             logger.info("[查询成功]"+warningInfoList);

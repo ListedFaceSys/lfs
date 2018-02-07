@@ -144,11 +144,28 @@ public class AnnounceBusiService {
         issuedVolumeList = new ArrayList<WarningRiskOutData>();
         for (int i = 0; i < 7; i++) {
             int yearByI = Integer.valueOf(startDate);;
-            WarningRiskOutData single = dataMap.get(String.valueOf(yearByI + i));
+            WarningRiskOutData single = null;
+            if (dataMap.get(String.valueOf(yearByI + i)) == null ){
+                single = new WarningRiskOutData();
+                single.setDate(String.valueOf(yearByI + i));
+                single.setWarningRiskInfoDataList(addMonthElement());
+            } else {
+                single = dataMap.get(String.valueOf(yearByI + i));
+            }
             issuedVolumeList.add(i,single);
         }
 
         return issuedVolumeList;
+    }
+
+    private static List<WarningRiskInfoData> addMonthElement() {
+        List<WarningRiskInfoData> monthList = new ArrayList<>();
+        for (int i = 0; i < 12 ; i++) {
+            WarningRiskInfoData single = new WarningRiskInfoData();
+            single.setDataMonth(i + 1);
+            monthList.add(i, single);
+        }
+        return monthList;
     }
 
 }

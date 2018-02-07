@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { EarlyWarning } from '../../common/model/early-warning';
+import { WarningRiskIn } from '../../common/model/warning-risk-in';
 
 import { RegionRiskApiService } from '../../common/api/region-risk-api.service';
 import { BaseApiResponseModel } from "../../common/model/base-api-response.model";
@@ -14,21 +15,28 @@ import { BaseApiResponseModel } from "../../common/model/base-api-response.model
 export class EarlyWarningComponent implements OnInit {
   earlyWarningList: EarlyWarning[];
   copyEarlyWarningList: EarlyWarning[];
+  userId: number;
+  getYear: string;
 
   constructor(
     private router: Router,
     private regionRiskApiService: RegionRiskApiService
-  ) { }
+  ) {
+    this.userId = 1;
+    this.getYear = new Date().getFullYear().toString();
+  }
 
   ngOnInit() {
     let userId = 1;
-    let year = new Date().getFullYear().toString();
-
-    this.getWarningTop(userId, year);
+    this.getWarningTop();
   }
 
-  getWarningTop(userId: number, year:string) {
-    this.regionRiskApiService.getWarningTop(userId, year)
+  getWarningTop() {
+    let warningRiskIn: WarningRiskIn = {
+      userId: this.userId,
+      year: this.getYear
+    };
+    this.regionRiskApiService.getWarningTop(warningRiskIn)
       .subscribe(
         (data: BaseApiResponseModel) => {
           if (data.code === '0') {
@@ -38,7 +46,7 @@ export class EarlyWarningComponent implements OnInit {
               this.earlyWarningList = list;
               return;
             }
-            this.earlyWarningList = data.data['warningDataList'].slice(5);
+            this.earlyWarningList = data.data['warningDataList'].slice(0, 5);
             this.copyEarlyWarningList = data.data['warningDataList'].slice(5, list.length);
             return;
           }
