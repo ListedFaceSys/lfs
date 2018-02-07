@@ -54,7 +54,7 @@ export class TrendChartComponent implements OnInit {
 
   //加载数据展开图
   showChart(){
-    this.http.post(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`,{})
+    this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsCharts}`,{})
       .subscribe(geoJson => {
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);
@@ -65,7 +65,7 @@ export class TrendChartComponent implements OnInit {
 
   //获取图形数据值
   getChartsData(dataMap){
-    this.http.post(`${ApiUrl.api_url}${ApiUrl.regionRisk_newsCharts}`,{})
+    this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsCharts}`,{})
       .subscribe(geoJson => {
 
         this.options = {
