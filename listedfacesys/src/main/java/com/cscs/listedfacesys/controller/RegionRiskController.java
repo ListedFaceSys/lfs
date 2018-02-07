@@ -316,28 +316,43 @@ public class RegionRiskController {
 
     //热点新闻趋势图(根据日期查询)
     @RequestMapping(value = "/newsChartByDate", method = RequestMethod.POST)
-    public TendencyChartInfoData getNewsChartByDate(@RequestBody TendencyChartInData inData) {
+    public BaseOutData getNewsChartByDate(@RequestBody TendencyChartInData inData) {
+        BaseOutData out =  new BaseOutData();
         int newsCount = 0;
         int negativeNewsCount = 0;
         List<Object> itemList = new ArrayList<Object>();
         TendencyChartInfoData info = new TendencyChartInfoData();
+        Map<String,Object> map = new HashMap<String,Object>();
         try {
             itemList = newsClassService.findchartByDate(inData);
-            Object[] item = (Object[]) itemList.get(0);
-            info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-            info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
-            info.setPostDt(item[2] != null ? item[2].toString() : "");
-            if(info.getNewCount()==0){
-                info.setRatio("0");
-            }else {
-                info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+            if(itemList!=null && itemList.size()>0){
+                Object[] item = (Object[]) itemList.get(0);
+                info.setNewCount(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                info.setNegativeNewsCount(Integer.parseInt(item[1] != null ? item[1].toString() : "0"));
+                info.setPostDt(item[2] != null ? item[2].toString() : "");
+                if(info.getNewCount()==0){
+                    info.setRatio("0");
+                }else {
+                    info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
+                }
+                map.put("content",info);
+                out.setCode("0");
+                out.setData(map);
+            }else{
+                out.setCode("1");
+                out.setData(map);
+                logger.error("热点新闻，获取数据为空");
             }
+
         } catch (Exception e) {
+            out.setCode("-1");
+            out.setData(map);
+            out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
             e.printStackTrace();
         }
 
-        return info;
+        return out;
     }
 
 

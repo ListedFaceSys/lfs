@@ -121,9 +121,8 @@ public class NewsClassesServiceImpl implements NewsClassesService {
 
     //热点新闻，根据日期查询该日期当天的新闻信息
     public List<Object> findchartByDate(TendencyChartInData inData) {
-        String sqlWhere = " WHERE  A.COMPANY_ID IN (SELECT FOCUS_ID FROM USER_FOCUS WHERE FOCUS_TYPE = 1 AND USER_ID = " + inData.getUserId() + ") ";
-        String sqlwhereDate = " WHERE A.POST_DT= "+inData.getPos_Dt();
-        String sql = returnSqlStr(sqlWhere,sqlwhereDate);
+        String sqlwhereDate = " WHERE A.POST_DT= '"+inData.getPos_Dt()+"'";
+        String sql = returnSqlStr("",sqlwhereDate);
         System.out.print(sql);
         return em.createNativeQuery(sql).getResultList();
     }
