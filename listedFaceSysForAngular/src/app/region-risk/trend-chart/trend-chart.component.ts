@@ -11,6 +11,7 @@ import {CommonUtil} from "../../common/utill/common-util";
   styleUrls: ['./trend-chart.component.css']
 })
 export class TrendChartComponent implements OnInit {
+  dataIsNull = false; //无数据情况
   options = {};
   //eChart图数据值
   dataMap:any = {
@@ -54,13 +55,18 @@ export class TrendChartComponent implements OnInit {
 
   //加载数据展开图
   showChart(){
+    this.dataIsNull = false;
     let yy = new Date().getFullYear();
-    let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChart}`+'"?startDate"="'+(yy-7)+'"&endDate"='+yy;
-    console.log(url);
+    let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChart}`+'/'+(yy-6)+'/'+yy;
     this.http.get(url)
       .subscribe(geoJson => {
-        this.dataMap = this.getTrueData(geoJson, this.timeList);
-        this.getChartsData(this.dataMap);
+        if(geoJson["code"] == 0){
+          this.dataMap = this.getTrueData(geoJson, this.timeList);
+          this.getChartsData(this.dataMap);
+        }else if(geoJson["code"] == 1 ){
+          this.dataIsNull = true;
+        }
+
       });
   }
 
@@ -106,7 +112,7 @@ export class TrendChartComponent implements OnInit {
             },
             legend: {
               x: '30',
-              data: ['财务风险', '治理风险', '经营风险', '市场风险', '法律法规风险'],
+              data: ['治理风险', '财务风险', '经营风险', '市场风险', '法律法规风险'],
               selected: {
                 '市场风险': true, '法律法规风险': true
               }
@@ -150,12 +156,11 @@ export class TrendChartComponent implements OnInit {
               }
             ],
             series: [
+              {name: '治理风险', type: 'line'},
+              {name: '财务风险', type: 'line'},
+              {name: '经营风险', type: 'line'},
               {name: '市场风险', type: 'line'},
               {name: '法律法规风险', type: 'line'},
-              // {name: '房地产', type: 'line'},
-              {name: '财务风险', type: 'line'},
-              {name: '治理风险', type: 'line'},
-              {name: '经营风险', type: 'line'},
             ]
           },
           options: dataMap.optionSeries
@@ -180,38 +185,46 @@ export class TrendChartComponent implements OnInit {
         }
         ]
     }[] = [];
-
-    if(JsonData.data.conent!=undefined){
-      for(let oneConent of JsonData.data.conent){
-        startEndList.push(oneConent.countDate);
-        let dataList1:any = [];  //添加新闻总数
-        let dataList2:any = [];  //负面新闻数
-        let dataList3:any = [];  //负面/新闻总数占比
-        for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
-          dataList1.push({
-            name: "01",
-            value: oneSingleNews.newCount,
-            postDt:'2018-01-01',
-            ratio:oneSingleNews.ratio
-          });
-          dataList2.push({
-            name: "01",
-            value: oneSingleNews.negativeNewsCount,
-            postDt:'2018-01-01',
-            ratio:oneSingleNews.ratio
-          });
-          dataList3.push({
-            name: "01",
-            value: oneSingleNews.ratio,
-            postDt:'2018-01-01',
-            ratio:oneSingleNews.ratio
-          })
+    if(JsonData.data.warningRiskOutDataList!=undefined && JsonData.data.warningRiskOutDataList!= null){
+      for(let oneConent of JsonData.data.warningRiskOutDataList){
+        startEndList.push(oneConent.date);
+         // risk1://治理风险   risk2://财务风险        risk3://经营风险       risk4:  //市场风险      risk5://法律法规风险
+        let dataList1:any = [];  //治理风险
+        let dataList2:any = [];  //财务风险
+        let dataList3:any = [];  //经营风险
+        let dataList4:any = [];  //市场风险
+        let dataList5:any = [];  //法律法规风险
+        if(oneConent.warningRiskInfoDataList!=null){
+          for(let oneSingleNews of oneConent.warningRiskInfoDataList){ //添加新闻总数 ， 负面新闻数
+            dataList1.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk1,
+            });
+            dataList2.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk2,
+            });
+            dataList3.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk3,
+            });
+            dataList4.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk5,
+            });
+            dataList5.push({
+              name: timeList[oneSingleNews.dataMonth],
+              value: oneSingleNews.risk4,
+            })
+          }
         }
         optionSeries.push({  //添加所有时间轴数据
           series:[
             {data:dataList1},
             {data:dataList2},
-            {data:dataList3}
+            {data:dataList3},
+            {data:dataList4},
+            {data:dataList5},
           ]
         })
       }
