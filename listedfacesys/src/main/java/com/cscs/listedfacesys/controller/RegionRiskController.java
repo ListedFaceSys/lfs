@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -248,13 +247,13 @@ public class RegionRiskController {
                 out.setData(map);
                 out.setCode("0");
             }else{
-                out.setData(map);
+                out.setData(null);
                 out.setCode("1");
                 out.setMessage("热点新闻，获取数据为空");
             }
 
         } catch (Exception e) {
-            out.setData(map);
+            out.setData(null);
             out.setCode("-1");
             out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
@@ -347,13 +346,13 @@ public class RegionRiskController {
                 out.setData(map);
             }else{
                 out.setCode("1");
-                out.setData(map);
+                out.setData(null);
                 logger.error("热点新闻，获取数据为空");
             }
 
         } catch (Exception e) {
             out.setCode("-1");
-            out.setData(map);
+            out.setData(null);
             out.setMessage("热点新闻，获取数据异常！异常信息："+e.getMessage());
             logger.error("热点新闻，获取数据异常！异常信息："+e.getMessage());
             e.printStackTrace();
@@ -401,15 +400,16 @@ public class RegionRiskController {
                 map.put("content", reslist);
                 out.setCode("0");
                 out.setData(map);
+                out.setCount(reslist.size());
             }else{
                 out.setCode("1");
-                out.setData(map);
+                out.setData(null);
                 out.setMessage("负面新闻跟踪，获取数据为空");
             }
 
         } catch (Exception e) {
             out.setCode("-1");
-            out.setData(map);
+            out.setData(null);
             out.setMessage("负面新闻跟踪，获取异常，异常信息："+e.getMessage());
             e.printStackTrace();
         }
