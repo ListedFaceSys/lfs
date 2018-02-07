@@ -1,4 +1,4 @@
-export class NegativeNews {
+export class NegativeNewsIn {
   page: number;
   pageSize: number;
   startDate?: string;

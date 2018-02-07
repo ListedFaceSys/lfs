@@ -7,7 +7,7 @@ import { BsLocaleService } from "ngx-bootstrap/datepicker";
 import { RegionRiskApiService } from '../../common/api/region-risk-api.service';
 
 import { CompanyNews } from '../../common/model/company-news';
-import { NegativeNews } from '../../common/model/negative-news';
+import { NegativeNewsIn } from '../../common/model/negative-news-in';
 
 @Component({
   selector: 'app-news-track',
@@ -41,7 +41,7 @@ export class NewsTrackComponent implements OnInit, DoCheck {
   }
 
   getNewsTrack(page: number, pageSize: number, startDate?: string, endDate?: string) {
-    let news: NegativeNews;
+    let news: NegativeNewsIn;
     news = {
       page: page,
       pageSize: pageSize,

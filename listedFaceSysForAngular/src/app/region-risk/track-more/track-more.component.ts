@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegionRiskApiService } from '../../common/api/region-risk-api.service';
 
 import { CompanyNews } from '../../common/model/company-news';
-import { NegativeNews } from '../../common/model/negative-news';
+import { NegativeNewsIn } from '../../common/model/negative-news-in';
 
 @Component({
   selector: 'app-track-more',
@@ -31,7 +31,7 @@ export class TrackMoreComponent implements OnInit {
     if ($event) {
       this.currentPage = $event.page;
     }
-    let news: NegativeNews = {
+    let news: NegativeNewsIn = {
       page: this.currentPage,
       pageSize: this.itemsPerPage,
     };
