@@ -18,7 +18,12 @@ export const ApiUrl = {
   regionRisk_newsCharts: 'regionRisk/newsChart',
   regionRisk_newsChartByDate: 'regionRisk/newsChartByDate',
   regionRisk_geographyAllCompanyData: 'assets/dataJson/geographyAllCompanyData.json',
+
   regionRisk_trendChartSelectBase: 'assets/dataJson/selectBase.json',
+
+  regionRisk_trendWarningChartSingle: 'regionRisk/warningChartSingle',
+  regionRisk_trendWarningChart:'regionRisk/warningChart',
+
   regionRisk_geographyChartsMap:'assets/mapJson/ShenzhenDistrict.json',
   regionRisk_geographySZCityData:'assets/dataJson/geographySZCtityData.json',  //深圳市 所有区公司数据
 };
