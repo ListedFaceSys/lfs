@@ -296,61 +296,6 @@ public class RegionRiskController {
 
         return out;
 
-
-        //---------------------------- 以下为mock数据代码 ------------------------------------------
-//        //根据当前日期，生成包含当前日期前7个月的年月
-//        Date dt = new Date(System.currentTimeMillis());
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        String nowDateStr = sdf.format(dt);
-//        String[] dateStr = new String[7];
-//        int year = Integer.parseInt(nowDateStr.substring(0,4));
-//        int month = Integer.parseInt(nowDateStr.substring(5,7));
-//        for (int w = 0; w < 7; w++) {
-//            if((month-1)<=0){
-//                month=12;
-//                year=year-1;
-//                dateStr[w] = year+"-"+month;
-//            }else{
-//                String mon = (month-1)+"";
-//                if(mon.length()==1){
-//                    dateStr[w] = year+"-0"+mon;
-//                }else{
-//                    dateStr[w] = year+"-"+mon;
-//                }
-//                month = month-1;
-//            }
-//        }
-//        //mock生成数据
-//        List<TendencyChartOutData>  outList = new ArrayList<TendencyChartOutData>();
-//        BaseOutData out = new BaseOutData();
-//        for (int j=0;j<dateStr.length;j++){
-//            int newsCount = 0;
-//            int negativeNewsCount = 0;
-//            List<TendencyChartInfoData> list = new ArrayList<TendencyChartInfoData>();
-//            TendencyChartOutData outData = new TendencyChartOutData();
-//            for (int i=1;i<=10;i++){
-//                TendencyChartInfoData info = new TendencyChartInfoData();
-//                info.setNegativeNewsCount(3+i);
-//                info.setNewCount(10+i);
-//                info.setPostDt(dateStr[j]+"-0"+i);
-//                info.setRatio(String.format("%.2f", (double) info.getNegativeNewsCount() / info.getNewCount() * 100) + "%");
-//                newsCount += info.getNewCount();
-//                negativeNewsCount += info.getNegativeNewsCount();
-//                list.add(info);
-//            }
-//            outData.setNegativeTotalCount(negativeNewsCount);
-//            outData.setTotalCount(newsCount);
-//            outData.setTotalRatio(String.format("%.2f", (double) negativeNewsCount / newsCount * 100) + "%");
-//            outData.setCountDate(dateStr[j]);
-//            outData.setSingleNews(list);
-//
-//            outList.add(outData);
-//        }
-//        Map<String,List<TendencyChartOutData>> map = new HashMap<String,List<TendencyChartOutData>>();
-//        map.put("conent",outList);
-//        out.setData(map);
-//
-//        return out;
     }
 
 
