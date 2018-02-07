@@ -41,7 +41,6 @@ export class TrendChartComponent implements OnInit {
   //初始化当前年月数据
   initNewsData(){
     let url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_trendWarningChartSingle}`;
-    console.log(url);
     this.http.get(url)
       .subscribe(geoJson => {
         if(geoJson["code"] == 0){
