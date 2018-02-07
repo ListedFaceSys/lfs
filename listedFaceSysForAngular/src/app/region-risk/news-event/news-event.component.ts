@@ -13,10 +13,10 @@ export class NewsEventComponent implements OnInit {
   userId;
   options:any = {};
   getTimeNewsData:{postDt:string, newCount:number,negativeNewsCount:number,ratio:string }={
-    postDt:"2018-01-01",
-    newCount:124,  //新闻总数
-    negativeNewsCount:53, //负面新闻
-    ratio:"32%" //总/负新闻占比
+    postDt:this.utillFun.dateFormat(new Date(),"yyyy-MM-dd"),
+    newCount:0,  //新闻总数
+    negativeNewsCount:0, //负面新闻
+    ratio:"0" //总/负新闻占比
   };
 
   //eChart图数据值
@@ -44,8 +44,13 @@ export class NewsEventComponent implements OnInit {
       .subscribe(geoJson => {
         if(geoJson["code"] == 0){
           this.getTimeNewsData = geoJson["data"];
-        }else if(geoJson["code"] == null || geoJson["code"] == { } ){
-          this.getTimeNewsData = geoJson["data"];
+        }else if(geoJson["code"] == 1 ){
+          this.getTimeNewsData = {
+            postDt:this.utillFun.dateFormat(new Date(),"yyyy-MM-dd"),
+            newCount:0,  //新闻总数
+            negativeNewsCount:0, //负面新闻
+            ratio:"0" //总/负新闻占比
+          };
         }
       });
   }
@@ -55,7 +60,6 @@ export class NewsEventComponent implements OnInit {
   showChart(){
     this.http.post(`${ApiUrl.api_uri}${ApiUrl.regionRisk_newsCharts}`,{})
     .subscribe(geoJson => {
-      console.log(geoJson)
       if(geoJson["code"] == 0){
         this.dataMap = this.getTrueData(geoJson, this.timeList);
         this.getChartsData(this.dataMap);
@@ -207,21 +211,21 @@ export class NewsEventComponent implements OnInit {
         let dataList3:any = [];  //负面/新闻总数占比
         for(let oneSingleNews of oneConent.singleNews){ //添加新闻总数 ， 负面新闻数
           dataList1.push({
-            name: "01",
+            name: this.utillFun.dateFormat(new Date(oneSingleNews.postDt),"dd"),
             value: oneSingleNews.newCount,
-            postDt:'2018-01-01',
+            postDt:oneSingleNews.postDt,
             ratio:oneSingleNews.ratio
           });
           dataList2.push({
-            name: "01",
+            name: this.utillFun.dateFormat(new Date(oneSingleNews.postDt),"dd"),
             value: oneSingleNews.negativeNewsCount,
-            postDt:'2018-01-01',
+            postDt:oneSingleNews.postDt,
             ratio:oneSingleNews.ratio
           });
           dataList3.push({
-            name: "01",
+            name: this.utillFun.dateFormat(new Date(oneSingleNews.postDt),"dd"),
             value: oneSingleNews.ratio,
-            postDt:'2018-01-01',
+            postDt:oneSingleNews.postDt,
             ratio:oneSingleNews.ratio
           })
         }
