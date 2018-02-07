@@ -6,15 +6,14 @@ import { HttpHeaders } from '@angular/common/http';
  */
 export const ApiUrl = {
   api_url: 'http://localhost:4200/',
-  api_url1: 'http://localhost:8080/',
+  api_uri: 'http://localhost:8080/',
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 
   user_save: 'user/save',
   user_updatePassword: 'user/updatePassword',
   user_getAllUser: 'user/getAllUser',
 
-  // regionRisk_warningTop: 'regionRisk/warningTop',
-  regionRisk_warningTop: 'assets/dataJson/warningTop.json',
+  regionRisk_warningTop: 'regionRisk/warningTop',
   regionRisk_lastingBondViolation: 'regionRisk/lastingBondViolation',
   regionRisk_newsCharts: 'assets/dataJson/tempData.json',
   regionRisk_geographyAllCompanyData: 'assets/dataJson/geographyAllCompanyData.json',

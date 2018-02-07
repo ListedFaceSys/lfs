@@ -17,13 +17,13 @@ export class RegionRiskApiService {
 
   // 监测预警风险TOP
   getWarningTop(userId: number, year: String): Observable<BaseApiResponseModel> {
-    // const url = `${ApiUrl.api_url1}${ApiUrl.regionRisk_warningTop}/${userId}/${year}`;
-    return this.http.get<BaseApiResponseModel>(ApiUrl.regionRisk_warningTop);
+    const url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_warningTop}/${userId}/${year}`;
+    return this.http.get<BaseApiResponseModel>(url);
   }
 
   // 负面新闻跟踪
   getNewsTrack(negativeNewsInData: NegativeNews): Observable<BaseApiResponseModel> {
-    const url = `${ApiUrl.api_url1}${ApiUrl.regionRisk_lastingBondViolation}`;
+    const url = `${ApiUrl.api_uri}${ApiUrl.regionRisk_lastingBondViolation}`;
     return this.http.post<BaseApiResponseModel>(url, negativeNewsInData, HttpOptions);
   }
 }
