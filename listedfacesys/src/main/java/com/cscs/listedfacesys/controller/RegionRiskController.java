@@ -63,7 +63,7 @@ public class RegionRiskController {
         warningRiskList = AnnounceBusiService.convert(sevYearDataList, startDate);
 
         if (warningRiskList != null) {
-            data.put("warningRiskList", warningRiskList);
+            data.put("warningRiskOutDataList", warningRiskList);
             outData.setCode("0");
             outData.setMessage("The query is successful!");
             outData.setData(data);
